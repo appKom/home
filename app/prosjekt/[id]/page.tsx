@@ -73,48 +73,53 @@ export default async function ProjectPage({ params }: Params) {
               className="w-full object-cover max-h-96"
             />
           </div>
-          <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold pt-8">
-            {project.title}
-          </h1>
-          {project.techStack && (
-            <div className="w-full flex justify-center py-6">
-              <div className="w-full max-w-screen-lg">
-                <h2 className="text-2xl font-bold">Teknologier</h2>
-                <ul className="flex flex-wrap gap-2">
-                  {project.techStack.map((tech) => (
-                    <li key={tech} className="px-2 py-1 bg-gray-200 rounded-md">
-                      {tech}
-                    </li>
-                  ))}
-                </ul>
+          <div className="px-6">
+            <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold pt-8">
+              {project.title}
+            </h1>
+            {project.techStack && (
+              <div className="w-full flex justify-center py-6">
+                <div className="w-full max-w-screen-lg">
+                  <h2 className="text-2xl font-bold">Teknologier</h2>
+                  <ul className="flex flex-wrap gap-2">
+                    {project.techStack.map((tech) => (
+                      <li
+                        key={tech}
+                        className="px-2 py-1 bg-gray-200 rounded-md"
+                      >
+                        {tech}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          <article className="w-full break-words whitespace-pre-wrap px-6 py-12">
-            <ReactMarkdown className="w-full" rehypePlugins={[rehypeRaw]}>
-              {project.description}
-            </ReactMarkdown>
-          </article>
+            <article className="w-full break-words whitespace-pre-wrap px-6 py-12">
+              <ReactMarkdown className="w-full" rehypePlugins={[rehypeRaw]}>
+                {project.description}
+              </ReactMarkdown>
+            </article>
 
-          <h2 className="text-2xl font-bold">Utviklerne</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 w-full gap-4">
-            {project.people.map((person) => {
-              const member = members.find(
-                (member) =>
-                  member.href.toLowerCase() === person.name.toLowerCase()
-              );
-              if (member) {
-                return (
-                  <MemberCard
-                    key={member.name}
-                    member={member}
-                    hideRole={true}
-                  />
+            <h2 className="text-2xl font-bold">Utviklerne</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 w-full gap-4">
+              {project.people.map((person) => {
+                const member = members.find(
+                  (member) =>
+                    member.href.toLowerCase() === person.name.toLowerCase()
                 );
-              }
-              return null;
-            })}
+                if (member) {
+                  return (
+                    <MemberCard
+                      key={member.name}
+                      member={member}
+                      hideRole={true}
+                    />
+                  );
+                }
+                return null;
+              })}
+            </div>
           </div>
         </main>
       </div>
