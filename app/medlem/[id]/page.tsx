@@ -115,44 +115,46 @@ export default async function ProjectPage({ params }: Params) {
                 Kontakt
               </h2>
 
-              {member.phone && (
-                <div className="flex flex-row gap-2">
-                  <FiPhoneIncoming size={24} />{" "}
-                  <a href="tel:+4747630231">{`${member.phone}`}</a>{" "}
-                </div>
-              )}
-              {member.email && (
-                <div className="flex flex-row gap-2">
-                  <MdEmail size={24} />{" "}
-                  <a href={member.email}>{`${member.email}`}</a>{" "}
-                </div>
-              )}
-              {member.github && (
-                <div className="flex flex-row gap-2">
-                  <a
-                    className="flex flex-row gap-2 hover:text-white"
-                    href={member.linkedin}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <FaGithub size={24} />
-                    <p>Github</p>
-                  </a>
-                </div>
-              )}
-              {member.linkedin && (
-                <div className="flex flex-row gap-2">
-                  <a
-                    className="flex flex-row gap-2 hover:text-white"
-                    href={member.linkedin}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <FaLinkedin size={24} />
-                    <p>LinkedIn</p>
-                  </a>
-                </div>
-              )}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {member.phone && (
+                  <div className="flex flex-row gap-2">
+                    <FiPhoneIncoming size={24} />
+                    <a href={`tel:+47${member.phone}`}>{`${member.phone}`}</a>
+                  </div>
+                )}
+                {member.email && (
+                  <div className="flex flex-row gap-2">
+                    <MdEmail size={24} />
+                    <a href={`mailto:${member.email}`}>{`${member.email}`}</a>
+                  </div>
+                )}
+                {member.github && (
+                  <div className="flex flex-row gap-2">
+                    <a
+                      className="flex flex-row gap-2 hover:text-white"
+                      href={member.github}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <FaGithub size={24} />
+                      <p>Github</p>
+                    </a>
+                  </div>
+                )}
+                {member.linkedin && (
+                  <div className="flex flex-row gap-2">
+                    <a
+                      className="flex flex-row gap-2 hover:text-white"
+                      href={member.linkedin}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <FaLinkedin size={24} />
+                      <p>LinkedIn</p>
+                    </a>
+                  </div>
+                )}
+              </div>
             </div>
           )}
 
