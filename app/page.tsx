@@ -3,9 +3,18 @@ import { blogs } from "@/lib/blog";
 import { BlogCard } from "@/components/home/BlogCard";
 import { Button } from "@/components/Button";
 import { projects } from "@/lib/projects";
+import { members } from "@/lib/members";
 import { ProjectCard } from "@/components/home/ProjectCard";
+import { MemberCard } from "@/components/home/MemberCard";
 
 export default function Home() {
+  const orderedMembers = [
+    ...members.filter((member) => member.role === "Leder"),
+    ...members.filter((member) => member.role === "Nestleder"),
+    ...members.filter((member) => member.role === "Økonomiansvarlig"),
+    ...members.filter((member) => member.role === "Medlem"),
+  ];
+
   return (
     <div className="w-full flex justify-center min-h-screen">
       <div className="py-6 px-6 w-full max-w-screen-lg text-gray-700">
@@ -76,9 +85,16 @@ export default function Home() {
             </div>
           </div>
           <div className="py-8">
-            <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold">
+            <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold pb-8">
               Medlemmer
             </h1>
+            <div className="flex justify-center">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 w-full gap-4">
+                {orderedMembers.map((member) => (
+                  <MemberCard member={member} key={member.name} />
+                ))}
+              </div>
+            </div>
           </div>
         </main>
       </div>

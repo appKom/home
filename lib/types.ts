@@ -9,8 +9,10 @@ export type blogType = {
 export type memberType = {
   name: string;
   href: string;
-  imageUri: string;
+  imageUri?: string;
   about?: string;
+  memberSince: string;
+  role: "Leder" | "Nestleder" | "Økonomiansvarlig" | "Medlem";
 };
 
 export type projectType = {
