@@ -33,7 +33,7 @@ export default function Footer() {
   return (
     <footer className="min-w-full bg-tealBlue text-white">
       <div className="flex flex-col items-center justify-center py-5 gap-5">
-        <div className="flex flex-row gap-12">
+        <div className="grid grid-cols-2 gap-8 sm:flex sm:flex-row sm:gap-12">
           {footerLinks.map((link) => {
             return (
               <Link

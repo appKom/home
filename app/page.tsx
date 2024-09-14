@@ -6,9 +6,9 @@ export default function Home() {
       <div className="py-6 px-6 w-full max-w-screen-lg text-gray-700">
         <main className="flex flex-col">
           <div className="py-6">
-            <div className="flex flex-row items-start justify-between">
+            <div className="flex flex-col sm:flex-row items-start justify-between">
               <div>
-                <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold ">
+                <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold">
                   Applikasjonskomiteen
                 </h1>
                 <article className="mt-6">
@@ -23,7 +23,7 @@ export default function Home() {
                 alt={"Appkom logo"}
                 width={150}
                 height={150}
-                className="ml-4 float-left"
+                className="ml-4 sm:ml-4 mt-4 sm:mt-0"
               />
             </div>
           </div>
