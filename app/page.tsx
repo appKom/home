@@ -79,7 +79,10 @@ export default function Home() {
             </div>
           </div>
           <div className="pb-8">
-            <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold pb-8">
+            <h1
+              id="prosjekter"
+              className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold pb-8"
+            >
               Prosjekter
             </h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

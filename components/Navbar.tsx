@@ -1,6 +1,6 @@
-import { GiHamburgerMenu } from "react-icons/gi";
 import { Button } from "./Button";
 import Link from "next/link";
+import { DropdownMenu } from "./DropdownMenu";
 
 export default function Navbar() {
   return (
@@ -16,9 +16,7 @@ export default function Navbar() {
           <div className="hidden sm:block">
             <Button title="Kontakt oss" href="/kontakt" color="onlineOrange" />
           </div>
-          <div className="block sm:hidden">
-            <GiHamburgerMenu className="text-white" size={24} />
-          </div>
+          <DropdownMenu />
         </nav>
       </div>
     </div>
