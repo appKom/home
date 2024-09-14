@@ -1,4 +1,7 @@
 import Image from "next/image";
+import { blogs } from "@/lib/blog";
+import { BlogCard } from "@/components/home/BlogCard";
+import { Button } from "@/components/Button";
 
 export default function Home() {
   return (
@@ -47,8 +50,19 @@ export default function Home() {
             <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold">
               Blogg
             </h1>
+            <div className="py-8 flex flex-row justify-between">
+              {blogs
+                .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+                .slice(0, 3)
+                .map((blog) => (
+                  <BlogCard blog={blog} key={blog.createdAt.toISOString()} />
+                ))}
+            </div>
+            <div className="flex justify-center items-center mt-2">
+              <Button title="Les mer" href="/artikler" color={"onlineOrange"} />
+            </div>
           </div>
-          <div className="py-8">
+          <div className="pb-8">
             <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold">
               Prosjekter
             </h1>
