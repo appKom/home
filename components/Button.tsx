@@ -13,7 +13,7 @@ export const Button = ({ title, onClick, color, href }: Props) => {
   const colorStyle =
     color == "onlineOrange" ? "bg-onlineOrange hover:bg-orange-400" : "";
 
-  const buttonStyle = `px-4 py-2 rounded-md  ${colorStyle}`;
+  const buttonStyle = `px-4 py-3 rounded-md text-white ${colorStyle}`;
 
   if (onClick) {
     return (

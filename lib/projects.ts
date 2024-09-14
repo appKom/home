@@ -17,6 +17,7 @@ export const projects: projectType[] = [
       "MongoDB",
       "Twilio",
     ],
+    github: "https://github.com/appKom/online-opptak",
     people: [
       {
         role: "Prosjektleder",
@@ -45,6 +46,7 @@ export const projects: projectType[] = [
     imageUri: "/prosjekt/online-appen.jpg",
     href: "/prosjekt/online-appen",
     techStack: ["Flutter", "Firebase", "Dart", "Google Cloud Platform"],
+    github: "https://github.com/appKom/online_events",
     people: [
       {
         role: "Prosjektleder",
@@ -74,6 +76,7 @@ export const projects: projectType[] = [
     description: "Autobank",
     imageUri: "/prosjekt/autobank.png",
     href: "/prosjekt/autobank",
+    github: "https://github.com/appKom/autobank-frontend",
     people: [
       {
         role: "Prosjektleder",
@@ -107,6 +110,7 @@ export const projects: projectType[] = [
     description: "Fondside",
     imageUri: "/prosjekt/online-fondet.png",
     href: "/prosjekt/online-fondet",
+    github: "https://github.com/appKom/onlinefondet",
     people: [
       {
         role: "Prosjektleder",
@@ -120,6 +124,7 @@ export const projects: projectType[] = [
     description: "Infoskjerm for Online på A4",
     imageUri: "/prosjekt/infoskjerm.png",
     href: "/prosjekt/infoskjerm",
+    github: "https://github.com/appKom/infoskjerm",
     people: [
       {
         role: "Prosjektleder",

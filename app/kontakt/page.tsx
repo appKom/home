@@ -67,7 +67,7 @@ export default function ContactPage() {
       <div className="py-6 px-6 w-full max-w-screen-lg text-gray-700">
         <main className="flex flex-col gap-5 pb-6">
           <div className="w-full max-w-3xl mx-auto justify-center">
-            <p className="text-xl text-center border-solid rounded-2xl border border-2 border-gray-700 dark:border-white p-2">
+            <p className="text-xl text-center border-solid rounded-2xl border-2 border-gray-700 dark:border-white p-2">
               Ønsker du å komme i kontakt med oss? <br /> Fyll ut skjemaet
               under. <br />
               Eller send oss en e-post på{" "}
@@ -82,7 +82,7 @@ export default function ContactPage() {
 
           <div
             id="contact-me"
-            className="flex flex-col w-full max-w-3xl  p-4 mx-auto border-solid rounded-2xl border border-2 border-gray-700 dark:border-white"
+            className="flex flex-col w-full max-w-3xl  p-4 mx-auto border-solid rounded-2xl border-2 border-gray-700 dark:border-white"
           >
             <h1 className="text-center font-bold text-4xl">Kontakt oss</h1>
             <form onSubmit={handleSubmit} className="w-full">
