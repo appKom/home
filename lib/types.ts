@@ -1,6 +1,6 @@
 export type blogType = {
   title: string;
-  author?: memberType;
+  author?: string;
   content: string;
   imageUri: string;
   createdAt: Date;
