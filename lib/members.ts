@@ -11,6 +11,7 @@ export const members: memberType[] = [
   {
     name: "Mats Nyfløt",
     href: "/medlem/Mats-Nyfloet",
+    imageUri: "/medlemmer/mats.jpg",
 
     memberSince: "Høst 2022",
     role: "Medlem",
@@ -18,6 +19,7 @@ export const members: memberType[] = [
   {
     name: "Julian Ammouche Ottosen",
     href: "/medlem/Julian-Ammouche-Ottosen",
+    imageUri: "/medlemmer/julian.jpg",
 
     memberSince: "Høst 2022",
     role: "Medlem",
@@ -25,6 +27,7 @@ export const members: memberType[] = [
   {
     name: "Aksel Fosaas",
     href: "/medlem/Aksel-Fosaas",
+    imageUri: "/medlemmer/aksel.jpg",
 
     memberSince: "Høst 2022",
     role: "Medlem",

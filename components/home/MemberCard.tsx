@@ -32,7 +32,7 @@ export const MemberCard = ({ member, hideRole }: Props) => {
           alt={`Bilde av: ${member.name}`}
           height={100}
           width={100}
-          className="rounded-full"
+          className="rounded-full aspect-square object-cover"
         />
         <p className="mt-4">{member.name}</p>
         {!hideRole && <p className="text-sm text-gray-500">{member.role}</p>}
