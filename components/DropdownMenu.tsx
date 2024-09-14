@@ -64,7 +64,7 @@ export const DropdownMenu = () => {
           Kontakt
         </Link>
         <Link
-          href="#prosjekter"
+          href="/prosjekt"
           onClick={closeMenu}
           className="block px-4 py-2 text-lg hover:bg-gray-700"
         >
