@@ -14,7 +14,6 @@ export async function POST(req: NextRequest) {
       { method: "POST" }
     );
 
-    console.log("recaptchaResponse: ", recaptchaResponse);
     const recaptchaData = await recaptchaResponse.json();
 
     if (!recaptchaData.success) {
