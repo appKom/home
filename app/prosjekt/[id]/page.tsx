@@ -114,18 +114,25 @@ export default async function ProjectPage({ params }: Params) {
             </article>
 
             <h2 className="text-2xl font-bold">Utviklerne</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 w-full gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 w-full gap-4 pt-6">
               {project.people.map((person) => {
                 const member = members.find(
                   (member) =>
                     member.href.toLowerCase() === person.name.toLowerCase()
                 );
                 if (member) {
+                  const isProjectLead = !!project.people.find(
+                    (person) =>
+                      person.role === "Prosjektleder" &&
+                      person.name.toLowerCase() === member.href.toLowerCase()
+                  );
+
                   return (
                     <MemberCard
                       key={member.name}
                       member={member}
                       hideRole={true}
+                      isProjectLead={isProjectLead}
                     />
                   );
                 }
