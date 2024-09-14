@@ -1,35 +1,39 @@
 import Link from "next/link";
-import { BsSlack, BsFacebook, BsInstagram, BsGithub } from "react-icons/bs";
+import { GithubIcon } from "./icons/GithubIcon";
+import { InstagramIcon } from "./icons/InstagramIcon";
+import { FacebookIcon } from "./icons/FacebookIcon";
+import { SlackIcon } from "./icons/SlackIcon";
 
 export default function Footer() {
-  const footerLinkSize = 35;
+  const footerStyle = "text-white hover:text-onlineOrange";
+
   const footerLinks = [
     {
       name: "Slack",
-      icon: <BsSlack size={footerLinkSize} />,
+      icon: <SlackIcon className={footerStyle} />,
       link: "https://onlinentnu.slack.com/",
     },
     {
       name: "Facebook",
-      icon: <BsFacebook size={footerLinkSize} />,
+      icon: <FacebookIcon className={footerStyle} />,
       link: "http://facebook.com/LinjeforeningenOnline",
     },
     {
       name: "Instagram",
-      icon: <BsInstagram size={footerLinkSize} />,
+      icon: <InstagramIcon className={footerStyle} />,
       link: "https://www.instagram.com/online_ntnu/",
     },
     {
       name: "Github",
-      icon: <BsGithub size={footerLinkSize} />,
+      icon: <GithubIcon className={footerStyle} />,
       link: "https://github.com/appKom",
     },
   ];
 
   return (
-    <footer className="min-w-full bg-tealBlue">
-      <div className="flex flex-col items-center justify-center py-5">
-        <div className="flex flex-row gap-5">
+    <footer className="min-w-full bg-tealBlue text-white">
+      <div className="flex flex-col items-center justify-center py-5 gap-5">
+        <div className="flex flex-row gap-12">
           {footerLinks.map((link) => {
             return (
               <Link
@@ -43,6 +47,19 @@ export default function Footer() {
             );
           })}
         </div>
+        <div>
+          Ta kontakt med{" "}
+          <a
+            className="font-semibold underline transition-all hover:text-onlineOrange"
+            href="mailto:appkom@online.ntnu.no"
+          >
+            Appkom
+          </a>{" "}
+          :)
+        </div>
+        <p className="text-white text-sm">
+          © {new Date().getFullYear()} Applikasjonskomiteen
+        </p>
       </div>
     </footer>
   );

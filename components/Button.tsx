@@ -4,7 +4,7 @@ interface Props {
   title: string;
   onClick?: () => void;
   href?: string;
-  color: "tealBlue" | "lightBlue" | "lightGray";
+  color: "lightBlue" | "onlineOrange";
 }
 
 export const Button = ({ title, onClick, color, href }: Props) => {
