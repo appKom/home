@@ -42,9 +42,9 @@ export const DropdownMenu = () => {
           }`}
         >
           {isOpen ? (
-            <IoMdClose className="text-white" size={24} />
+            <IoMdClose className="text-white" size={32} />
           ) : (
-            <GiHamburgerMenu className="text-white" size={24} />
+            <GiHamburgerMenu className="text-white" size={32} />
           )}
         </div>
       </div>

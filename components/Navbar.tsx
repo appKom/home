@@ -7,8 +7,11 @@ export default function Navbar() {
   return (
     <div className="bg-tealBlue w-full text-white">
       <div className="w-full flex justify-center">
-        <nav className="flex items-center justify-between flex-wrap px-5 py-5 bg-tealBlue w-full max-w-screen-2xl">
-          <Link href={"/"} className="flex items-center justify-center gap-5 hover:text-gray-300">
+        <nav className="flex items-center justify-between flex-wrap px-5 py-5 bg-tealBlue w-full max-w-screen-lg">
+          <Link
+            href={"/"}
+            className="flex items-center justify-center gap-5 hover:text-gray-300"
+          >
             <Image
               src={"/logos/appkom-logo.svg"}
               alt={"Appkom logo"}
