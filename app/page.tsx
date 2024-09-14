@@ -27,6 +27,37 @@ export default function Home() {
               />
             </div>
           </div>
+
+          <div className="w-full py-8 border-2 rounded-lg border-gray-700">
+            <article className="p-4">
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illum
+              tempora magni vel, odit consequuntur molestias ipsa commodi.
+              Natus, enim unde sint sit impedit doloremque consectetur
+              consequatur, et voluptate eveniet iure. Lorem ipsum dolor sit,
+              amet consectetur adipisicing elit. Animi explicabo vel tempore
+              odit modi porro iure accusamus voluptas consequatur quia iste,
+              quam laudantium voluptates asperiores, incidunt veniam provident
+              commodi unde. Lorem ipsum dolor sit amet consectetur, adipisicing
+              elit. Quibusdam nihil deleniti optio quas quos, magni porro
+              commodi sit beatae omnis quo, suscipit illo ex ea exercitationem,
+              dolorum ad corporis officia!
+            </article>
+          </div>
+          <div className="py-8">
+            <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold">
+              Blogg
+            </h1>
+          </div>
+          <div className="py-8">
+            <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold">
+              Prosjekter
+            </h1>
+          </div>
+          <div className="py-8">
+            <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold">
+              Medlemmer
+            </h1>
+          </div>
         </main>
       </div>
     </div>

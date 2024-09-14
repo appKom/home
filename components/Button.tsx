@@ -6,11 +6,14 @@ interface Props {
   title: string;
   onClick?: () => void;
   href?: string;
-  color: "lightBlue" | "onlineOrange";
+  color: "onlineOrange";
 }
 
 export const Button = ({ title, onClick, color, href }: Props) => {
-  const buttonStyle = `px-4 py-2 bg-${color} rounded-md`;
+  const colorStyle =
+    color == "onlineOrange" ? "bg-onlineOrange hover:bg-orange-400" : "";
+
+  const buttonStyle = `px-4 py-2 rounded-md  ${colorStyle}`;
 
   if (onClick) {
     return (
