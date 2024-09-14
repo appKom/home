@@ -1,4 +1,7 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Hvordan gjøre endringer
+
+For å oppdatere innhold, gå til: lib/[Hva enn du har lyst å endre]
+commit og push så endringen, og den blir endret
 
 ## Getting Started
 
