@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
     try {
       await sendEmail({
         toEmails: ["appkom@online.ntnu.no"],
-        subject: "Ny henvendelse fra nettsiden",
+        subject: `Ny henvendelse fra ${name}`,
         htmlContent: emailContent,
       });
     } catch (error) {

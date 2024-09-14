@@ -19,7 +19,6 @@ export default function RootLayout({
       <body className={`bg-lightBlue flex flex-col`}>
         <Toaster />
         <div className="min-h-screen">
-          {" "}
           <Navbar />
           {children}
         </div>
