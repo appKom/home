@@ -4,6 +4,11 @@ import { members } from "@/lib/members";
 import { memberType } from "@/lib/types";
 import Custom404 from "@/app/not-found";
 import Image from "next/image";
+import { projects } from "@/lib/projects";
+import { ProjectCard } from "@/components/home/ProjectCard";
+import { FaCrown } from "react-icons/fa";
+import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
 
 interface Params {
   params: {
@@ -61,20 +66,60 @@ export default async function ProjectPage({ params }: Params) {
       <div className="py-6 px-6 w-full max-w-screen-lg text-gray-700">
         <main className="flex flex-col gap-5 pb-6">
           <div className="w-full flex justify-center">
-            <Image
-              src={member.imageUri ?? "/medlemmer/default_profile_picture.png"}
-              alt={`Bilde av: ${member.name}`}
-              width={500}
-              height={500}
-              className="object-cover max-h-96 rounded-full"
-            />
+            <div className="flex flex-col justify-center items-center">
+              {member.role === "Leder" && (
+                <div className="">
+                  <FaCrown className="text-yellow-500" size={72} />
+                </div>
+              )}
+              <Image
+                src={
+                  member.imageUri ?? "/medlemmer/default_profile_picture.png"
+                }
+                alt={`Bilde av: ${member.name}`}
+                width={500}
+                height={500}
+                className="object-cover max-h-96 rounded-full"
+              />
+            </div>
           </div>
           <article className="flex flex-col gap-5 text-center">
             <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold">
               {member.name}
             </h1>
-            <p>{member.role}</p>
+            <p className="text-2xl">{member.role}</p>
+            <div>
+              <p>{`Medlem siden: ${member.memberSince}`}</p>
+            </div>
+            {member.about && (
+              <div className="w-full break-words whitespace-pre-wrap px-6 py-12 border-2 border-gray-700 rounded-lg">
+                <ReactMarkdown className="w-full" rehypePlugins={[rehypeRaw]}>
+                  {member.about}
+                </ReactMarkdown>
+              </div>
+            )}
           </article>
+
+          {member.projects && (
+            <div className="flex flex-col gap-5">
+              <h2 className="text-xl sm:text-xl md:text-2xl lg:text-4xl font-semibold">
+                Prosjekter
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {member.projects.map((project) => {
+                  const foundProject = projects.find(
+                    (proj) => proj.title === project
+                  );
+                  return foundProject ? (
+                    <ProjectCard
+                      key={foundProject.title}
+                      project={foundProject}
+                    />
+                  ) : null;
+                })}
+              </div>
+            </div>
+          )}
         </main>
       </div>
     </div>
