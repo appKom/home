@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Toaster } from "react-hot-toast";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
   title: "Appkom",
@@ -28,6 +29,7 @@ export default function RootLayout({
           <Navbar />
           {children}
         </div>
+        <Analytics />
         <Footer />
       </body>
     </html>
