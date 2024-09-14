@@ -1,6 +1,7 @@
 import { memberType } from "@/lib/types";
 import Image from "next/image";
 import Link from "next/link";
+import { BiDollar } from "react-icons/bi";
 import { FaCrown } from "react-icons/fa";
 
 interface Props {
@@ -22,6 +23,11 @@ export const MemberCard = ({ member, hideRole }: Props) => {
             {member.role === "Nestleder" && (
               <div className="absolute -top-8">
                 <FaCrown className="text-gray-500" size={32} />
+              </div>
+            )}
+            {member.role === "Økonomiansvarlig" && (
+              <div className="absolute -top-8">
+                <BiDollar className="text-gray-500" size={32} />
               </div>
             )}
           </>

@@ -37,12 +37,14 @@ export const members: memberType[] = [
     href: "/medlem/Fredrik-Hansteen",
     imageUri: "/medlemmer/fredrik-hansteen.jpg",
     about:
-      "Fredrik Hansteen er en allsidig teknolog med bred erfaring innen utvikling, undervisning, og ledelse. Han jobber for tiden som teknisk læringsassistent i faget ‘Informatics Project Work,’ hvor han hjelper studenter med prosjekter i Java og Maven. Gjennom sin karriere har Fredrik jobbet med alt fra webutvikling til testutvikling, og han har hatt ledende roller i studentorganisasjoner. Fredrik har en imponerende teknisk ferdighetsportefølje som inkluderer programmeringsspråk og teknologier som Dart, JavaScript/TypeScript, Java, Kotlin, Python, SQL, Google Cloud Platform, Flutter, Git/GitHub, JavaFX, REST APIs, Next.js/React og Spring.",
+      "Fredrik Hansteinar er ein heidundrande teknologi-mogul med ein breidast mogleg erfaring innanutvikling, undervising, og leiarstaup. Han skranglar no som teknisk læringshjelpekar i faget ‘Informatikkprosjektverksemd,’ der han handlestar studentflokken med prosjekt i Javabrølet og Mavenknausen. Gjennom karriervandringa si har Fredrik traska frå vevutvikling til testsmidning, og han har hatt førarstaup i studentlag og -hordar. Fredrik hev ein storslegen teknologisk ferdsskrin som rommar alt frå programmeringsmål og teknomantikk som Dartar, JavaSkjot/TypeSkjot, Javaskogen, Kotlinfjorden, Pyteslang, SQLstrøymen, Googleskyplattforma, Flutterbrusken, Git/GitHogg, JavaFjorder, REST-flodene, Next.js/Reactvindkast og vårleg Springflukt.",
     memberSince: "Høst 2023",
     role: "Leder",
-    projects: ["Online-Opptak", "Online-Appen"],
+
     email: "fredrik.carsten.hansteen@online.ntnu.no",
-    phone: "+47 476 30 231",
+    phone: "476 30 231",
+    github: "https://www.github.com/fredrir",
+    linkedin: "https://www.linkedin.com/in/fredrir/",
   },
   {
     name: "Dina Marie Stensrud",

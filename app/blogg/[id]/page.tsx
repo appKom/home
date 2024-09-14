@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { headers } from "next/headers";
 import { blogs } from "@/lib/blog";
-import { blogType } from "@/lib/types";
+import { blogType, memberType } from "@/lib/types";
 import Custom404 from "@/app/not-found";
 import Image from "next/image";
 import { TbPencilCode } from "react-icons/tb";
@@ -10,6 +10,7 @@ import { FaClock } from "react-icons/fa";
 import { formatDate } from "@/lib/dateUtils";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
+import { members } from "@/lib/members";
 
 interface Params {
   params: {
@@ -59,6 +60,10 @@ export default async function ArticlePage({ params }: Params) {
     return <Custom404 />;
   }
 
+  const author: memberType | undefined = members.find(
+    (member) => member.name === blog.author
+  );
+
   return (
     <div className="w-full flex justify-center min-h-screen">
       <div className="w-full max-w-screen-lg text-gray-700">
@@ -77,22 +82,24 @@ export default async function ArticlePage({ params }: Params) {
               <h1 className=" font-bold text-xl sm:text-xl md:text-xl lg:text-2xl xl:text-4xl">
                 {blog.title}
               </h1>
-              <Link
-                href={blog.author?.href || "/"}
-                className="flex flex-row items-center gap-2 hover:text-onlineOrange mt-4 sm:mt-0"
-              >
-                <TbPencilCode size={32} />
-                <h2>{blog.author?.name}</h2>
-                {blog.author?.imageUri && (
-                  <Image
-                    src={blog.author?.imageUri}
-                    alt={"image of " + blog.author?.name}
-                    width={50}
-                    height={50}
-                    className="rounded-full"
-                  />
-                )}
-              </Link>
+              {author && (
+                <Link
+                  href={author.href}
+                  className="flex flex-row items-center gap-2 hover:text-onlineOrange mt-4 sm:mt-0"
+                >
+                  <TbPencilCode size={32} />
+                  <h2>{author?.name}</h2>
+                  {author?.imageUri && (
+                    <Image
+                      src={author?.imageUri}
+                      alt={"image of " + author?.name}
+                      width={50}
+                      height={50}
+                      className="rounded-full"
+                    />
+                  )}
+                </Link>
+              )}
             </div>
 
             <div className="flex flex-row gap-4 pt-4">

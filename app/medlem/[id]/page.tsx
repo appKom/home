@@ -6,7 +6,7 @@ import Custom404 from "@/app/not-found";
 import Image from "next/image";
 import { projects } from "@/lib/projects";
 import { ProjectCard } from "@/components/home/ProjectCard";
-import { FaCrown } from "react-icons/fa";
+import { FaCrown, FaGithub, FaLinkedin } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { FiPhoneIncoming } from "react-icons/fi";
@@ -63,6 +63,10 @@ export default async function ProjectPage({ params }: Params) {
     return <Custom404 />;
   }
 
+  const projectsWithMember = projects.filter((project) =>
+    project.people.some((person) => person.name === member.href)
+  );
+
   return (
     <div className="w-full flex justify-center min-h-screen">
       <div className="py-6 px-6 w-full max-w-screen-lg text-gray-700">
@@ -102,46 +106,68 @@ export default async function ProjectPage({ params }: Params) {
             )}
           </article>
 
-          {(member.email || member.phone) && (
+          {(member.email ||
+            member.phone ||
+            member.github ||
+            member.linkedin) && (
             <div className="flex flex-col gap-5">
               <h2 className="text-xl sm:text-xl md:text-2xl lg:text-4xl font-semibold">
                 Kontakt
               </h2>
 
-              {member.phone && (
-                <div className="flex flex-row gap-2">
-                  <FiPhoneIncoming size={24} />{" "}
-                  <p>{`Telefon: ${member.phone}`}</p>{" "}
-                </div>
-              )}
-              {member.email && (
-                <div className="flex flex-row gap-2">
-                  <MdEmail size={24} /> <p>{`E-Post: ${member.email}`}</p>{" "}
-                </div>
-              )}
-            </div>
-          )}
-
-          {member.projects && (
-            <div className="flex flex-col gap-5">
-              <h2 className="text-xl sm:text-xl md:text-2xl lg:text-4xl font-semibold">
-                Prosjekter
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {member.projects.map((project) => {
-                  const foundProject = projects.find(
-                    (proj) => proj.title === project
-                  );
-                  return foundProject ? (
-                    <ProjectCard
-                      key={foundProject.title}
-                      project={foundProject}
-                    />
-                  ) : null;
-                })}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 ">
+                {member.phone && (
+                  <div className="flex flex-row gap-2 hover:text-onlineOrange">
+                    <FiPhoneIncoming size={24} />
+                    <a href={`tel:+47${member.phone}`}>{`${member.phone}`}</a>
+                  </div>
+                )}
+                {member.email && (
+                  <div className="flex flex-row gap-2 hover:text-onlineOrange">
+                    <MdEmail size={24} />
+                    <a href={`mailto:${member.email}`}>{`${member.email}`}</a>
+                  </div>
+                )}
+                {member.github && (
+                  <div className="flex flex-row gap-2">
+                    <a
+                      className="flex flex-row gap-2 hover:text-onlineOrange"
+                      href={member.github}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <FaGithub size={24} />
+                      <p>{member.github.split("https://www.")}</p>
+                    </a>
+                  </div>
+                )}
+                {member.linkedin && (
+                  <div className="flex flex-row gap-2">
+                    <a
+                      className="flex flex-row gap-2 hover:text-onlineOrange"
+                      href={member.linkedin}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <FaLinkedin size={24} />
+                      <p>{member.linkedin.split("https://www.")}</p>
+                    </a>
+                  </div>
+                )}
               </div>
             </div>
           )}
+
+          <div className="flex flex-col gap-5">
+            <h2 className="text-xl sm:text-xl md:text-2xl lg:text-4xl font-semibold">
+              Prosjekter
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {projectsWithMember.map((project) => (
+                <ProjectCard project={project} key={project.title} />
+              ))}
+            </div>
+          </div>
         </main>
       </div>
     </div>

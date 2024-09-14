@@ -44,17 +44,21 @@ export default function Home() {
 
           <div className="w-full py-8 border-2 rounded-lg border-gray-700">
             <article className="p-4">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illum
-              tempora magni vel, odit consequuntur molestias ipsa commodi.
-              Natus, enim unde sint sit impedit doloremque consectetur
-              consequatur, et voluptate eveniet iure. Lorem ipsum dolor sit,
-              amet consectetur adipisicing elit. Animi explicabo vel tempore
-              odit modi porro iure accusamus voluptas consequatur quia iste,
-              quam laudantium voluptates asperiores, incidunt veniam provident
-              commodi unde. Lorem ipsum dolor sit amet consectetur, adipisicing
-              elit. Quibusdam nihil deleniti optio quas quos, magni porro
-              commodi sit beatae omnis quo, suscipit illo ex ea exercitationem,
-              dolorum ad corporis officia!
+              Applikasjonskomiteen jobber med å utvikle ulike digitale tjenester
+              for Online, som apper, nettsider og infoskjermer. Er du
+              interessert å bli med på våre spennende prosjekter, eller har du
+              lyst til å starte opp ditt eget prosjekt er appkom stedet for deg.
+              Vi har blant annet tidligere laget Online appen, infoskjermen på
+              A4 og diverse andre spill. For tiden jobber vi med å fullføre våre
+              diverse andre prosjekter samt vedlikeholde og forberede våre
+              lanserte prosjekter. Vi er alltid på utkikk å starte opp noe nytt
+              og spennende, og setter veldig godt pris på nye ideer. <br />{" "}
+              <br />
+              Vi er en sosial gjeng som liker å utvikle tjenester som vi syntes
+              vil være både nyttig, men også underholderne for Online, og for
+              studenter generelt. Vi krever ingen forehåndskunnskaper, og har du
+              noen spørsmål underveis er det bare å spørre din progge fadder,
+              som vil være din mentor i oppstarten.
             </article>
           </div>
           <div className="py-8">
@@ -75,7 +79,10 @@ export default function Home() {
             </div>
           </div>
           <div className="pb-8">
-            <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold pb-8">
+            <h1
+              id="prosjekter"
+              className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold pb-8"
+            >
               Prosjekter
             </h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
