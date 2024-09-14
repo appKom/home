@@ -73,7 +73,9 @@ export default async function ProjectPage({ params }: Params) {
               className="w-full object-cover max-h-96"
             />
           </div>
-
+          <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold pt-8">
+            {project.title}
+          </h1>
           {project.techStack && (
             <div className="w-full flex justify-center py-6">
               <div className="w-full max-w-screen-lg">
