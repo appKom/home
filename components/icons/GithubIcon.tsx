@@ -8,7 +8,7 @@ export const GithubIcon = ({
   <svg
     stroke="currentColor"
     fill={fill || "currentColor"}
-    stroke-width="0"
+    strokeWidth="0"
     className={className}
     viewBox="0 0 16 16"
     height="35"
