@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Appkom",
@@ -15,8 +16,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`bg-lightBlue flex flex-col`}>
-        <Navbar />
-        <div>{children}</div>
+        <div className="min-h-screen">
+          {" "}
+          <Navbar />
+          {children}
+        </div>
+        <Footer />
       </body>
     </html>
   );
