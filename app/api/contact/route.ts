@@ -3,13 +3,22 @@ import { NextResponse, NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, phone, message } = await req.json();
+    const { name, email, phone, message, recaptchaToken } = await req.json();
 
-    if (!name || !email || !phone || !message) {
-      return NextResponse.json(
-        { error: "No article provided or file is not valid" },
-        { status: 400 }
-      );
+    if (!name || !email || !phone || !message || !recaptchaToken) {
+      return NextResponse.json({ error: "Missing fields" }, { status: 400 });
+    }
+
+    const recaptchaResponse = await fetch(
+      `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptchaToken}`,
+      { method: "POST" }
+    );
+
+    console.log("recaptchaResponse: ", recaptchaResponse);
+    const recaptchaData = await recaptchaResponse.json();
+
+    if (!recaptchaData.success) {
+      return NextResponse.json({ error: "reCAPTCHA failed" }, { status: 400 });
     }
 
     const emailContent = `

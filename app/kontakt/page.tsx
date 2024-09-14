@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import toast from "react-hot-toast";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -10,7 +11,7 @@ export default function ContactPage() {
     phone: "",
     message: "",
   });
-
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
   const [buttonText, setButtonText] = useState("Send");
   const [, setStatus] = useState({ submitted: false, message: "" });
 
@@ -24,31 +25,41 @@ export default function ContactPage() {
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    setButtonText("Sending...");
 
-    await fetch("/api/contact", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then(() => {
-        setStatus({ submitted: true, message: "Message sent successfully" });
-        setButtonText("Submit");
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          message: "",
-        });
-        toast.success("Message sent successfully");
-      })
-      .catch(() => {
-        setStatus({ submitted: false, message: "Error sending message" });
-        toast.error("Error sending message");
-        setButtonText("Submit");
+    if (!recaptchaToken) {
+      toast.error("Please complete the reCAPTCHA.");
+      return;
+    }
+
+    setButtonText("Sender...");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...formData, recaptchaToken }),
       });
+
+      if (!response.ok) {
+        throw new Error("Error sending message");
+      }
+
+      setStatus({ submitted: true, message: "Message sent successfully" });
+      setButtonText("Submit");
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        message: "",
+      });
+      toast.success("Message sent successfully");
+    } catch (error) {
+      setStatus({ submitted: false, message: "Error sending message" });
+      toast.error("Error sending message");
+      setButtonText("Submit");
+    }
   };
 
   return (
@@ -133,12 +144,18 @@ export default function ContactPage() {
                 required
                 className="my-2 p-2 h-60 w-full rounded-3xl   border-solid border-2 border-gray-900 dark:border-white transition-none outline-none"
               />
+
+              <div className="my-4">
+                <ReCAPTCHA
+                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                  onChange={(token) => setRecaptchaToken(token)}
+                />
+              </div>
+
               <div className="py-5 text-center">
                 <button
                   type="submit"
-                  className={
-                    "px-4 py-2 rounded-md bg-onlineOrange hover:bg-orange-400 text-2xl "
-                  }
+                  className="px-4 py-2 rounded-md bg-onlineOrange hover:bg-orange-400 text-2xl"
                 >
                   {buttonText}
                 </button>
