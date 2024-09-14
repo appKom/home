@@ -12,3 +12,11 @@ export type memberType = {
   imageUri: string;
   about?: string;
 };
+
+export type projectType = {
+  title: string;
+  shortDescription: string;
+  description: string;
+  imageUri: string;
+  href: string;
+};

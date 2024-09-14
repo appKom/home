@@ -2,6 +2,8 @@ import Image from "next/image";
 import { blogs } from "@/lib/blog";
 import { BlogCard } from "@/components/home/BlogCard";
 import { Button } from "@/components/Button";
+import { projects } from "@/lib/projects";
+import { ProjectCard } from "@/components/home/ProjectCard";
 
 export default function Home() {
   return (
@@ -64,9 +66,14 @@ export default function Home() {
             </div>
           </div>
           <div className="pb-8">
-            <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold">
+            <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold pb-8">
               Prosjekter
             </h1>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {projects.map((project) => (
+                <ProjectCard project={project} key={project.title} />
+              ))}
+            </div>
           </div>
           <div className="py-8">
             <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold">
