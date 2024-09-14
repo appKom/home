@@ -74,12 +74,14 @@ export const members: memberType[] = [
   {
     name: "Erlend Løvøll Strøm",
     href: "/medlem/Erlend-Lovoll-Strom",
+    imageUri: "/medlemmer/erlend.jpg",
     memberSince: "Høst 2023",
     role: "Nestleder",
   },
   {
     name: "Sindre Emil Halleraker",
     href: "/medlem/Sindre-Emil-Halleraker",
+    imageUri: "/medlemmer/sindre.jpg",
 
     memberSince: "Høst 2023",
     role: "Medlem",
@@ -142,6 +144,7 @@ export const members: memberType[] = [
   {
     name: "Mads Hermansen",
     href: "/medlem/Mads-Hermansen",
+    imageUri: "/medlemmer/mads.jpg",
 
     memberSince: "Høst 2023",
     role: "Medlem",
