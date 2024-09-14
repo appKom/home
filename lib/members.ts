@@ -39,7 +39,7 @@ export const members: memberType[] = [
     role: "Leder",
 
     email: "fredrik.carsten.hansteen@online.ntnu.no",
-    phone: "+47 476 30 231",
+    phone: "476 30 231",
     github: "https://www.github.com/fredrir",
     linkedin: "https://www.linkedin.com/in/fredrir/",
   },
