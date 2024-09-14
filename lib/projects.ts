@@ -114,4 +114,21 @@ export const projects: projectType[] = [
       },
     ],
   },
+  {
+    title: "Infoskjerm",
+    shortDescription: "Infoskjerm for Online på A4",
+    description: "Infoskjerm for Online på A4",
+    imageUri: "/prosjekt/infoskjerm.png",
+    href: "/prosjekt/infoskjerm",
+    people: [
+      {
+        role: "Prosjektleder",
+        name: "/medlem/Julian-Ammouche-Ottosen",
+      },
+      {
+        role: "Prosjektmedlem",
+        name: "/medlem/Sylvia-Yung",
+      },
+    ],
+  },
 ];
