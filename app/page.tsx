@@ -2,10 +2,9 @@ import Image from "next/image";
 import { blogs } from "@/lib/blog";
 import { BlogCard } from "@/components/home/BlogCard";
 import { Button } from "@/components/Button";
-import { projects } from "@/lib/projects";
 import { members } from "@/lib/members";
-import { ProjectCard } from "@/components/home/ProjectCard";
 import { MemberCard } from "@/components/home/MemberCard";
+import ProjectGrid from "@/components/ProjectGrid";
 
 export default function Home() {
   const orderedMembers = [
@@ -85,11 +84,7 @@ export default function Home() {
             >
               Prosjekter
             </h1>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {projects.map((project) => (
-                <ProjectCard project={project} key={project.title} />
-              ))}
-            </div>
+            <ProjectGrid />
           </div>
           <div className="py-8">
             <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold pb-8">
