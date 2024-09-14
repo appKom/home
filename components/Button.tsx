@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 interface Props {
   title: string;
   onClick?: () => void;
@@ -19,9 +21,9 @@ export const Button = ({ title, onClick, color, href }: Props) => {
   }
   if (href) {
     return (
-      <a className={`${buttonStyle}`} href={href}>
+      <Link className={`${buttonStyle}`} href={href}>
         {title}
-      </a>
+      </Link>
     );
   }
 };

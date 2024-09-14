@@ -1,10 +1,24 @@
+import { GiHamburgerMenu } from "react-icons/gi";
 import { Button } from "./Button";
 
 export default function Navbar() {
   return (
-    <nav className="flex items-center justify-between flex-wrap px-5 py-5 bg-tealBlue text-white">
-      <h1 className="font-semibold text-3xl">Applikasjonskomiteen</h1>
-      <Button title="Kontakt oss" href="/kontakt" color="lightBlue" />
-    </nav>
+    <div className="bg-tealBlue w-full text-white">
+      <div className="w-full flex justify-center">
+        <nav className="flex items-center justify-between flex-wrap px-5 py-5 bg-tealBlue w-full max-w-[1920px]">
+          <h1 className="font-semibold text-lg sm:text-lg md:text-xl lg:text-2xl xl:text-3xl">
+            <span className="block sm:hidden">Appkom</span>
+            <span className="hidden sm:block">Applikasjonskomiteen</span>
+          </h1>
+
+          <div className="hidden sm:block">
+            <Button title="Kontakt oss" href="/kontakt" color="onlineOrange" />
+          </div>
+          <div className="block sm:hidden">
+            <GiHamburgerMenu className="text-white" size={24} />
+          </div>
+        </nav>
+      </div>
+    </div>
   );
 }

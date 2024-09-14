@@ -13,7 +13,6 @@ const config: Config = {
         foreground: "var(--foreground)",
         tealBlue: "#1995AD",
         lightBlue: "#A1D6E2",
-        lightGray: "#F1F1F2",
         onlineOrange: "#F9B759",
       },
     },
