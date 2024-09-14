@@ -15,9 +15,9 @@ export const BlogCard = ({ blog }: Props) => {
         <Image
           src={blog.imageUri}
           alt={blog.title + " illustrasjon"}
-          width={300}
-          height={300}
-          className="rounded-t-lg bg-cover"
+          width={1000}
+          height={1000}
+          className="rounded-t-lg bg-cover w-full h-56 object-cover"
         />
         <div className="p-2 flex flex-col justify-between">
           <h1 className="text-lg font-bold">{blog.title}</h1>

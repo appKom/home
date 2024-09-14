@@ -73,7 +73,7 @@ export default async function ArticlePage({ params }: Params) {
             />
           </div>
           <div className="flex flex-col px-6">
-            <div className="flex flex-col sm:flex-row justify-between py-8">
+            <div className="flex flex-col sm:flex-row justify-between pt-8">
               <h1 className=" font-bold text-xl sm:text-xl md:text-xl lg:text-2xl xl:text-4xl">
                 {blog.title}
               </h1>
@@ -95,11 +95,9 @@ export default async function ArticlePage({ params }: Params) {
               </Link>
             </div>
 
-            <div className="">
-              <div className="flex flex-row gap-4">
-                <FaClock size={32} />
-                <p>{`Sist oppdatert: ${formatDate(blog.createdAt)}`}</p>
-              </div>
+            <div className="flex flex-row gap-4 pt-4">
+              <FaClock size={32} />
+              <p>{`Sist oppdatert: ${formatDate(blog.createdAt)}`}</p>
             </div>
           </div>
           <article className="w-full break-words whitespace-pre-wrap px-6 py-12">

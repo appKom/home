@@ -60,7 +60,7 @@ export default function Home() {
             </div>
 
             <div className="flex justify-center items-center mt-2">
-              <Button title="Les mer" href="/artikler" color={"onlineOrange"} />
+              <Button title="Les mer" href="/blogg" color={"onlineOrange"} />
             </div>
           </div>
           <div className="pb-8">

@@ -7,3 +7,8 @@ export const formatDate = (inputDate: undefined | Date) => {
 
   return `${day}.${month}.${year}`;
 };
+
+export const getMonthNameInNorwegian = (date: Date) => {
+  const month = date.toLocaleDateString("no-NO", { month: "long" });
+  return month.charAt(0).toUpperCase() + month.slice(1);
+};
