@@ -15,6 +15,8 @@ export type memberType = {
   role: "Leder" | "Nestleder" | "Økonomiansvarlig" | "Medlem";
   email?: string;
   phone?: string;
+  github?: string;
+  linkedin?: string;
 };
 
 export type projectType = {

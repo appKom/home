@@ -6,7 +6,7 @@ import Custom404 from "@/app/not-found";
 import Image from "next/image";
 import { projects } from "@/lib/projects";
 import { ProjectCard } from "@/components/home/ProjectCard";
-import { FaCrown } from "react-icons/fa";
+import { FaCrown, FaGithub, FaLinkedin } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { FiPhoneIncoming } from "react-icons/fi";
@@ -106,7 +106,10 @@ export default async function ProjectPage({ params }: Params) {
             )}
           </article>
 
-          {(member.email || member.phone) && (
+          {(member.email ||
+            member.phone ||
+            member.github ||
+            member.linkedin) && (
             <div className="flex flex-col gap-5">
               <h2 className="text-xl sm:text-xl md:text-2xl lg:text-4xl font-semibold">
                 Kontakt
@@ -115,12 +118,39 @@ export default async function ProjectPage({ params }: Params) {
               {member.phone && (
                 <div className="flex flex-row gap-2">
                   <FiPhoneIncoming size={24} />{" "}
-                  <p>{`Telefon: ${member.phone}`}</p>{" "}
+                  <a href="tel:+4747630231">{`${member.phone}`}</a>{" "}
                 </div>
               )}
               {member.email && (
                 <div className="flex flex-row gap-2">
-                  <MdEmail size={24} /> <p>{`E-Post: ${member.email}`}</p>{" "}
+                  <MdEmail size={24} />{" "}
+                  <a href={member.email}>{`${member.email}`}</a>{" "}
+                </div>
+              )}
+              {member.github && (
+                <div className="flex flex-row gap-2">
+                  <a
+                    className="flex flex-row gap-2 hover:text-white"
+                    href={member.linkedin}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <FaGithub size={24} />
+                    <p>Github</p>
+                  </a>
+                </div>
+              )}
+              {member.linkedin && (
+                <div className="flex flex-row gap-2">
+                  <a
+                    className="flex flex-row gap-2 hover:text-white"
+                    href={member.linkedin}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <FaLinkedin size={24} />
+                    <p>LinkedIn</p>
+                  </a>
                 </div>
               )}
             </div>

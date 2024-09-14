@@ -94,33 +94,8 @@ export default async function ProjectPage({ params }: Params) {
               {project.description}
             </ReactMarkdown>
           </article>
-          {/* {project.people &&
-            members.find(
-              (member) =>
-                member.href.toLowerCase() ===
-                project.people[0].name.toLowerCase()
-            ) && (
-              <div>
-                <h2 className="text-2xl font-bold">Mennesker</h2>
-                <ul className="flex flex-wrap gap-2">
-                  {project.people.map((person) => (
-                    <li
-                      key={person.name}
-                      className="px-2 py-1 bg-gray-200 rounded-md"
-                    >
-                      {
-                        members.find(
-                          (member) =>
-                            member.href.toLowerCase() ===
-                            person.name.toLowerCase()
-                        )?.name
-                      }
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )} */}
 
+          <h2 className="text-2xl font-bold">Utviklerne</h2>
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 w-full gap-4">
             {project.people.map((person) => {
               const member = members.find(
