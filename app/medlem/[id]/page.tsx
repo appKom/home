@@ -9,6 +9,8 @@ import { ProjectCard } from "@/components/home/ProjectCard";
 import { FaCrown } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
+import { FiPhoneIncoming } from "react-icons/fi";
+import { MdEmail } from "react-icons/md";
 
 interface Params {
   params: {
@@ -99,6 +101,26 @@ export default async function ProjectPage({ params }: Params) {
               </div>
             )}
           </article>
+
+          {(member.email || member.phone) && (
+            <div className="flex flex-col gap-5">
+              <h2 className="text-xl sm:text-xl md:text-2xl lg:text-4xl font-semibold">
+                Kontakt
+              </h2>
+
+              {member.phone && (
+                <div className="flex flex-row gap-2">
+                  <FiPhoneIncoming size={24} />{" "}
+                  <p>{`Telefon: ${member.phone}`}</p>{" "}
+                </div>
+              )}
+              {member.email && (
+                <div className="flex flex-row gap-2">
+                  <MdEmail size={24} /> <p>{`E-Post: ${member.email}`}</p>{" "}
+                </div>
+              )}
+            </div>
+          )}
 
           {member.projects && (
             <div className="flex flex-col gap-5">

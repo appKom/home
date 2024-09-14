@@ -38,6 +38,8 @@ export const members: memberType[] = [
     memberSince: "Høst 2023",
     role: "Leder",
     projects: ["Online-Opptak", "Online-Appen"],
+    email: "fredrik.carsten.hansteen@online.ntnu.no",
+    phone: "+47 476 30 231",
   },
   {
     name: "Dina Marie Stensrud",

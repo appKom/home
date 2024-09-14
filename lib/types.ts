@@ -14,6 +14,8 @@ export type memberType = {
   memberSince: string;
   role: "Leder" | "Nestleder" | "Økonomiansvarlig" | "Medlem";
   projects?: string[];
+  email?: string;
+  phone?: string;
 };
 
 export type projectType = {
