@@ -50,7 +50,7 @@ export default function Home() {
             <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold">
               Blogg
             </h1>
-            <div className="py-8 flex flex-row justify-between">
+            <div className="py-8 flex flex-col md:flex-row justify-between gap-5">
               {blogs
                 .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
                 .slice(0, 3)
@@ -58,6 +58,7 @@ export default function Home() {
                   <BlogCard blog={blog} key={blog.createdAt.toISOString()} />
                 ))}
             </div>
+
             <div className="flex justify-center items-center mt-2">
               <Button title="Les mer" href="/artikler" color={"onlineOrange"} />
             </div>

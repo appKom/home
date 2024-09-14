@@ -10,7 +10,7 @@ interface Props {
 
 export const BlogCard = ({ blog }: Props) => {
   return (
-    <Link href={blog.title}>
+    <Link href={`blogg/${blog.title}`}>
       <div className="border-rounded flex flex-col bg-gray-200 rounded-lg">
         <Image
           src={blog.imageUri}
