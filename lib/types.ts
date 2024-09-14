@@ -13,7 +13,6 @@ export type memberType = {
   about?: string;
   memberSince: string;
   role: "Leder" | "Nestleder" | "Økonomiansvarlig" | "Medlem";
-  projects?: string[];
   email?: string;
   phone?: string;
 };

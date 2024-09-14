@@ -37,7 +37,7 @@ export const members: memberType[] = [
       "Fredrik Hansteen er en allsidig teknolog med bred erfaring innen utvikling, undervisning, og ledelse. Han jobber for tiden som teknisk læringsassistent i faget ‘Informatics Project Work,’ hvor han hjelper studenter med prosjekter i Java og Maven. Gjennom sin karriere har Fredrik jobbet med alt fra webutvikling til testutvikling, og han har hatt ledende roller i studentorganisasjoner. Fredrik har en imponerende teknisk ferdighetsportefølje som inkluderer programmeringsspråk og teknologier som Dart, JavaScript/TypeScript, Java, Kotlin, Python, SQL, Google Cloud Platform, Flutter, Git/GitHub, JavaFX, REST APIs, Next.js/React og Spring.",
     memberSince: "Høst 2023",
     role: "Leder",
-    projects: ["Online-Opptak", "Online-Appen"],
+
     email: "fredrik.carsten.hansteen@online.ntnu.no",
     phone: "+47 476 30 231",
   },

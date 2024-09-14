@@ -63,6 +63,10 @@ export default async function ProjectPage({ params }: Params) {
     return <Custom404 />;
   }
 
+  const projectsWithMember = projects.filter((project) =>
+    project.people.some((person) => person.name === member.href)
+  );
+
   return (
     <div className="w-full flex justify-center min-h-screen">
       <div className="py-6 px-6 w-full max-w-screen-lg text-gray-700">
@@ -122,26 +126,16 @@ export default async function ProjectPage({ params }: Params) {
             </div>
           )}
 
-          {member.projects && (
-            <div className="flex flex-col gap-5">
-              <h2 className="text-xl sm:text-xl md:text-2xl lg:text-4xl font-semibold">
-                Prosjekter
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {member.projects.map((project) => {
-                  const foundProject = projects.find(
-                    (proj) => proj.title === project
-                  );
-                  return foundProject ? (
-                    <ProjectCard
-                      key={foundProject.title}
-                      project={foundProject}
-                    />
-                  ) : null;
-                })}
-              </div>
+          <div className="flex flex-col gap-5">
+            <h2 className="text-xl sm:text-xl md:text-2xl lg:text-4xl font-semibold">
+              Prosjekter
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {projectsWithMember.map((project) => (
+                <ProjectCard project={project} key={project.title} />
+              ))}
             </div>
-          )}
+          </div>
         </main>
       </div>
     </div>
