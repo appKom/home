@@ -95,6 +95,13 @@ export default function Home() {
                 ))}
               </div>
             </div>
+            <div className="flex justify-center">
+              <Button
+                title="Se tidligere medlemmer"
+                href="/medlem"
+                color={"onlineOrange"}
+              />
+            </div>
           </div>
         </main>
       </div>

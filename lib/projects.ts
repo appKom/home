@@ -2,14 +2,14 @@ import { projectType } from "./types";
 
 export const projects: projectType[] = [
   {
-    title: "Opptaksside",
+    title: "Online-Opptak",
     shortDescription: "Opptaksside for appkom",
     description: "Opptaksside for appkom",
     imageUri: "/prosjekt/online-opptak.png",
     href: "/prosjekt/online-opptak",
   },
   {
-    title: "Online Appen",
+    title: "Online-Appen",
     shortDescription: "Online Appen",
     description: "Online Appen",
     imageUri: "/prosjekt/online-appen.jpg",
@@ -23,7 +23,7 @@ export const projects: projectType[] = [
     href: "/prosjekt/autobank",
   },
   {
-    title: "Fondside",
+    title: "Online-Fondet",
     shortDescription: "Fondside",
     description: "Fondside",
     imageUri: "/prosjekt/online-fondet.png",
