@@ -24,4 +24,9 @@ export type projectType = {
   description: string;
   imageUri: string;
   href: string;
+  techStack?: string[];
+  people: {
+    role: "Prosjektleder" | "Prosjektmedlem";
+    name: string;
+  }[];
 };
