@@ -16,6 +16,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta
+          name="google-site-verification"
+          content="Mpx63Er4zVk_7W6f00g6EKCnxeeGC0v9kf63kzn-b0s"
+        />
+      </head>
       <body className={`bg-lightBlue flex flex-col`}>
         <Toaster />
         <div className="min-h-screen">
