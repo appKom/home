@@ -26,7 +26,7 @@ export default function ContactPage() {
     e.preventDefault();
     setButtonText("Sending...");
 
-    await fetch("", {
+    await fetch("/api/contact", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
