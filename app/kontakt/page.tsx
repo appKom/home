@@ -145,7 +145,7 @@ export default function ContactPage() {
                 className="my-2 p-2 h-60 w-full rounded-3xl   border-solid border-2 border-gray-900 dark:border-white transition-none outline-none"
               />
 
-              <div className="my-4">
+              <div className="my-4 flex items-center justify-center">
                 <ReCAPTCHA
                   sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
                   onChange={(token) => setRecaptchaToken(token)}
