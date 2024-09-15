@@ -9,7 +9,7 @@ import { members } from "@/lib/members";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { MemberCard } from "@/components/home/MemberCard";
-import { FaGithub } from "react-icons/fa";
+import { FaGithub, FaGlobe } from "react-icons/fa";
 
 interface Params {
   params: {
@@ -78,9 +78,10 @@ export default async function ProjectPage({ params }: Params) {
             <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold pt-8">
               {project.title}
             </h1>
-            {project.techStack && (
-              <div className="w-full flex justify-center py-6">
-                <div className="w-full max-w-screen-lg">
+
+            <div className="w-full flex justify-center py-6">
+              <div className="w-full max-w-screen-lg">
+                {project.techStack && (<div>
                   <h2 className="text-2xl font-bold">Teknologier</h2>
                   <ul className="flex flex-wrap gap-2">
                     {project.techStack.map((tech) => (
@@ -92,20 +93,30 @@ export default async function ProjectPage({ params }: Params) {
                       </li>
                     ))}
                   </ul>
-                  <div className="flex flex-row gap-2 pt-6">
-                    <a
-                      className="flex flex-row gap-2 hover:text-onlineOrange"
-                      href={project.github}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <FaGithub size={24} />
-                      <p>{project.github.split("https://")}</p>
-                    </a>
-                  </div>
+                </div>)}
+                <div className="flex flex-row gap-2 pt-6 items-center gap-10">
+                  {project.link && <a
+                    className="flex flex-row gap-2 hover:text-onlineOrange"
+                    href={project.link}
+                    target="_blank"
+                  >
+                    <FaGlobe size={24} />
+                    <p>{project.link.split("https://")}</p>
+                  </a>}
+                  <a
+                    className="flex flex-row gap-2 hover:text-onlineOrange"
+                    href={project.github}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <FaGithub size={24} />
+                    <p>{project.github.split("https://")}</p>
+                  </a>
                 </div>
               </div>
-            )}
+            </div>
+
+
 
             <article className="w-full break-words whitespace-pre-wrap pb-8">
               <ReactMarkdown className="w-full" rehypePlugins={[rehypeRaw]}>
