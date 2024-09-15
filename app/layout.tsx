@@ -8,6 +8,8 @@ import { Analytics } from "@vercel/analytics/react";
 export const metadata: Metadata = {
   title: "Appkom",
   description: "Appkoms hjemmeside",
+  keywords:
+    "Appkom, appkom, appkoms hjemmeside, Applikasjonskomiteen, Online, Online NTNU, Online NTNU Applikasjonskomiteen, Online NTNU Appkom, Online Linjeforening",
 };
 
 export default function RootLayout({
