@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   };
 }
 
-export default async function ProjectPage({ params }: Params) {
+export default async function MemberPage({ params }: Params) {
   const headersList = headers();
   const host = headersList.get("host");
   const protocol = headersList.get("x-forwarded-proto");
@@ -52,8 +52,6 @@ export default async function ProjectPage({ params }: Params) {
   const encodedProsjektTitle = parts[parts.length - 1] || "";
   const memberName = decodeURIComponent(encodedProsjektTitle ?? "");
 
-  console.log(encodedProsjektTitle, memberName);
-
   const member: memberType | undefined = members.find(
     (member) =>
       member.href.toLowerCase() === `/medlem/${memberName.toLowerCase()}`
@@ -62,6 +60,11 @@ export default async function ProjectPage({ params }: Params) {
   if (!member) {
     return <Custom404 />;
   }
+
+  const periods = Object.keys(member.rolesByPeriod).sort();
+  const latestPeriod = periods[periods.length - 1];
+  const earliestPeriod = periods[0].split("-")[0];
+  const latestRole = member.rolesByPeriod[latestPeriod];
 
   const projectsWithMember = projects.filter((project) =>
     project.people.some((person) => person.name === member.href)
@@ -73,7 +76,7 @@ export default async function ProjectPage({ params }: Params) {
         <main className="flex flex-col gap-5 pb-6">
           <div className="w-full flex justify-center">
             <div className="flex flex-col justify-center items-center">
-              {member.role === "Leder" && (
+              {latestRole === "Leder" && (
                 <div className="">
                   <FaCrown className="text-yellow-500" size={72} />
                 </div>
@@ -93,9 +96,9 @@ export default async function ProjectPage({ params }: Params) {
             <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold">
               {member.name}
             </h1>
-            <p className="text-2xl">{member.role}</p>
+            <p className="text-2xl">{latestRole}</p>
             <div>
-              <p>{`Medlem siden: ${member.memberSince}`}</p>
+              <p>{`Medlem siden: ${earliestPeriod}`}</p>
             </div>
             {member.about && (
               <div className="w-full break-words whitespace-pre-wrap px-6 py-12 border-2 border-gray-700 rounded-lg">

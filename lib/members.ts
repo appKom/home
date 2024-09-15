@@ -5,29 +5,41 @@ export const members: memberType[] = [
     name: "Jørgen Galdal",
     href: "/medlem/Jorgen-Galdal",
 
-    memberSince: "Høst 2022",
-    role: "Medlem",
+    rolesByPeriod: {
+      "2022 - 2023": "Medlem",
+      "2023 - 2024": "Nestleder",
+      "2024 - 2025": "Medlem",
+    },
   },
   {
     name: "Mats Nyfløt",
     href: "/medlem/Mats-Nyfloet",
 
-    memberSince: "Høst 2022",
-    role: "Medlem",
+    rolesByPeriod: {
+      "2022 - 2023": "Medlem",
+      "2023 - 2024": "Leder",
+      "2024 - 2025": "Medlem",
+    },
   },
   {
     name: "Julian Ammouche Ottosen",
     href: "/medlem/Julian-Ammouche-Ottosen",
 
-    memberSince: "Høst 2022",
-    role: "Medlem",
+    rolesByPeriod: {
+      "2022 - 2023": "Medlem",
+      "2023 - 2024": "Medlem",
+      "2024 - 2025": "Medlem",
+    },
   },
   {
     name: "Aksel Fosaas",
     href: "/medlem/Aksel-Fosaas",
 
-    memberSince: "Høst 2022",
-    role: "Medlem",
+    rolesByPeriod: {
+      "2022 - 2023": "Medlem",
+      "2023 - 2024": "Medlem",
+      "2024 - 2025": "Medlem",
+    },
   },
   {
     name: "Fredrik Carsten Hansteen",
@@ -35,9 +47,11 @@ export const members: memberType[] = [
     imageUri: "/medlemmer/fredrik-hansteen.jpg",
     about:
       "Fredrik Hansteinar er ein heidundrande teknologi-mogul med ein breidast mogleg erfaring innanutvikling, undervising, og leiarstaup. Han skranglar no som teknisk læringshjelpekar i faget ‘Informatikkprosjektverksemd,’ der han handlestar studentflokken med prosjekt i Javabrølet og Mavenknausen. Gjennom karriervandringa si har Fredrik traska frå vevutvikling til testsmidning, og han har hatt førarstaup i studentlag og -hordar. Fredrik hev ein storslegen teknologisk ferdsskrin som rommar alt frå programmeringsmål og teknomantikk som Dartar, JavaSkjot/TypeSkjot, Javaskogen, Kotlinfjorden, Pyteslang, SQLstrøymen, Googleskyplattforma, Flutterbrusken, Git/GitHogg, JavaFjorder, REST-flodene, Next.js/Reactvindkast og vårleg Springflukt.",
-    memberSince: "Høst 2023",
-    role: "Leder",
 
+    rolesByPeriod: {
+      "2023 - 2024": "Økonomiansvarlig",
+      "2024 - 2025": "Leder",
+    },
     email: "fredrik.carsten.hansteen@online.ntnu.no",
     phone: "476 30 231",
     github: "https://www.github.com/fredrir",
@@ -46,101 +60,128 @@ export const members: memberType[] = [
   {
     name: "Dina Marie Stensrud",
     href: "/medlem/Dina-Marie-Stensrud",
-    memberSince: "Høst 2023",
-    role: "Medlem",
+
+    rolesByPeriod: {
+      "2023 - 2024": "Medlem",
+      "2024 - 2025": "Medlem",
+    },
   },
   {
     name: "Emily Malcomsen",
     href: "/medlem/Emily-Malcomsen",
-    memberSince: "Høst 2023",
-    role: "Medlem",
+
+    rolesByPeriod: {
+      "2023 - 2024": "Medlem",
+      "2024 - 2025": "Medlem",
+    },
   },
   {
     name: "Johannes Hage",
     href: "/medlem/Johannes-Hage",
 
-    memberSince: "Høst 2023",
-    role: "Økonomiansvarlig",
+    rolesByPeriod: {
+      "2023 - 2024": "Medlem",
+      "2024 - 2025": "Økonomiansvarlig",
+    },
   },
   {
     name: "Adele Strysse",
     href: "/medlem/Adel-Strysse",
-    memberSince: "Høst 2023",
-    role: "Medlem",
+
+    rolesByPeriod: {
+      "2023 - 2024": "Medlem",
+      "2024 - 2025": "Medlem",
+    },
   },
   {
     name: "Erlend Løvøll Strøm",
     href: "/medlem/Erlend-Lovoll-Strom",
-    memberSince: "Høst 2023",
-    role: "Nestleder",
+
+    rolesByPeriod: {
+      "2023 - 2024": "Medlem",
+      "2024 - 2025": "Nestleder",
+    },
   },
   {
     name: "Sindre Emil Halleraker",
     href: "/medlem/Sindre-Emil-Halleraker",
 
-    memberSince: "Høst 2023",
-    role: "Medlem",
+    rolesByPeriod: {
+      "2023 - 2024": "Medlem",
+      "2024 - 2025": "Medlem",
+    },
   },
   {
     name: "Victoria Næsheim",
     href: "/medlem/Victoria-Naesheim",
 
-    memberSince: "Vår 2024",
-    role: "Medlem",
+    rolesByPeriod: {
+      "2024 - 2025": "Medlem",
+    },
   },
   {
     name: "Sylvia Yung",
     href: "/medlem/Sylvia-Yung",
 
-    memberSince: "Vår 2024",
-    role: "Medlem",
+    rolesByPeriod: {
+      "2024 - 2025": "Medlem",
+    },
   },
   {
     name: "Amund Dahlmo Berge",
     href: "/medlem/Amund-Dahlmo-Berge",
 
-    memberSince: "Vår 2024",
-    role: "Medlem",
+    rolesByPeriod: {
+      "2024 - 2025": "Medlem",
+    },
   },
   {
     name: "Joel Ramin Neuhaus-Khatami",
     href: "/medlem/Joel-Ramin-Neuhaus-Khatami",
 
-    memberSince: "Høst 2024",
-    role: "Medlem",
+    rolesByPeriod: {
+      "2024 - 2025": "Medlem",
+    },
   },
   {
     name: "Marie Holen Danielson",
     href: "/medlem/Marie-Holen-Danielson",
 
-    memberSince: "Høst 2024",
-    role: "Medlem",
+    rolesByPeriod: {
+      "2024 - 2025": "Medlem",
+    },
   },
   {
     name: "Mina Ellingsen",
     href: "/medlem/Mina-Ellingsen",
-    memberSince: "Høst 2024",
-    role: "Medlem",
+
+    rolesByPeriod: {
+      "2024 - 2025": "Medlem",
+    },
   },
   {
     name: "John Gøthesen",
     href: "/medlem/John-Gotheson",
 
-    memberSince: "Høst 2024",
-    role: "Medlem",
+    rolesByPeriod: {
+      "2024 - 2025": "Medlem",
+    },
   },
   {
     name: "Emma Fredriksen",
     href: "/medlem/Emma-Fredriksen",
 
-    memberSince: "Høst 2024",
-    role: "Medlem",
+    rolesByPeriod: {
+      "2024 - 2025": "Medlem",
+    },
   },
   {
     name: "Mads Hermansen",
     href: "/medlem/Mads-Hermansen",
 
-    memberSince: "Høst 2023",
-    role: "Medlem",
+    rolesByPeriod: {
+      "2023 - 2024": "Medlem",
+      "2024 - 2025": "Medlem",
+    },
   },
 ];

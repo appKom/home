@@ -133,6 +133,7 @@ export default async function ProjectPage({ params }: Params) {
                       member={member}
                       hideRole={true}
                       isProjectLead={isProjectLead}
+                      period={""}
                     />
                   );
                 }

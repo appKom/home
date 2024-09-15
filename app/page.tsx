@@ -7,11 +7,19 @@ import { MemberCard } from "@/components/home/MemberCard";
 import ProjectGrid from "@/components/ProjectGrid";
 
 export default function Home() {
-  const orderedMembers = [
-    ...members.filter((member) => member.role === "Leder"),
-    ...members.filter((member) => member.role === "Nestleder"),
-    ...members.filter((member) => member.role === "Økonomiansvarlig"),
-    ...members.filter((member) => member.role === "Medlem"),
+  const orderedMembers = members.map((member) => {
+    const latestPeriod = Object.keys(member.rolesByPeriod).sort().reverse()[0];
+    const latestRole = member.rolesByPeriod[latestPeriod];
+    return { ...member, latestRole, latestPeriod };
+  });
+
+  const orderedMembersByRole = [
+    ...orderedMembers.filter((member) => member.latestRole === "Leder"),
+    ...orderedMembers.filter((member) => member.latestRole === "Nestleder"),
+    ...orderedMembers.filter(
+      (member) => member.latestRole === "Økonomiansvarlig"
+    ),
+    ...orderedMembers.filter((member) => member.latestRole === "Medlem"),
   ];
 
   return (
@@ -92,8 +100,12 @@ export default function Home() {
             </h1>
             <div className="flex justify-center">
               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 w-full gap-4">
-                {orderedMembers.map((member) => (
-                  <MemberCard member={member} key={member.name} />
+                {orderedMembersByRole.map((member) => (
+                  <MemberCard
+                    member={member}
+                    key={member.name}
+                    period={member.latestPeriod}
+                  />
                 ))}
               </div>
             </div>
