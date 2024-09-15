@@ -85,7 +85,7 @@ export default async function ArticlePage({ params }: Params) {
               {author && (
                 <Link
                   href={author.href}
-                  className="flex flex-row items-center gap-2 hover:text-onlineOrange mt-4 sm:mt-0"
+                  className="flex flex-row items-center gap-2 text-orange-600 hover:text-onlineOrange mt-4 sm:mt-0"
                 >
                   <TbPencilCode size={32} />
                   <h2>{author?.name}</h2>
@@ -102,7 +102,7 @@ export default async function ArticlePage({ params }: Params) {
               )}
             </div>
 
-            <div className="flex flex-row gap-4 pt-4">
+            <div className="flex flex-row gap-2 pt-4">
               <FaClock size={32} />
               <p>{`Sist oppdatert: ${formatDate(blog.createdAt)}`}</p>
             </div>
