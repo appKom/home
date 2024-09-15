@@ -11,14 +11,16 @@ interface Props {
 export const BlogCard = ({ blog }: Props) => {
   return (
     <Link href={`blogg/${blog.title}`}>
-      <div className="border-rounded flex flex-col bg-gray-200 rounded-lg">
-        <Image
-          src={blog.imageUri}
-          alt={blog.title + " illustrasjon"}
-          width={1000}
-          height={1000}
-          className="rounded-t-lg bg-cover w-full h-56 object-cover"
-        />
+      <div className="border-rounded flex flex-col bg-gray-200 rounded-lg group overflow-hidden">
+        <div className="relative w-full h-56 overflow-hidden">
+          <Image
+            src={blog.imageUri}
+            alt={blog.title + " illustrasjon"}
+            width={1000}
+            height={1000}
+            className="rounded-t-lg bg-cover w-full h-full object-cover group-hover:scale-125 transition-transform duration-300 ease-in-out"
+          />
+        </div>
         <div className="p-2 flex flex-col justify-between">
           <h1 className="text-lg font-bold">{blog.title}</h1>
           <div className="flex justify-end items-center mt-2">
