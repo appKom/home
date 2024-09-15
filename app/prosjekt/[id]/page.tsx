@@ -81,28 +81,32 @@ export default async function ProjectPage({ params }: Params) {
 
             <div className="w-full flex justify-center py-6">
               <div className="w-full max-w-screen-lg">
-                {project.techStack && (<div>
-                  <h2 className="text-2xl font-bold">Teknologier</h2>
-                  <ul className="flex flex-wrap gap-2">
-                    {project.techStack.map((tech) => (
-                      <li
-                        key={tech}
-                        className="px-2 py-1 bg-gray-200 rounded-md"
-                      >
-                        {tech}
-                      </li>
-                    ))}
-                  </ul>
-                </div>)}
-                <div className="flex flex-row gap-2 pt-6 items-center gap-10">
-                  {project.link && <a
-                    className="flex flex-row gap-2 hover:text-onlineOrange"
-                    href={project.link}
-                    target="_blank"
-                  >
-                    <FaGlobe size={24} />
-                    <p>{project.link.split("https://")}</p>
-                  </a>}
+                {project.techStack && (
+                  <div>
+                    <h2 className="text-2xl font-bold">Teknologier</h2>
+                    <ul className="flex flex-wrap gap-2">
+                      {project.techStack.map((tech) => (
+                        <li
+                          key={tech}
+                          className="px-2 py-1 bg-gray-200 rounded-md"
+                        >
+                          {tech}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                <div className="flex flex-col sm:flex-row gap-2 pt-6 ">
+                  {project.link && (
+                    <a
+                      className="flex flex-row gap-2 hover:text-onlineOrange"
+                      href={project.link}
+                      target="_blank"
+                    >
+                      <FaGlobe size={24} />
+                      <p>{project.link.split("https://")}</p>
+                    </a>
+                  )}
                   <a
                     className="flex flex-row gap-2 hover:text-onlineOrange"
                     href={project.github}
@@ -110,13 +114,11 @@ export default async function ProjectPage({ params }: Params) {
                     rel="noreferrer"
                   >
                     <FaGithub size={24} />
-                    <p>{project.github.split("https://")}</p>
+                    <p>{project.github.split("https://github.com")}</p>
                   </a>
                 </div>
               </div>
             </div>
-
-
 
             <article className="w-full break-words whitespace-pre-wrap pb-8">
               <ReactMarkdown className="w-full" rehypePlugins={[rehypeRaw]}>
