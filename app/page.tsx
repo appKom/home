@@ -4,7 +4,8 @@ import { BlogCard } from "@/components/home/BlogCard";
 import { Button } from "@/components/Button";
 import { members } from "@/lib/members";
 import { MemberCard } from "@/components/home/MemberCard";
-import ProjectGrid from "@/components/ProjectGrid";
+import { ProjectCard } from "@/components/home/ProjectCard";
+import { projects } from "@/lib/projects";
 
 export default function Home() {
   const orderedMembers = members.map((member) => {
@@ -92,7 +93,20 @@ export default function Home() {
             >
               Prosjekter
             </h1>
-            <ProjectGrid />
+            <div className="flex flex-col">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {projects.slice(0, 4).map((project) => (
+                  <ProjectCard project={project} key={project.title} />
+                ))}
+              </div>
+              <div className="justify-between items-center text-center">
+                <Button
+                  title={"Se alle prosjekter"}
+                  href="/prosjekt"
+                  color={"onlineOrange"}
+                />
+              </div>
+            </div>
           </div>
           <div className="py-8">
             <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold pb-8">

@@ -50,30 +50,37 @@ export const DropdownMenu = () => {
       </div>
 
       <div
-        className={`absolute right-0 mt-2 w-48 bg-onlineOrange text-white rounded-md shadow-lg transition-all duration-300 ${
+        className={`absolute right-0 mt-2 w-48 z-50 bg-onlineOrange text-white rounded-md shadow-lg transition-all duration-300 ${
           isOpen
             ? "opacity-100 scale-100"
             : "opacity-0 scale-95 pointer-events-none"
         }`}
       >
         <Link
+          href="/"
+          onClick={closeMenu}
+          className="block px-4 py-2 text-lg hover:bg-tealBlue"
+        >
+          Hjem
+        </Link>
+        <Link
           href="/kontakt"
           onClick={closeMenu}
-          className="block px-4 py-2 text-lg hover:bg-gray-700"
+          className="block px-4 py-2 text-lg hover:bg-tealBlue"
         >
           Kontakt
         </Link>
         <Link
           href="/prosjekt"
           onClick={closeMenu}
-          className="block px-4 py-2 text-lg hover:bg-gray-700"
+          className="block px-4 py-2 text-lg hover:bg-tealBlue"
         >
           Prosjekter
         </Link>
         <Link
           href="/medlem"
           onClick={closeMenu}
-          className="block px-4 py-2 text-lg hover:bg-gray-700"
+          className="block px-4 py-2 text-lg hover:bg-tealBlue"
         >
           Medlemmer
         </Link>
