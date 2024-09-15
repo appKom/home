@@ -59,8 +59,8 @@ export const MemberCard = ({
           {!hideRole
             ? roleForPeriod
             : isProjectLead
-            ? "Prosjektleder"
-            : "Bidrager"}
+              ? "Prosjektleder"
+              : "Bidragsyter"}
         </p>
       </div>
     </Link>
