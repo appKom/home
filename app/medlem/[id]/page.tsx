@@ -72,7 +72,7 @@ export default async function MemberPage({ params }: Params) {
 
   return (
     <div className="w-full flex justify-center min-h-screen">
-      <div className="py-6 px-6 w-full max-w-screen-lg text-gray-700">
+      <div className="py-6 px-6 w-full text-gray-700">
         <main className="flex flex-col gap-5 pb-6">
           <div className="w-full flex justify-center">
             <div className="flex flex-col justify-center items-center">

@@ -63,7 +63,7 @@ export default async function ProjectPage({ params }: Params) {
 
   return (
     <div className="w-full flex justify-center min-h-screen">
-      <div className="w-full max-w-screen-lg text-gray-700">
+      <div className="w-full  text-gray-700">
         <main className="flex flex-col">
           <div className="w-full flex justify-center">
             <Image
@@ -80,7 +80,7 @@ export default async function ProjectPage({ params }: Params) {
             </h1>
 
             <div className="w-full flex justify-center py-6">
-              <div className="w-full max-w-screen-lg">
+              <div className="w-full">
                 {project.techStack && (
                   <div>
                     <h2 className="text-2xl font-bold">Teknologier</h2>

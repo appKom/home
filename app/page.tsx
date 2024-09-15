@@ -25,7 +25,7 @@ export default function Home() {
 
   return (
     <div className="w-full flex justify-center min-h-screen">
-      <div className="py-6 px-6 w-full max-w-screen-lg text-gray-700">
+      <div className="py-6 px-6 w-full max-w-screen-xl text-gray-700">
         <main className="flex flex-col">
           <div className="py-6">
             <div className="flex flex-col sm:flex-row items-start justify-between">

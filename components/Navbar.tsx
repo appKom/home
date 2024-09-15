@@ -7,7 +7,7 @@ export default function Navbar() {
   return (
     <div className="bg-tealBlue w-full text-white">
       <div className="w-full flex justify-center">
-        <nav className="flex items-center justify-between flex-wrap px-5 py-5 bg-tealBlue w-full max-w-screen-lg">
+        <nav className="flex items-center justify-between flex-wrap px-5 py-5 bg-tealBlue w-full max-w-screen-xl">
           <Link
             href={"/"}
             className="flex items-center justify-center gap-5 group hover:text-gray-300"
