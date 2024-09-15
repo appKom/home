@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   };
 }
 
-export default async function ProjectPage({ params }: Params) {
+export default async function MemberPage({ params }: Params) {
   const headersList = headers();
   const host = headersList.get("host");
   const protocol = headersList.get("x-forwarded-proto");
@@ -52,8 +52,6 @@ export default async function ProjectPage({ params }: Params) {
   const encodedProsjektTitle = parts[parts.length - 1] || "";
   const memberName = decodeURIComponent(encodedProsjektTitle ?? "");
 
-  console.log(encodedProsjektTitle, memberName);
-
   const member: memberType | undefined = members.find(
     (member) =>
       member.href.toLowerCase() === `/medlem/${memberName.toLowerCase()}`
@@ -63,17 +61,22 @@ export default async function ProjectPage({ params }: Params) {
     return <Custom404 />;
   }
 
+  const periods = Object.keys(member.rolesByPeriod).sort();
+  const latestPeriod = periods[periods.length - 1];
+  const earliestPeriod = periods[0].split("-")[0];
+  const latestRole = member.rolesByPeriod[latestPeriod];
+
   const projectsWithMember = projects.filter((project) =>
     project.people.some((person) => person.name === member.href)
   );
 
   return (
     <div className="w-full flex justify-center min-h-screen">
-      <div className="py-6 px-6 w-full max-w-screen-lg text-gray-700">
+      <div className="py-6 px-6 w-full text-gray-700">
         <main className="flex flex-col gap-5 pb-6">
           <div className="w-full flex justify-center">
             <div className="flex flex-col justify-center items-center">
-              {member.role === "Leder" && (
+              {latestRole === "Leder" && (
                 <div className="">
                   <FaCrown className="text-yellow-500" size={72} />
                 </div>
@@ -93,9 +96,9 @@ export default async function ProjectPage({ params }: Params) {
             <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold">
               {member.name}
             </h1>
-            <p className="text-2xl">{member.role}</p>
+            <p className="text-2xl">{latestRole}</p>
             <div>
-              <p>{`Medlem siden: ${member.memberSince}`}</p>
+              <p>{`Medlem siden: ${earliestPeriod}`}</p>
             </div>
             {member.about && (
               <div className="w-full break-words whitespace-pre-wrap px-6 py-12 border-2 border-gray-700 rounded-lg">
@@ -105,6 +108,30 @@ export default async function ProjectPage({ params }: Params) {
               </div>
             )}
           </article>
+          <div className="flex flex-wrap justify-center gap-3">
+            {periods
+              .filter((period) => member.rolesByPeriod[period] !== "Medlem")
+              .map((period) => {
+                const role = member.rolesByPeriod[period];
+                const roleColor =
+                  role === "Leder"
+                    ? "bg-yellow-500 text-white"
+                    : role === "Nestleder"
+                    ? "bg-gray-500 text-white"
+                    : role === "Økonomiansvarlig"
+                    ? "bg-green-500 text-white"
+                    : "bg-gray-200 text-gray-700";
+
+                return (
+                  <span
+                    key={period}
+                    className={`px-3 py-1 ${roleColor} rounded-full text-sm`}
+                  >
+                    {`${role} ${period}`}
+                  </span>
+                );
+              })}
+          </div>
 
           {(member.email ||
             member.phone ||

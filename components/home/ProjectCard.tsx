@@ -9,20 +9,20 @@ interface Props {
 export const ProjectCard = ({ project }: Props) => {
   return (
     <Link href={project.href}>
-      <div className="flex flex-col">
+      <div className="flex flex-col group">
         <h1 className="text-lg font-bold">{project.title}</h1>
         <div className="overflow-hidden rounded-t-lg">
-          <div className="hover:scale-110 transition-transform duration-300 ease-in-out">
+          <div className="relative w-full h-56 overflow-hidden">
             <Image
               src={project.imageUri}
               alt={project.title + " illustrasjon"}
               width={1000}
               height={1000}
-              className="bg-cover w-full h-56 object-cover"
+              className="bg-cover w-full h-full object-cover group-hover:scale-125 transition-transform duration-300 ease-in-out"
             />
           </div>
-          <p className="p-2">{project.shortDescription}</p>
         </div>
+        <p className="p-2">{project.shortDescription}</p>
       </div>
     </Link>
   );

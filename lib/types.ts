@@ -11,8 +11,9 @@ export type memberType = {
   href: string;
   imageUri?: string;
   about?: string;
-  memberSince: string;
-  role: "Leder" | "Nestleder" | "Økonomiansvarlig" | "Medlem";
+  rolesByPeriod: {
+    [period: string]: "Leder" | "Nestleder" | "Økonomiansvarlig" | "Medlem";
+  };
   email?: string;
   phone?: string;
   github?: string;
@@ -26,6 +27,7 @@ export type projectType = {
   imageUri: string;
   href: string;
   techStack?: string[];
+  link?: string;
   github: string;
   people: {
     role: "Prosjektleder" | "Prosjektmedlem";

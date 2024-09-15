@@ -6,27 +6,35 @@ import { FaCrown, FaHatWizard } from "react-icons/fa";
 
 interface Props {
   member: memberType;
+  period: string;
   hideRole?: boolean;
   isProjectLead?: boolean;
 }
 
-export const MemberCard = ({ member, hideRole, isProjectLead }: Props) => {
+export const MemberCard = ({
+  member,
+  period,
+  hideRole,
+  isProjectLead,
+}: Props) => {
+  const roleForPeriod = member.rolesByPeriod[period];
+
   return (
     <Link href={member.href} className="p-8 w-full">
       <div className="relative flex flex-col items-center hover:scale-110 transition-transform duration-300 ease-in-out text-center">
-        {!hideRole && (
+        {!hideRole && roleForPeriod && (
           <>
-            {member.role === "Leder" && (
+            {roleForPeriod === "Leder" && (
               <div className="absolute -top-12">
                 <FaCrown className="text-yellow-500" size={48} />
               </div>
             )}
-            {member.role === "Nestleder" && (
+            {roleForPeriod === "Nestleder" && (
               <div className="absolute -top-8">
                 <FaCrown className="text-gray-500" size={32} />
               </div>
             )}
-            {member.role === "Økonomiansvarlig" && (
+            {roleForPeriod === "Økonomiansvarlig" && (
               <div className="absolute -top-8">
                 <BiDollar className="text-gray-500" size={32} />
               </div>
@@ -49,10 +57,10 @@ export const MemberCard = ({ member, hideRole, isProjectLead }: Props) => {
         <p className="mt-4">{member.name}</p>
         <p className="text-sm text-gray-500">
           {!hideRole
-            ? member.role
+            ? roleForPeriod
             : isProjectLead
-            ? "Prosjektleder"
-            : "Bidrager"}
+              ? "Prosjektleder"
+              : "Bidragsyter"}
         </p>
       </div>
     </Link>

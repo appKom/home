@@ -9,7 +9,7 @@ import { members } from "@/lib/members";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { MemberCard } from "@/components/home/MemberCard";
-import { FaGithub } from "react-icons/fa";
+import { FaGithub, FaGlobe } from "react-icons/fa";
 
 interface Params {
   params: {
@@ -63,7 +63,7 @@ export default async function ProjectPage({ params }: Params) {
 
   return (
     <div className="w-full flex justify-center min-h-screen">
-      <div className="w-full max-w-screen-lg text-gray-700">
+      <div className="w-full  text-gray-700">
         <main className="flex flex-col">
           <div className="w-full flex justify-center">
             <Image
@@ -78,34 +78,47 @@ export default async function ProjectPage({ params }: Params) {
             <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold pt-8">
               {project.title}
             </h1>
-            {project.techStack && (
-              <div className="w-full flex justify-center py-6">
-                <div className="w-full max-w-screen-lg">
-                  <h2 className="text-2xl font-bold">Teknologier</h2>
-                  <ul className="flex flex-wrap gap-2">
-                    {project.techStack.map((tech) => (
-                      <li
-                        key={tech}
-                        className="px-2 py-1 bg-gray-200 rounded-md"
-                      >
-                        {tech}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="flex flex-row gap-2 pt-6">
+
+            <div className="w-full flex justify-center py-6">
+              <div className="w-full">
+                {project.techStack && (
+                  <div>
+                    <h2 className="text-2xl font-bold">Teknologier</h2>
+                    <ul className="flex flex-wrap gap-2">
+                      {project.techStack.map((tech) => (
+                        <li
+                          key={tech}
+                          className="px-2 py-1 bg-gray-200 rounded-md"
+                        >
+                          {tech}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                <div className="flex flex-col sm:flex-row gap-2 pt-6 ">
+                  {project.link && (
                     <a
                       className="flex flex-row gap-2 hover:text-onlineOrange"
-                      href={project.github}
+                      href={project.link}
                       target="_blank"
-                      rel="noreferrer"
                     >
-                      <FaGithub size={24} />
-                      <p>{project.github.split("https://")}</p>
+                      <FaGlobe size={24} />
+                      <p>{project.link.split("https://")}</p>
                     </a>
-                  </div>
+                  )}
+                  <a
+                    className="flex flex-row gap-2 hover:text-onlineOrange"
+                    href={project.github}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <FaGithub size={24} />
+                    <p>{project.github.split("https://github.com")}</p>
+                  </a>
                 </div>
               </div>
-            )}
+            </div>
 
             <article className="w-full break-words whitespace-pre-wrap pb-8">
               <ReactMarkdown className="w-full" rehypePlugins={[rehypeRaw]}>
@@ -133,6 +146,7 @@ export default async function ProjectPage({ params }: Params) {
                       member={member}
                       hideRole={true}
                       isProjectLead={isProjectLead}
+                      period={""}
                     />
                   );
                 }

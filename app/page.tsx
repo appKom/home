@@ -4,19 +4,28 @@ import { BlogCard } from "@/components/home/BlogCard";
 import { Button } from "@/components/Button";
 import { members } from "@/lib/members";
 import { MemberCard } from "@/components/home/MemberCard";
-import ProjectGrid from "@/components/ProjectGrid";
+import { ProjectCard } from "@/components/home/ProjectCard";
+import { projects } from "@/lib/projects";
 
 export default function Home() {
-  const orderedMembers = [
-    ...members.filter((member) => member.role === "Leder"),
-    ...members.filter((member) => member.role === "Nestleder"),
-    ...members.filter((member) => member.role === "Økonomiansvarlig"),
-    ...members.filter((member) => member.role === "Medlem"),
+  const orderedMembers = members.map((member) => {
+    const latestPeriod = Object.keys(member.rolesByPeriod).sort().reverse()[0];
+    const latestRole = member.rolesByPeriod[latestPeriod];
+    return { ...member, latestRole, latestPeriod };
+  });
+
+  const orderedMembersByRole = [
+    ...orderedMembers.filter((member) => member.latestRole === "Leder"),
+    ...orderedMembers.filter((member) => member.latestRole === "Nestleder"),
+    ...orderedMembers.filter(
+      (member) => member.latestRole === "Økonomiansvarlig"
+    ),
+    ...orderedMembers.filter((member) => member.latestRole === "Medlem"),
   ];
 
   return (
     <div className="w-full flex justify-center min-h-screen">
-      <div className="py-6 px-6 w-full max-w-screen-lg text-gray-700">
+      <div className="py-6 px-6 w-full max-w-screen-xl text-gray-700">
         <main className="flex flex-col">
           <div className="py-6">
             <div className="flex flex-col sm:flex-row items-start justify-between">
@@ -84,7 +93,20 @@ export default function Home() {
             >
               Prosjekter
             </h1>
-            <ProjectGrid />
+            <div className="flex flex-col">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {projects.slice(0, 4).map((project) => (
+                  <ProjectCard project={project} key={project.title} />
+                ))}
+              </div>
+              <div className="justify-between items-center text-center">
+                <Button
+                  title={"Se alle prosjekter"}
+                  href="/prosjekt"
+                  color={"onlineOrange"}
+                />
+              </div>
+            </div>
           </div>
           <div className="py-8">
             <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold pb-8">
@@ -92,8 +114,12 @@ export default function Home() {
             </h1>
             <div className="flex justify-center">
               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 w-full gap-4">
-                {orderedMembers.map((member) => (
-                  <MemberCard member={member} key={member.name} />
+                {orderedMembersByRole.map((member) => (
+                  <MemberCard
+                    member={member}
+                    key={member.name}
+                    period={member.latestPeriod}
+                  />
                 ))}
               </div>
             </div>

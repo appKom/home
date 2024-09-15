@@ -9,6 +9,7 @@ export const projects: projectType[] = [
       "Opptaksside for medlemmer av Online linjeforening som ønsker å søke verv.",
     imageUri: "/prosjekt/online-opptak.png",
     href: "/prosjekt/online-opptak",
+    link: "https://opptak.online.ntnu.no",
     techStack: [
       "Next.js",
       "Tailwind CSS",
@@ -110,6 +111,7 @@ export const projects: projectType[] = [
     description: "Fondside",
     imageUri: "/prosjekt/online-fondet.png",
     href: "/prosjekt/online-fondet",
+    link: "https://onlinefondet.no",
     github: "https://github.com/appKom/onlinefondet",
     people: [
       {
