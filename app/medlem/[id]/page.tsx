@@ -108,6 +108,30 @@ export default async function MemberPage({ params }: Params) {
               </div>
             )}
           </article>
+          <div className="flex flex-wrap justify-center gap-3">
+            {periods
+              .filter((period) => member.rolesByPeriod[period] !== "Medlem")
+              .map((period) => {
+                const role = member.rolesByPeriod[period];
+                const roleColor =
+                  role === "Leder"
+                    ? "bg-yellow-500 text-white"
+                    : role === "Nestleder"
+                    ? "bg-gray-500 text-white"
+                    : role === "Økonomiansvarlig"
+                    ? "bg-green-500 text-white"
+                    : "bg-gray-200 text-gray-700";
+
+                return (
+                  <span
+                    key={period}
+                    className={`px-3 py-1 ${roleColor} rounded-full text-sm`}
+                  >
+                    {`${role} ${period}`}
+                  </span>
+                );
+              })}
+          </div>
 
           {(member.email ||
             member.phone ||
