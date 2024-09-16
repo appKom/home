@@ -190,4 +190,26 @@ export const members: memberType[] = [
       "2024 - 2025": "Medlem",
     },
   },
+  {
+    name: "Anam Amer",
+    href: "/medlem/Anam-Amer",
+    rolesByPeriod: {
+      "2023 - 2024": "Medlem",
+    },
+  },
+  {
+    name: "Sander Skogh Linnerud",
+    href: "/medlem/Sander-Skogh-Linnerud",
+    rolesByPeriod: {
+      "2023 - 2024": "Medlem",
+      "2022 - 2023": "Medlem",
+    },
+  },
+  {
+    name: "Amy Andrea Sitte",
+    href: "/medlem/Amy-Andrea-Sitte",
+    rolesByPeriod: {
+      "2023 - 2024": "Medlem",
+    },
+  },
 ];
