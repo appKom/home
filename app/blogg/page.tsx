@@ -24,7 +24,7 @@ export default function BlogsPage() {
 
   return (
     <div className="w-full flex justify-center min-h-screen">
-      <div className="py-6 px-6 w-full  text-gray-700">
+      <div className="py-6 px-6 w-full">
         <main className="flex flex-col gap-5">
           <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold">
             Blogger

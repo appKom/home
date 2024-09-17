@@ -66,7 +66,7 @@ export default async function ArticlePage({ params }: Params) {
 
   return (
     <div className="w-full flex justify-center min-h-screen">
-      <div className="w-full text-gray-700">
+      <div className="w-full">
         <main className="flex flex-col">
           <div className="w-full flex justify-center">
             <Image

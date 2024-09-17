@@ -25,11 +25,11 @@ export default function RootLayout({
           content="Mpx63Er4zVk_7W6f00g6EKCnxeeGC0v9kf63kzn-b0s"
         />
       </head>
-      <body className={`bg-lightBlue flex flex-col`}>
+      <body className={`bg-gray-900 flex flex-col`}>
         <Toaster />
         <div className="min-h-screen">
           <Navbar />
-          <div className="flex-grow flex items-center justify-center w-full max-w-screen-xl mx-auto">
+          <div className="flex-grow flex items-center justify-center w-full max-w-screen-xl mx-auto text-white">
             {children}
           </div>
         </div>

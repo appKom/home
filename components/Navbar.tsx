@@ -5,9 +5,9 @@ import { DropdownMenu } from "./DropdownMenu";
 
 export default function Navbar() {
   return (
-    <div className="bg-tealBlue w-full text-white">
+    <div className="bg-gray-950/80  w-full text-white">
       <div className="w-full flex justify-center">
-        <nav className="flex items-center justify-between flex-wrap px-5 py-5 bg-tealBlue w-full max-w-screen-xl">
+        <nav className="flex items-center justify-between flex-wrap py-5 w-full px-5">
           <Link
             href={"/"}
             className="flex items-center justify-center gap-5 group hover:text-gray-300"
@@ -23,6 +23,17 @@ export default function Navbar() {
               <span className="group-hover:text-gray-300">Appkom</span>
             </h1>
           </Link>
+          <div className="hidden md:flex flex-row gap-8 text-xl">
+            <Link href="/prosjekt" passHref>
+              <p className="text-white hover:text-gray-300">Prosjekter</p>
+            </Link>
+            <Link href="/blogg" passHref>
+              <p className="text-white hover:text-gray-300">Blogg</p>
+            </Link>
+            <Link href="/medlem" passHref>
+              <p className="text-white hover:text-gray-300">Medlemmer</p>
+            </Link>
+          </div>
 
           <div className="hidden sm:block">
             <Button title="Kontakt oss" href="/kontakt" color="onlineOrange" />

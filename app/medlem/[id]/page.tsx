@@ -72,7 +72,7 @@ export default async function MemberPage({ params }: Params) {
 
   return (
     <div className="w-full flex justify-center min-h-screen">
-      <div className="py-6 px-6 w-full text-gray-700">
+      <div className="py-6 px-6 w-full">
         <main className="flex flex-col gap-5 pb-6">
           <div className="w-full flex justify-center">
             <div className="flex flex-col justify-center items-center">
@@ -115,12 +115,12 @@ export default async function MemberPage({ params }: Params) {
                 const role = member.rolesByPeriod[period];
                 const roleColor =
                   role === "Leder"
-                    ? "bg-yellow-500 text-white"
+                    ? "text-yellow-500 border border-yellow-500"
                     : role === "Nestleder"
-                    ? "bg-gray-500 text-white"
+                    ? "text-purple-500 border border-purple-500"
                     : role === "Økonomiansvarlig"
-                    ? "bg-green-500 text-white"
-                    : "bg-gray-200 text-gray-700";
+                    ? "text-green-500 border border-green-500"
+                    : "text-gray-200 border border-gray-200";
 
                 return (
                   <span

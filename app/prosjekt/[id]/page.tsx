@@ -63,7 +63,7 @@ export default async function ProjectPage({ params }: Params) {
 
   return (
     <div className="w-full flex justify-center min-h-screen">
-      <div className="w-full  text-gray-700">
+      <div className="w-full">
         <main className="flex flex-col">
           <div className="w-full flex justify-center">
             <Image
@@ -88,7 +88,7 @@ export default async function ProjectPage({ params }: Params) {
                       {project.techStack.map((tech) => (
                         <li
                           key={tech}
-                          className="px-2 py-1 bg-gray-200 rounded-md"
+                          className="px-2 py-1 bg-gray-800 border border-gray-600 rounded-md"
                         >
                           {tech}
                         </li>
