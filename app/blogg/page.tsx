@@ -1,6 +1,6 @@
 import { BlogCard } from "@/components/home/BlogCard";
 import { blogs } from "@/lib/blog";
-import { getMonthNameInNorwegian } from "@/lib/dateUtils";
+import { getMonthNameInNorwegian } from "@/lib/utils/dateUtils";
 import { blogType } from "@/lib/types";
 import { useMemo } from "react";
 

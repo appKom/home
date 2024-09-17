@@ -1,4 +1,4 @@
-import { formatDate } from "@/lib/dateUtils";
+import { formatDate } from "@/lib/utils/dateUtils";
 import { blogType } from "@/lib/types";
 import Image from "next/image";
 import Link from "next/link";

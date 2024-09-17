@@ -2,28 +2,16 @@ import Image from "next/image";
 import { blogs } from "@/lib/blog";
 import { BlogCard } from "@/components/home/BlogCard";
 import { Button } from "@/components/Button";
-import { members } from "@/lib/members";
 import { MemberCard } from "@/components/home/MemberCard";
 import { ProjectCard } from "@/components/home/ProjectCard";
 import { projects } from "@/lib/projects";
 import { HeaderText } from "@/components/headerText";
+import {
+  getLastMemberPeriod,
+  getMembersForPeriod,
+} from "@/lib/utils/getRelevantMembers";
 
 export default function Home() {
-  const orderedMembers = members.map((member) => {
-    const latestPeriod = Object.keys(member.rolesByPeriod).sort().reverse()[0];
-    const latestRole = member.rolesByPeriod[latestPeriod];
-    return { ...member, latestRole, latestPeriod };
-  });
-
-  const orderedMembersByRole = [
-    ...orderedMembers.filter((member) => member.latestRole === "Leder"),
-    ...orderedMembers.filter((member) => member.latestRole === "Nestleder"),
-    ...orderedMembers.filter(
-      (member) => member.latestRole === "Økonomiansvarlig"
-    ),
-    ...orderedMembers.filter((member) => member.latestRole === "Medlem"),
-  ];
-
   return (
     <div className="w-full flex justify-center min-h-screen">
       <div className="py-6 px-6 w-full max-w-screen-xl text-white">
@@ -108,11 +96,11 @@ export default function Home() {
             </div>
             <div className="flex justify-center">
               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 w-full gap-4">
-                {orderedMembersByRole.map((member) => (
+                {getMembersForPeriod(getLastMemberPeriod).map((member) => (
                   <MemberCard
                     member={member}
                     key={member.name}
-                    period={member.latestPeriod}
+                    period={member.rolesByPeriod[0]}
                   />
                 ))}
               </div>

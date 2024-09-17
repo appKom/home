@@ -1,29 +1,11 @@
 import { HeaderText } from "@/components/headerText";
 import { MemberCard } from "@/components/home/MemberCard";
-import { members } from "@/lib/members";
+import {
+  allMemberPeriods,
+  getMembersForPeriod,
+} from "@/lib/utils/getRelevantMembers";
 
 export default function MembersPage() {
-  const allMemberPeriods = Array.from(
-    new Set(members.flatMap((member) => Object.keys(member.rolesByPeriod)))
-  ).reverse();
-
-  const roleOrder = {
-    Leder: 1,
-    Nestleder: 2,
-    Økonomiansvarlig: 3,
-    Medlem: 4,
-  };
-
-  const getMembersForPeriod = (period: string) => {
-    return members
-      .filter((member) => member.rolesByPeriod.hasOwnProperty(period))
-      .map((member) => {
-        const roleForPeriod = member.rolesByPeriod[period];
-        return { ...member, roleForPeriod };
-      })
-      .sort((a, b) => roleOrder[a.roleForPeriod] - roleOrder[b.roleForPeriod]);
-  };
-
   return (
     <div className="w-full flex justify-center min-h-screen">
       <div className="py-6 px-6 w-full">

@@ -7,7 +7,7 @@ import Image from "next/image";
 import { TbPencilCode } from "react-icons/tb";
 import Link from "next/link";
 import { FaClock } from "react-icons/fa";
-import { formatDate } from "@/lib/dateUtils";
+import { formatDate } from "@/lib/utils/dateUtils";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { members } from "@/lib/members";
