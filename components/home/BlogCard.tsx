@@ -11,7 +11,7 @@ interface Props {
 export const BlogCard = ({ blog }: Props) => {
   return (
     <Link href={`blogg/${blog.title}`}>
-      <div className="border-rounded flex flex-col bg-gray-200 rounded-lg group overflow-hidden">
+      <div className="border-rounded flex flex-col bg-gray-800 border border-gray-300 rounded-lg group overflow-hidden">
         <div className="relative w-full h-56 overflow-hidden">
           <Image
             src={blog.imageUri}
