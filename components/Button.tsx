@@ -15,7 +15,7 @@ export const Button = ({ title, onClick, color, href }: Props) => {
       ? "border-2 border-onlineOrange text-onlineOrange hover:text-orange-500 hover:border-orange-500"
       : "";
 
-  const buttonStyle = `px-4 py-3 rounded-md text-white ${colorStyle}`;
+  const buttonStyle = `px-4 py-3 rounded-md  ${colorStyle}`;
 
   if (onClick) {
     return (

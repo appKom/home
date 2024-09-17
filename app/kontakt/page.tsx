@@ -64,7 +64,7 @@ export default function ContactPage() {
 
   return (
     <div className="w-full flex justify-center min-h-screen">
-      <div className="py-6 px-6 w-full max-w-screen-lg text-gray-700">
+      <div className="py-6 px-6 w-full max-w-screen-lg">
         <main className="flex flex-col gap-5 pb-6">
           <div className="w-full max-w-3xl mx-auto justify-center">
             <p className="text-xl text-center border-solid rounded-2xl border-2 border-gray-700 dark:border-white p-2">
@@ -99,7 +99,7 @@ export default function ContactPage() {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="my-2 p-2 w-full rounded-3xl  border-solid border-2 border-gray-900 dark:border-white transition-none outline-none"
+                className="my-2 p-2 w-full rounded-3xl  border-solid border-2 border-white bg-gray-900 transition-none outline-none"
               />
               <label
                 className="text-shadow block text-xl font-medium"
@@ -114,7 +114,7 @@ export default function ContactPage() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="my-2 p-2 w-full rounded-3xl  border-solid border-2 border-gray-900 dark:border-white transition-none outline-none"
+                className="my-2 p-2 w-full rounded-3xl  border-solid border-2 border-white bg-gray-900 transition-none outline-none"
               />
               <label
                 className="text-shadow block text-xl font-medium"
@@ -128,7 +128,7 @@ export default function ContactPage() {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                className="my-2 p-2 w-full rounded-3xl  border-solid border-2 border-gray-900 dark:border-white transition-none outline-none"
+                className="my-2 p-2 w-full rounded-3xl  border-solid border-2 border-white bg-gray-900 transition-none outline-none"
               />
               <label
                 className="text-shadow block text-xl font-medium"
@@ -142,7 +142,7 @@ export default function ContactPage() {
                 value={formData.message}
                 onChange={handleChange}
                 required
-                className="my-2 p-2 h-60 w-full rounded-3xl   border-solid border-2 border-gray-900 dark:border-white transition-none outline-none"
+                className="my-2 p-2 h-60 w-full rounded-3xl   border-solid border-2 border-white bg-gray-900 transition-none outline-none"
               />
 
               <div className="my-4 flex items-center justify-center">
@@ -155,7 +155,7 @@ export default function ContactPage() {
               <div className="py-5 text-center">
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-md bg-onlineOrange hover:bg-orange-400 text-2xl"
+                  className="px-8 py-3 rounded-md border-2 border-onlineOrange text-onlineOrange hover:text-orange-500 hover:border-orange-500"
                 >
                   {buttonText}
                 </button>

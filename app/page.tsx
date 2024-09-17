@@ -89,7 +89,7 @@ export default function Home() {
           <div className="pb-8">
             <h1
               id="prosjekter"
-              className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold pb-8"
+              className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold pb-16"
             >
               Prosjekter
             </h1>
