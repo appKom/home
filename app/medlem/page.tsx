@@ -1,3 +1,4 @@
+import { HeaderText } from "@/components/headerText";
 import { MemberCard } from "@/components/home/MemberCard";
 import { members } from "@/lib/members";
 
@@ -27,9 +28,7 @@ export default function MembersPage() {
     <div className="w-full flex justify-center min-h-screen">
       <div className="py-6 px-6 w-full">
         <main className="flex flex-col gap-5 pb-6">
-          <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold">
-            Appkoms Medlemmer
-          </h1>
+          <HeaderText title="Appkoms medlemmer" />
           {allMemberPeriods.map((period) => (
             <div key={period}>
               <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold pb-8">

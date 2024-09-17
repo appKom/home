@@ -6,6 +6,7 @@ import { members } from "@/lib/members";
 import { MemberCard } from "@/components/home/MemberCard";
 import { ProjectCard } from "@/components/home/ProjectCard";
 import { projects } from "@/lib/projects";
+import { HeaderText } from "@/components/headerText";
 
 export default function Home() {
   const orderedMembers = members.map((member) => {
@@ -30,9 +31,7 @@ export default function Home() {
           <div className="py-6">
             <div className="flex flex-col sm:flex-row items-start justify-between">
               <div>
-                <h1 className="text-xl xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold">
-                  Applikasjonskomiteen
-                </h1>
+                <HeaderText title="Applikasjonskomiteen" />
                 <article className="mt-6">
                   Applikasjonskomiteen (Appkom) er en komité under Online,
                   linjeforeningen for informatikk ved NTNU. Appkoms mål er å
@@ -70,9 +69,7 @@ export default function Home() {
             </article>
           </div>
           <div className="py-8">
-            <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold">
-              Blogg
-            </h1>
+            <HeaderText title="Blogg" />
             <div className="py-8 flex flex-col md:flex-row justify-between gap-5">
               {blogs
                 .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
@@ -87,12 +84,9 @@ export default function Home() {
             </div>
           </div>
           <div className="pb-8">
-            <h1
-              id="prosjekter"
-              className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold pb-16"
-            >
-              Prosjekter
-            </h1>
+            <div className="pb-8">
+              <HeaderText title="Våre Prosjekter" id="prosjekter" />
+            </div>
             <div className="flex flex-col">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {projects.slice(0, 4).map((project) => (
@@ -109,9 +103,9 @@ export default function Home() {
             </div>
           </div>
           <div className="py-8">
-            <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold pb-8">
-              Medlemmer
-            </h1>
+            <div className="pb-8">
+              <HeaderText title="Medlemmer" />
+            </div>
             <div className="flex justify-center">
               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 w-full gap-4">
                 {orderedMembersByRole.map((member) => (
