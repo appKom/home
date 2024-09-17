@@ -29,7 +29,7 @@ export default function RootLayout({
         <Toaster />
         <div className="min-h-screen">
           <Navbar />
-          <div className="flex-grow flex items-center justify-center w-full max-w-screen-xl mx-auto">
+          <div className="flex-grow flex items-center justify-center w-full max-w-screen-xl mx-auto text-white">
             {children}
           </div>
         </div>

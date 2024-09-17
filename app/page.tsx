@@ -30,7 +30,7 @@ export default function Home() {
           <div className="py-6">
             <div className="flex flex-col sm:flex-row items-start justify-between">
               <div>
-                <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold">
+                <h1 className="text-xl xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold">
                   Applikasjonskomiteen
                 </h1>
                 <article className="mt-6">
