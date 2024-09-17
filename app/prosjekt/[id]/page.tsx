@@ -10,6 +10,7 @@ import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { MemberCard } from "@/components/home/MemberCard";
 import { FaGithub, FaGlobe } from "react-icons/fa";
+import { HeaderText } from "@/components/headerText";
 
 interface Params {
   params: {
@@ -75,9 +76,9 @@ export default async function ProjectPage({ params }: Params) {
             />
           </div>
           <div className="px-6">
-            <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold pt-8">
-              {project.title}
-            </h1>
+            <div className="pt-8">
+              <HeaderText title={project.title} />
+            </div>
 
             <div className="w-full flex justify-center py-6">
               <div className="w-full">
