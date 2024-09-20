@@ -131,7 +131,15 @@ Systemet er bygget med Next.js for server-side rendering og effektiv ytelse, men
   {
     title: "Infoskjerm",
     shortDescription: "Infoskjerm for Online på A4",
-    description: "Infoskjerm for Online på A4",
+    description: `
+Infoskjermen på A4 har vært i produksjon siden semesterstart 2022 og ble oppgradert med et nytt design våren 2024. Skjermen kjører kontinuerlig 24/7 på TV-skjermen i A4, og er en sentral informasjonskilde for alle i linjeforeningen Online.
+
+Den viser variert informasjon som er relevant for onlinere, inkludert detaljer om kommende arrangementer med påmeldingsinformasjon. I tillegg vises de nyeste meldingene fra utvalgte Slack-kanaler på Online-Slacken, slik at medlemmene enkelt kan holde seg oppdatert på viktige beskjeder.
+
+Frontend er bygget med React med TailwindCSS, mens backend er utviklet med Express.
+
+
+    `,
     imageUri: "/prosjekt/infoskjerm.png",
     href: "/prosjekt/infoskjerm",
     github: "https://github.com/appKom/infoskjerm",
