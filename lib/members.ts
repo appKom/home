@@ -90,11 +90,14 @@ export const members: memberType[] = [
   {
     name: "Adele Strysse",
     href: "/medlem/Adel-Strysse",
+    imageUri: "/medlemmer/adele.jpg",
 
     rolesByPeriod: {
       "2023 - 2024": "Medlem",
       "2024 - 2025": "Medlem",
     },
+    email: "adele.xiao.yuan.strysse@online.ntnu.no",
+    github: "https://www.github.com/adelestrysse",
   },
   {
     name: "Erlend Løvøll Strøm",
@@ -127,10 +130,14 @@ export const members: memberType[] = [
   {
     name: "Sylvia Yung",
     href: "/medlem/Sylvia-Yung",
+    imageUri: "/medlemmer/sylvia.jpeg",
 
     rolesByPeriod: {
       "2024 - 2025": "Medlem",
     },
+    email: "Sylvia.yung@online.ntnu.no",
+    github: "https://www.github.com/SylviaSWYung",
+    linkedin: "https://www.linkedin.com/in/sylvia-yung/",
   },
   {
     name: "Amund Dahlmo Berge",
