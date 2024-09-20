@@ -5,8 +5,16 @@ export const projects: projectType[] = [
     title: "Online-Opptak",
     shortDescription:
       "Opptaksside for medlemmer av Online linjeforening som ønsker å søke verv.",
-    description:
-      "Opptaksside for medlemmer av Online linjeforening som ønsker å søke verv.",
+    description: `
+Online Opptak er et prosjekt som ble lansert ved semesterstart 2024, med mål om å forenkle og effektivisere opptaksprosessen i linjeforeningen Online. Systemet samler alle opptak under én plattform, noe som gir en smidigere opplevelse både for søkere og komiteene. 
+
+
+Tidligere var det tidkrevende for komiteansvarlige å koordinere intervjutider, men med det nye systemet matches ledige tider automatisk mellom søkerne og de komiteene de har søkt på. Søkerne kan på forhånd legge inn når de er opptatt, slik at de kun får tildelt intervjutider som passer, uten behov for manuell bytting.
+
+Systemet er bygget med Next.js for server-side rendering og effektiv ytelse, mens TailwindCSS er brukt for å sørge for en konsistent og responsiv styling. MongoDB brukes som database for å håndtere alle søknads- og intervjudata, og innlogging er sikret gjennom Auth0, som implementerer innlogging via OW for trygg og enkel brukerautentisering.
+
+
+    `,
     imageUri: "/prosjekt/online-opptak.png",
     href: "/prosjekt/online-opptak",
     link: "https://opptak.online.ntnu.no",
