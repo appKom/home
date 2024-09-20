@@ -143,6 +143,7 @@ Frontend er bygget med React med TailwindCSS, mens backend er utviklet med Expre
     imageUri: "/prosjekt/infoskjerm.png",
     href: "/prosjekt/infoskjerm",
     github: "https://github.com/appKom/infoskjerm",
+    techStack: ["React", "Tailwind CSS", "Express"],
     people: [
       {
         role: "Prosjektleder",
