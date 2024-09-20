@@ -121,7 +121,7 @@ export default async function ProjectPage({ params }: Params) {
               </div>
             </div>
 
-            <article className="w-full break-words whitespace-pre-wrap pb-8">
+            <article className="w-full  break-words whitespace-pre-wrap overflow-wrap break-word overflow-x-auto pb-8">
               <ReactMarkdown className="w-full" rehypePlugins={[rehypeRaw]}>
                 {project.description}
               </ReactMarkdown>

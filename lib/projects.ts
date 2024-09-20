@@ -5,8 +5,16 @@ export const projects: projectType[] = [
     title: "Online-Opptak",
     shortDescription:
       "Opptaksside for medlemmer av Online linjeforening som ønsker å søke verv.",
-    description:
-      "Opptaksside for medlemmer av Online linjeforening som ønsker å søke verv.",
+    description: `
+Online Opptak er et prosjekt som ble lansert ved semesterstart 2024, med mål om å forenkle og effektivisere opptaksprosessen i linjeforeningen Online. Systemet samler alle opptak under én plattform, noe som gir en smidigere opplevelse både for søkere og komiteene. 
+
+
+Tidligere var det tidkrevende for komiteansvarlige å koordinere intervjutider, men med det nye systemet matches ledige tider automatisk mellom søkerne og de komiteene de har søkt på. Søkerne kan på forhånd legge inn når de er opptatt, slik at de kun får tildelt intervjutider som passer, uten behov for manuell bytting.
+
+Systemet er bygget med Next.js for server-side rendering og effektiv ytelse, mens TailwindCSS er brukt for å sørge for en konsistent og responsiv styling. MongoDB brukes som database for å håndtere alle søknads- og intervjudata, og innlogging er sikret gjennom Auth0, som implementerer innlogging via OW for trygg og enkel brukerautentisering.
+
+
+    `,
     imageUri: "/prosjekt/online-opptak.png",
     href: "/prosjekt/online-opptak",
     link: "https://opptak.online.ntnu.no",
@@ -123,7 +131,15 @@ export const projects: projectType[] = [
   {
     title: "Infoskjerm",
     shortDescription: "Infoskjerm for Online på A4",
-    description: "Infoskjerm for Online på A4",
+    description: `
+Infoskjermen på A4 har vært i produksjon siden semesterstart 2022 og ble oppgradert med et nytt design våren 2024. Skjermen kjører kontinuerlig 24/7 på TV-skjermen i A4, og er en sentral informasjonskilde for alle i linjeforeningen Online.
+
+Den viser variert informasjon som er relevant for onlinere, inkludert detaljer om kommende arrangementer med påmeldingsinformasjon. I tillegg vises de nyeste meldingene fra utvalgte Slack-kanaler på Online-Slacken, slik at medlemmene enkelt kan holde seg oppdatert på viktige beskjeder.
+
+Frontend er bygget med React med TailwindCSS, mens backend er utviklet med Express.
+
+
+    `,
     imageUri: "/prosjekt/infoskjerm.png",
     href: "/prosjekt/infoskjerm",
     github: "https://github.com/appKom/infoskjerm",
