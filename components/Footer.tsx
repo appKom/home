@@ -16,12 +16,12 @@ export default function Footer() {
     {
       name: "Facebook",
       icon: <FacebookIcon className={footerStyle} />,
-      link: "http://facebook.com/LinjeforeningenOnline",
+      link: "https://facebook.com/LinjeforeningenOnline",
     },
     {
       name: "Instagram",
       icon: <InstagramIcon className={footerStyle} />,
-      link: "https://www.instagram.com/online_ntnu/",
+      link: "https://instagram.com/online_ntnu/",
     },
     {
       name: "Github",
