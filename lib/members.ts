@@ -4,6 +4,7 @@ export const members: memberType[] = [
   {
     name: "Jørgen Galdal",
     href: "/medlem/Jorgen-Galdal",
+    imageUri: "/medlemmer/jogga.jpg",
 
     rolesByPeriod: {
       "2022 - 2023": "Medlem",
