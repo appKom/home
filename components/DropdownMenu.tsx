@@ -16,6 +16,14 @@ export const DropdownMenu = () => {
     setIsOpen(false);
   };
 
+  const routes = [
+    { name: "Hjem", href: "/" },
+    { name: "Blogg", href: "/blogg" },
+    { name: "Prosjekter", href: "/prosjekt" },
+    { name: "Medlemmer", href: "/medlem" },
+    { name: "Kontakt", href: "/kontakt" },
+  ];
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -50,40 +58,22 @@ export const DropdownMenu = () => {
       </div>
 
       <div
-        className={`absolute right-0 mt-2 w-48 z-50 bg-gray-800 border border-gray-500  text-white rounded-md shadow-lg transition-all duration-300 ${
+        className={`absolute right-0 mt-2 top-12 w-48 z-50 bg-gray-800 border border-gray-500  text-white rounded-md shadow-lg transition-all duration-300 ${
           isOpen
             ? "opacity-100 scale-100"
             : "opacity-0 scale-95 pointer-events-none"
         }`}
       >
-        <Link
-          href="/"
-          onClick={closeMenu}
-          className="block px-4 py-2 text-lg hover:bg-tealBlue"
-        >
-          Hjem
-        </Link>
-        <Link
-          href="/kontakt"
-          onClick={closeMenu}
-          className="block px-4 py-2 text-lg hover:bg-tealBlue"
-        >
-          Kontakt
-        </Link>
-        <Link
-          href="/prosjekt"
-          onClick={closeMenu}
-          className="block px-4 py-2 text-lg hover:bg-tealBlue"
-        >
-          Prosjekter
-        </Link>
-        <Link
-          href="/medlem"
-          onClick={closeMenu}
-          className="block px-4 py-2 text-lg hover:bg-tealBlue"
-        >
-          Medlemmer
-        </Link>
+        {routes.map((route) => (
+          <Link
+            href={route.href}
+            key={route.href}
+            onClick={closeMenu}
+            className="block px-4 py-2 text-lg hover:bg-gray-900"
+          >
+            {route.name}
+          </Link>
+        ))}
       </div>
     </div>
   );

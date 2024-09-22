@@ -14,13 +14,13 @@ export const ProjectCard = ({ project }: Props) => {
           {project.title}
         </h1>
         <div className="overflow-hidden rounded-t-lg">
-          <div className="relative w-full h-56 overflow-hidden">
+          <div className="relative w-full h-56 overflow-hidden border-white border">
             <Image
               src={project.imageUri}
               alt={project.title + " illustrasjon"}
               width={1000}
               height={1000}
-              className="bg-cover w-full h-full object-cover group-hover:scale-125 transition-transform duration-300 ease-in-out border border-white"
+              className="bg-cover w-full h-full object-cover group-hover:scale-125 transition-transform duration-300 ease-in-out"
             />
           </div>
         </div>
