@@ -82,8 +82,12 @@ Systemet er bygget med Next.js for server-side rendering og effektiv ytelse, men
   {
     title: "Autobank",
     shortDescription: "Autobank",
-    description: "Autobank",
-    imageUri: "/prosjekt/autobank.png",
+    description: `Autobank er et prosjekt som skal gjøre det enklere for studenter i Online å søke om økonomisk støtte og sende inn kvitteringer. Prosjektet skal også gjøre det enklere for økonomiansvarlige i Online å behandle søknader og kvitteringer.
+      
+      Prosjektets frontend bruker React med Typescript og Tailwind CSS. Backend er skrevet i Kotlin med Spring Boot. For lagring av data bruker vi en sql database og en storagecontainer i Azure. For autentisering av brukere bruker vi auth0, som implementerer innlogging via OW for trygg og enkel brukerautentisering.
+    `,
+    imageUri: "/prosjekt/autobank.png", 
+    techStack: ["React", "Tailwind CSS", "Spring Boot", "Azure"],
     href: "/prosjekt/autobank",
     github: "https://github.com/appKom/autobank-frontend",
     people: [
