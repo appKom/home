@@ -5,6 +5,9 @@ export const members: memberType[] = [
     name: "Jørgen Galdal",
     href: "/medlem/Jorgen-Galdal",
     imageUri: "/medlemmer/jogga.jpg",
+    github: "https://github.com/jorgengaldal",
+    email: "jorgen.galdal@online.ntnu.no",
+    phone: "95007884",
 
     rolesByPeriod: {
       "2022 - 2023": "Medlem",
