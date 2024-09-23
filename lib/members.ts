@@ -47,6 +47,10 @@ export const members: memberType[] = [
       "2023 - 2024": "Medlem",
       "2024 - 2025": "Medlem",
     },
+    email: "aksel.skullerud.fosaas@online.ntnu.no",
+    phone: "472 28 900",
+    github: "https://www.github.com/akselsf",
+    linkedin: "https://www.linkedin.com/in/aksel-skullerud-fosaas-52199823b/",
   },
   {
     name: "Fredrik Carsten Hansteen",
@@ -74,13 +78,17 @@ export const members: memberType[] = [
     },
   },
   {
-    name: "Emily Malcomsen",
-    href: "/medlem/Emily-Malcomsen",
+    name: "Emily Malcolmson",
+    href: "/medlem/Emily-Malcolmson",
 
     rolesByPeriod: {
       "2023 - 2024": "Medlem",
       "2024 - 2025": "Medlem",
     },
+    email: "emily.malcolmson@online.ntnu.no",
+    phone: "952 89 088",
+    github: "https://www.github.com/emily-lm",
+    linkedin: "https://www.linkedin.com/in/emily-malcolmson-1408a3308/",
   },
   {
     name: "Johannes Hage",
