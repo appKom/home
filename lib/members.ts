@@ -71,11 +71,15 @@ export const members: memberType[] = [
   {
     name: "Dina Marie Stensrud",
     href: "/medlem/Dina-Marie-Stensrud",
+    imageUri:"public/medlemmer/dina.jpg",
+    about:"Real change, enduring change, happens one step at a time",
 
     rolesByPeriod: {
       "2023 - 2024": "Medlem",
       "2024 - 2025": "Medlem",
     },
+    email:"dina.marie.stenrud@online.ntnu.no",
+    phone:"90263930",
   },
   {
     name: "Emily Malcolmson",
@@ -103,6 +107,7 @@ export const members: memberType[] = [
     name: "Adele Strysse",
     href: "/medlem/Adel-Strysse",
     imageUri: "/medlemmer/adele.jpg",
+    about:"Always keep your eyes open. Keep watching. Because whatever you see can inspire you",
 
     rolesByPeriod: {
       "2023 - 2024": "Medlem",
