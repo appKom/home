@@ -29,7 +29,7 @@ Systemet er bygget med Next.js for server-side rendering og effektiv ytelse, men
     github: "https://github.com/appKom/online-opptak",
     people: [
       {
-        role: "Prosjektleder",
+        role: "Prosjektmedlem",
         name: "/medlem/Julian-Ammouche-Ottosen",
       },
       {
@@ -41,7 +41,7 @@ Systemet er bygget med Next.js for server-side rendering og effektiv ytelse, men
         name: "/medlem/Sindre-Emil-Halleraker",
       },
       {
-        role: "Prosjektmedlem",
+        role: "Prosjektleder",
         name: "/medlem/Jorgen-Galdal",
       },
     ],
