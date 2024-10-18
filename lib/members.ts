@@ -30,12 +30,17 @@ export const members: memberType[] = [
     name: "Julian Ammouche Ottosen",
     href: "/medlem/Julian-Ammouche-Ottosen",
     imageUri: "/medlemmer/julian.jpg",
+    quote: "git push, git pull, git legs",
 
     rolesByPeriod: {
       "2022 - 2023": "Medlem",
       "2023 - 2024": "Medlem",
       "2024 - 2025": "Medlem",
     },
+
+    email: "julian.ottosen@online.ntnu.no",
+    github: "https://www.github.com/julian-ao",
+    linkedin: "https://www.linkedin.com/in/julian-ao/",
   },
   {
     name: "Aksel Fosaas",
@@ -72,7 +77,7 @@ export const members: memberType[] = [
     name: "Dina Marie Stensrud",
     href: "/medlem/Dina-Marie-Stensrud",
     imageUri: "/medlemmer/dina.jpg",
-    about: "Real change, enduring change, happens one step at a time",
+    quote: "Real change, enduring change, happens one step at a time",
 
     rolesByPeriod: {
       "2023 - 2024": "Medlem",
@@ -107,7 +112,7 @@ export const members: memberType[] = [
     name: "Adele Strysse",
     href: "/medlem/Adel-Strysse",
     imageUri: "/medlemmer/adele.jpg",
-    about:
+    quote:
       "Always keep your eyes open. Keep watching. Because whatever you see can inspire you",
 
     rolesByPeriod: {

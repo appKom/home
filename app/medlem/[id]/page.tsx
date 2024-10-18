@@ -6,10 +6,9 @@ import Custom404 from "@/app/not-found";
 import Image from "next/image";
 import { projects } from "@/lib/projects";
 import { ProjectCard } from "@/components/home/ProjectCard";
-import { FaCrown, FaGithub, FaLinkedin } from "react-icons/fa";
+import { FaCrown, FaGithub, FaLinkedin, FaPhone } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
-import { FiPhoneIncoming } from "react-icons/fi";
 import { MdEmail } from "react-icons/md";
 
 interface Params {
@@ -71,132 +70,130 @@ export default async function MemberPage({ params }: Params) {
   );
 
   return (
-    <div className="w-full flex justify-center min-h-screen">
-      <div className="py-6 px-6 w-full">
-        <main className="flex flex-col gap-5 pb-6">
-          <div className="w-full flex justify-center">
-            <div className="flex flex-col justify-center items-center">
-              {latestRole === "Leder" && (
-                <div className="">
-                  <FaCrown className="text-yellow-500" size={72} />
-                </div>
-              )}
-              <Image
-                src={
-                  member.imageUri ?? "/medlemmer/default_profile_picture.png"
-                }
-                alt={`Bilde av: ${member.name}`}
-                width={500}
-                height={500}
-                className="object-cover max-h-96 rounded-full"
-              />
-            </div>
-          </div>
-          <article className="flex flex-col gap-5 text-center">
-            <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-semibold">
-              {member.name}
-            </h1>
-            <p className="text-2xl">{latestRole}</p>
-            <div>
-              <p>{`Medlem siden: ${earliestPeriod}`}</p>
-            </div>
-            {member.about && (
-              <div className="w-full break-words whitespace-pre-wrap px-6 py-12 border-2 border-gray-700 rounded-lg">
-                <ReactMarkdown className="w-full" rehypePlugins={[rehypeRaw]}>
-                  {member.about}
-                </ReactMarkdown>
-              </div>
-            )}
-          </article>
-          <div className="flex flex-wrap justify-center gap-3">
+    <main className="container mx-auto px-4 py-12">
+      <div className="flex flex-col md:flex-row items-center md:items-start space-y-8 md:space-y-0 md:space-x-12">
+        <div className="relative flex-shrink-0">
+          {latestRole === "Leder" && (
+            <FaCrown className="text-yellow-500 absolute right-3 -top-6 rotate-[30deg]" size={48} />
+          )}
+          <Image
+            src={member.imageUri ?? "/medlemmer/default_profile_picture.png"}
+            alt={member.name}
+            width={500}
+            height={500}
+            className="w-48 h-48 rounded-full object-cover border-4 border-gray-700 shadow-lg"
+          />
+        </div>
+        <div className="text-center md:text-left flex-1">
+          <h1 className="text-3xl font-bold mb-2">{member.name}</h1>
+          <div className="flex gap-2 flex-wrap justify-center md:justify-start">
             {periods
               .filter((period) => member.rolesByPeriod[period] !== "Medlem")
               .map((period) => {
                 const role = member.rolesByPeriod[period];
                 const roleColor =
                   role === "Leder"
-                    ? "text-yellow-500 border border-yellow-500"
+                    ? "text-yellow-500"
                     : role === "Nestleder"
-                      ? "text-purple-500 border border-purple-500"
+                      ? "text-purple-500"
                       : role === "Økonomiansvarlig"
-                        ? "text-green-500 border border-green-500"
-                        : "text-gray-200 border border-gray-200";
-
+                        ? "text-green-500"
+                        : "text-gray-200";
                 return (
                   <span
                     key={period}
-                    className={`px-3 py-1 ${roleColor} rounded-full text-sm`}
+                    className={`bg-gray-800 px-3 py-1 ${roleColor} rounded-full text-sm`}
                   >
-                    {`${role} ${period}`}
+                    {role} {period}
                   </span>
                 );
               })}
           </div>
-
-          {(member.email ||
-            member.phone ||
-            member.github ||
-            member.linkedin) && (
-              <div className="flex flex-col gap-5">
-                <h2 className="text-xl sm:text-xl md:text-2xl lg:text-4xl font-semibold">
-                  Kontakt
-                </h2>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs xs:text-xs sm:text-sm md:text:md lg:text-lg ">
-                  {member.phone && (
-                    <div className="flex flex-row gap-2 hover:text-onlineOrange">
-                      <FiPhoneIncoming size={24} />
-                      <a href={`tel:+47${member.phone}`}>{`${member.phone}`}</a>
-                    </div>
-                  )}
-                  {member.email && (
-                    <div className="flex flex-row gap-2 hover:text-onlineOrange">
-                      <MdEmail size={24} />
-                      <a href={`mailto:${member.email}`}>{`${member.email}`}</a>
-                    </div>
-                  )}
-                  {member.github && (
-                    <div className="flex flex-row gap-2">
-                      <a
-                        className="flex flex-row gap-2 hover:text-onlineOrange"
-                        href={member.github}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <FaGithub size={24} />
-                        <p>{member.github.split("https://www.github.com")}</p>
-                      </a>
-                    </div>
-                  )}
-                  {member.linkedin && (
-                    <div className="flex flex-row gap-2">
-                      <a
-                        className="flex flex-row gap-2 hover:text-onlineOrange"
-                        href={member.linkedin}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <FaLinkedin size={24} />
-                        <p>{member.linkedin.split("https://www.")}</p>
-                      </a>
-                    </div>
-                  )}
-                </div>
-              </div>
+          <p className="text-gray-400 my-2">Medlem fra {earliestPeriod}</p>
+          
+          {/* Contact Info */}
+          <div className="flex justify-center md:justify-start gap-4 mt-4 text-gray-500 ">
+            {member.github && (
+              <Tooltip title={member.github}>
+                <a href={member.github} className="hover:text-white transition-colors">
+                  <FaGithub size={24} />
+                </a>
+              </Tooltip>
             )}
-
-          <div className="flex flex-col gap-5">
-            <h2 className="text-xl sm:text-xl md:text-2xl lg:text-4xl font-semibold">
-              Prosjekter
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {projectsWithMember.map((project) => (
-                <ProjectCard project={project} key={project.title} />
-              ))}
-            </div>
+            
+            {member.linkedin && (
+              <Tooltip title={member.linkedin}>
+                <a href={member.linkedin} className="hover:text-blue-600 transition-colors">
+                  <FaLinkedin size={24} />
+                </a>
+              </Tooltip>
+            )}
+            
+            {member.email && (
+              <Tooltip title={member.email}>
+                <a href={`mailto:${member.email}`} className="hover:text-red-500 transition-colors">
+                  <MdEmail size={24} />
+                </a>
+              </Tooltip>
+            )}
+            
+            {member.phone && (
+              <Tooltip title={member.phone}>
+                <a href={`tel:+47${member.phone}`} className="hover:text-green-500 transition-colors">
+                  <FaPhone size={20} />
+                </a>
+              </Tooltip>
+            )}
           </div>
-        </main>
+        </div>
+      </div>
+
+      {member.quote && <Quote member={member} latestRole={latestRole} />}
+
+      {member.about && (
+        <ReactMarkdown className="w-full break-words whitespace-pre-wrap px-6 mt-8 py-4 bg-gray-800 rounded-lg" rehypePlugins={[rehypeRaw]}>
+          {member.about}
+        </ReactMarkdown>
+      )}
+
+      <h2 className="text-2xl font-bold mt-16 mb-8">Prosjekter</h2>
+      <div className="grid md:grid-cols-2 gap-8">
+        {projectsWithMember.map((project) => (
+          <ProjectCard project={project} key={project.title} />
+        ))}
+      </div>
+    </main>
+  );
+}
+
+const Tooltip = ({ title, children }: { title: string, children: React.ReactNode }) => {
+  return (
+    <div className="relative flex items-center group">
+      {children}
+      <div className="z-10 hidden absolute left-1/2 transform top-4 -translate-x-1/2 mt-2 w-max p-2 bg-gray-800 text-white text-sm rounded shadow-lg group-hover:block transition-opacity duration-200">
+        {title}
       </div>
     </div>
   );
-}
+};
+
+
+const Quote = ({ member, latestRole }: { member: memberType, latestRole: string }) => (
+  <figure className="max-w-screen-md mx-auto text-center mt-8 md:mt-0">
+    <svg className="w-10 h-10 mx-auto mb-3 text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 14">
+      <path d="M6 0H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3H2a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Zm10 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3h-1a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Z"/>
+    </svg>
+    <blockquote>
+      <ReactMarkdown
+        className="text-2xl break-words whitespace-pre-wrap italic font-medium text-white"
+        rehypePlugins={[rehypeRaw]}
+      >
+        {'"' + member.quote + '"'}
+      </ReactMarkdown>
+    </blockquote>
+    <figcaption className="flex items-center justify-center divide-x-2 mt-6 rtl:divide-x-reverse divide-gray-700">
+      <cite className="pe-3 font-medium text-white">{member.name}</cite>
+      <cite className="ps-3 text-sm text-gray-400">{latestRole} i Appkom</cite>
+    </figcaption>
+  </figure>
+);
