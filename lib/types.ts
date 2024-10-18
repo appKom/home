@@ -11,6 +11,7 @@ export type memberType = {
   href: string;
   imageUri?: string;
   about?: string;
+  quote?: string;
   rolesByPeriod: {
     [period: string]: "Leder" | "Nestleder" | "Økonomiansvarlig" | "Medlem";
   };
