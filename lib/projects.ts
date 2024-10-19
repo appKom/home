@@ -157,6 +157,10 @@ Frontend er bygget med React med TailwindCSS, mens backend er utviklet med Expre
         role: "Prosjektmedlem",
         name: "/medlem/Sylvia-Yung",
       },
+      {
+        role: "Prosjektmedlem",
+        name: "/medlem/Jorgen-Galdal",
+      },
     ],
   },
 ];
