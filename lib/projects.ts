@@ -25,6 +25,7 @@ Systemet er bygget med Next.js for server-side rendering og effektiv ytelse, men
       "AWS",
       "MongoDB",
       "Twilio",
+      "Python",
     ],
     github: "https://github.com/appKom/online-opptak",
     people: [
