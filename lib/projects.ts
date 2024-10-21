@@ -131,6 +131,38 @@ Autobank er et prosjekt som skal gjøre det enklere for studenter i Online å s�
         role: "Prosjektleder",
         name: "/medlem/Aksel-Fosaas",
       },
+      {
+        role: "Prosjektmedlem",
+        name: "medlem/Adele-Strysse",
+      },
+      {
+        role: "Prosjektmedlem",
+        name: "/medlem/Emily-Malcolmson",
+      },
+      {
+        role: "Prosjektmedlem",
+        name: "/medlem/Mats-Nyfloet",
+      },
+      {
+        role: "Prosjektmedlem",
+        name: "/medlem/Dina-Marie-Stensrud",
+      },
+      {
+        role: "Prosjektmedlem",
+        name: "/medlem/Sander-Skogh-Linnerud",
+      },
+      {
+        role: "Prosjektmedlem",
+        name: "/medlem/Jorgen-Galdal",
+      },
+      {
+        role: "Prosjektmedlem",
+        name: "/medlem/Julian-Ammouche-Ottosen",
+      },
+      {
+        role: "Prosjektmedlem",
+        name: "/medlem/Fredrik-Hansteen",
+      },
     ],
   },
   {
