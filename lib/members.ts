@@ -74,7 +74,7 @@ export const members: memberType[] = [
     linkedin: "https://www.linkedin.com/in/fredrir/",
   },
   {
-    name: "Dina Marie Stensrud",
+    name: "Dina Marie Stenrud",
     href: "/medlem/Dina-Marie-Stensrud",
     imageUri: "/medlemmer/dina.jpg",
     quote: "Real change, enduring change, happens one step at a time",
