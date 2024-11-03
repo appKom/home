@@ -31,18 +31,24 @@ export default function BlogsPage() {
           </h1>
 
           <div className="flex flex-col gap-5">
-            {Object.keys(blogsByMonth).map((monthYear) => (
-              <div key={monthYear}>
-                <h2 className="text-lg sm:text-lg md:text-xl lg:text-2xl font-semibold">
-                  {monthYear}
-                </h2>
-                <div className="flex flex-col gap-5">
-                  {blogsByMonth[monthYear].map((blog) => (
-                    <BlogCard key={blog.createdAt.toISOString()} blog={blog} />
-                  ))}
+            {/* Reverse the keys array here */}
+            {Object.keys(blogsByMonth)
+              .reverse()
+              .map((monthYear) => (
+                <div key={monthYear}>
+                  <h2 className="text-lg sm:text-lg md:text-xl lg:text-2xl font-semibold">
+                    {monthYear}
+                  </h2>
+                  <div className="flex flex-col gap-5">
+                    {blogsByMonth[monthYear].map((blog) => (
+                      <BlogCard
+                        key={blog.createdAt.toISOString()}
+                        blog={blog}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         </main>
       </div>

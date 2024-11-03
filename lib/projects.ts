@@ -208,16 +208,16 @@ Frontend er bygget med React med TailwindCSS, mens backend er utviklet med Expre
   {
     title: "Realfagskjelleren",
     shortDescription: "Realfagskjelleren-nettside",
-    description: "En ny nettside til realfagskjelleren er på vei. Her skal vi lage en bildeside, en liste med kommende arrangementer osv. Det kommer til å bli helt fantastisk.",
+    description:
+      "En ny nettside til realfagskjelleren er på vei. Her skal vi lage en bildeside, en liste med kommende arrangementer osv. Det kommer til å bli helt fantastisk.",
     imageUri: "/prosjekt/realfagskjelleren-figma.png",
     href: "/prosjekt/realfagskjelleren",
     link: "https://realfagskjelleren.no",
     github: "https://github.com/appKom/realfagskjelleren",
     people: [
-
       {
         role: "Prosjektleder",
-        name: "/medlem/Dina-Marie-Stenrud",
+        name: "/medlem/Dina-Marie-Stensrud",
       },
       {
         role: "Prosjektmedlem",
@@ -230,10 +230,6 @@ Frontend er bygget med React med TailwindCSS, mens backend er utviklet med Expre
       {
         role: "Prosjektmedlem",
         name: "/medlem/Mats-Nyfloet",
-      },
-      {
-        role: "Prosjektmedlem",
-        name: "/medlem/Dina-Marie-Stensrud",
       },
       {
         role: "Prosjektmedlem",
