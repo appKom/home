@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Toaster } from "react-hot-toast";
 import { Analytics } from "@vercel/analytics/react";
+import { Background } from "@/components/Background";
 
 export const metadata: Metadata = {
   title: "Appkom",
@@ -25,16 +26,18 @@ export default function RootLayout({
           content="Mpx63Er4zVk_7W6f00g6EKCnxeeGC0v9kf63kzn-b0s"
         />
       </head>
-      <body className={`bg-gray-900 flex flex-col`}>
+      <body>
         <Toaster />
-        <div className="min-h-screen">
+        <Analytics />
+
+        <div className="min-h-screen flex flex-col">
+          <Background />
           <Navbar />
           <div className="flex-grow flex items-center justify-center w-full max-w-screen-xl mx-auto text-white">
             {children}
           </div>
+          <Footer />
         </div>
-        <Analytics />
-        <Footer />
       </body>
     </html>
   );
