@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion"
 import { useEffect, useState } from "react"
 
+// TODO: change words
 const words = ["fremtidens", "morgendagens", "etterlengtede", "morsomme", "kreative"]
 const shuffledWords = words.sort(() => Math.random() - 0.5);
 
@@ -50,7 +51,7 @@ export const HeroSection = () => {
               {shuffledWords[currentWordIndex]}
             </motion.span>
           </AnimatePresence>
-        </span>{" "}digitale løsninger for informatikkstudenter ved NTNU.
+        </span>{" "}digitale løsninger for informatikkstudenter ved NTNU
       </motion.p>
 
       <motion.div

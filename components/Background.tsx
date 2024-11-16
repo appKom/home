@@ -5,17 +5,22 @@ import { useEffect } from "react"
 
 const DURATION = 5;
 const MAX_DELAY = 15;
+const NUMBER_OF_VERTICAL_LINES = 5;
+const NUMBER_OF_HORIZONTAL_LINES = 3;
+const MARGIN = 10;
 
 export const Background = () => {
-  const horizontalLines = Array.from({ length: 5 }, (_, i) => {
+  const horizontalLines = Array.from({ length: NUMBER_OF_HORIZONTAL_LINES }, (_, i) => {
     const randomDelay = Math.random() * MAX_DELAY;
+    // Randomly position each line
+    const topPosition = MARGIN + Math.random() * (100 - 2 * MARGIN);
     return (
       <motion.div
         key={i}
-        className="absolute h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent opacity-75"
+        className="absolute h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent opacity-50"
         style={{
           width: '100%',
-          top: `${(i + 1) * 20}%`,
+          top: `${topPosition}%`,
           left: 0,
         }}
         animate={{
@@ -32,15 +37,17 @@ export const Background = () => {
     );
   });
 
-  const verticalLines = Array.from({ length: 5 }, (_, i) => {
+  const verticalLines = Array.from({ length: NUMBER_OF_VERTICAL_LINES }, (_, i) => {
     const randomDelay = Math.random() * MAX_DELAY;
+    // Randomly position each line
+    const leftPosition = MARGIN + Math.random() * (100 - 2 * MARGIN);
     return (
       <motion.div
         key={`vertical-${i}`}
-        className="absolute w-px bg-gradient-to-b from-transparent via-gray-700 to-transparent opacity-75"
+        className="absolute w-px bg-gradient-to-b from-transparent via-gray-700 to-transparent opacity-50"
         style={{
           height: '100%',
-          left: `${(i + 1) * 20}%`,
+          left: `${leftPosition}%`,
           top: 0,
         }}
         animate={{
