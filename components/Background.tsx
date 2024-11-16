@@ -56,6 +56,54 @@ export const Background = () => {
           },
         }}
       />
+      <DotsGrid />
     </div>
   )
+}
+
+const numRows = window.innerHeight / 120;
+const numCols = numRows * (window.innerWidth / window.innerHeight);
+
+const DotsGrid = () => {
+  useEffect(() => {
+    const container = document.getElementById("dots-container");
+
+    const handleResize = () => {
+      // Remove the existing dots before adding new ones on resize
+      while (container?.firstChild) {
+        container.removeChild(container.firstChild);
+      }
+
+      for (let row = 0; row < numRows; row++) {
+        for (let col = 0; col < numCols; col++) {
+          const dot = document.createElement("div");
+          dot.classList.add(
+            "bg-gradient-to-b",
+            "from-slate-700",
+            "to-slate-400",
+            "opacity-30",
+            "w-1",
+            "aspect-square",
+            "rounded-full",
+            "absolute",
+          );
+          dot.style.top = `${(row * 100) / numRows + 1}%`;
+          dot.style.left = `${(col * 100) / numCols + 1}%`;
+          container?.appendChild(dot);
+        }
+      }
+    };
+
+    handleResize(); // Call the handleResize function initially and add an event listener
+    window.addEventListener("resize", handleResize);
+  }, []);
+
+  return (
+    <div className="h-screen w-screen overflow-x-hidden bg-cover bg-opacity-25 bg-no-repeat text-[#333333] flex place-content-center">
+      <div
+        id="dots-container"
+        className="top-0 left-0 w-screen h-screen fixed"
+      />
+    </div>
+  );
 }
