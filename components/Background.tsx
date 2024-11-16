@@ -1,49 +1,66 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
+
+const DURATION = 5;
+const MAX_DELAY = 15;
 
 export const Background = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
-    }
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [])
-
-  const lines = Array.from({ length: 5 }, (_, i) => (
-    <motion.div
-      key={i}
-      className="absolute h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent"
-      style={{
-        width: '100%',
-        top: `${(i + 1) * 20}%`,
-        left: 0,
-      }}
-      animate={{
-        x: ['-100%', '100%'],
-        transition: {
-          repeat: Infinity,
-          repeatType: 'loop',
-          duration: 10 + i * 2,
-          ease: 'linear',
-        },
-      }}
-    />
-  ))
-
-  return (
-    <div className="fixed inset-0 -z-10 min-h-screen bg-gray-950 text-gray-100 overflow-hidden">
-      {lines}
+  const horizontalLines = Array.from({ length: 5 }, (_, i) => {
+    const randomDelay = Math.random() * MAX_DELAY;
+    return (
       <motion.div
-        className="absolute pointer-events-none"
+        key={i}
+        className="absolute h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent opacity-75"
+        style={{
+          width: '100%',
+          top: `${(i + 1) * 20}%`,
+          left: 0,
+        }}
         animate={{
-          background: `radial-gradient(600px at ${mousePosition.x}px ${mousePosition.y}px, rgba(29, 78, 216, 0.15), transparent 80%)`,
+          x: ['-100%', '100%'],
+          transition: {
+            repeat: Infinity,
+            repeatType: 'loop',
+            duration: DURATION,
+            delay: randomDelay,
+            ease: 'linear',
+          },
         }}
       />
+    );
+  });
+
+  const verticalLines = Array.from({ length: 5 }, (_, i) => {
+    const randomDelay = Math.random() * MAX_DELAY;
+    return (
+      <motion.div
+        key={`vertical-${i}`}
+        className="absolute w-px bg-gradient-to-b from-transparent via-gray-700 to-transparent opacity-75"
+        style={{
+          height: '100%',
+          left: `${(i + 1) * 20}%`,
+          top: 0,
+        }}
+        animate={{
+          y: ['-100%', '100%'],
+          transition: {
+            repeat: Infinity,
+            repeatType: 'loop',
+            duration: DURATION,
+            delay: randomDelay,
+            ease: 'linear',
+          },
+        }}
+      />
+    );
+  });
+
+  return (
+    <div className="fixed inset-0 -z-10 min-h-screen bg-gray-950 text-gray-100 overflow-hidden grid place-content-center">
+      {horizontalLines}
+      {verticalLines}
       <motion.div
         className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent"
         animate={{
