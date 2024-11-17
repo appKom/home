@@ -1,5 +1,3 @@
-"use client"
-
 import { blogs } from "@/lib/blog";
 import { BlogCard } from "@/components/home/BlogCard";
 import { Button } from "@/components/Button";
@@ -14,7 +12,6 @@ import {
 import { HeroSection } from "@/components/HeroSection";
 
 export default function Home() {
-
   return (
     <div>
       <main className="container mx-auto px-4 ">
