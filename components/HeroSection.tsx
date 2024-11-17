@@ -63,7 +63,7 @@ export const HeroSection = () => {
           href="#"
           className="inline-block px-8 py-3 bg-blue-500 text-white rounded-full text-lg font-semibold hover:bg-blue-600 transition-colors"
         >
-          Bli med oss
+          Bli med oss {/* TODO: Replace text and link or remove button */}
         </a>
       </motion.div>
     </div>
