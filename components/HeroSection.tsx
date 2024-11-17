@@ -38,11 +38,11 @@ export const HeroSection = () => {
         transition={{ duration: 0.8, delay: 0.2 }}
       >
         Vi utvikler{" "}
-        <span className="inline-block">
+        <span className="inline-block opacity-80">
           <AnimatePresence mode="popLayout">
             <motion.span
               key={currentWordIndex}
-              className="inline-block font-semibold text-white"
+              className="inline-block font-semibold text-onlineOrange"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -20, opacity: 0 }}
@@ -61,9 +61,9 @@ export const HeroSection = () => {
       >
         <a
           href="#"
-          className="inline-block px-8 py-3 bg-blue-500 text-white rounded-full text-lg font-semibold hover:bg-blue-600 transition-colors"
+          className="inline-block px-8 py-3 bg-onlineBlue text-white rounded-full text-lg font-semibold transition-colors hover:bg-opacity-70"
         >
-          Bli med oss {/* TODO: Replace text and link or remove button */}
+          hva skal stå her?? {/* TODO: Replace text and link or remove button */}
         </a>
       </motion.div>
     </div>
