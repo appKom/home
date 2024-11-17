@@ -2,6 +2,15 @@ import { memberType } from "./types";
 
 export const members: memberType[] = [
   {
+    name: "Siri Arnesen",
+    href: "/medlem/Siri-Arnesen",
+    rolesByPeriod: {
+      "2020 - 2021": "Medlem",
+      "2021 - 2022": "Medlem",
+      "2022 - 2023": "Medlem",
+    }
+  },
+  {
     name: "Jørgen Galdal",
     href: "/medlem/Jorgen-Galdal",
     imageUri: "/medlemmer/jogga.jpg",
@@ -165,10 +174,15 @@ export const members: memberType[] = [
   {
     name: "Amund Dahlmo Berge",
     href: "/medlem/Amund-Dahlmo-Berge",
+    imageUri: "/medlemmer/amund.jpeg",
+    quote: "Hava >>> Java",
 
     rolesByPeriod: {
       "2024 - 2025": "Medlem",
     },
+    email: "amund.dahlmo.berge@online.ntnu.no",
+    github: "https://github.com/AmundBerge",
+    linkedin: "https://www.linkedin.com/in/amunddberge",
   },
   {
     name: "Joel Ramin Neuhaus-Khatami",
@@ -241,5 +255,203 @@ export const members: memberType[] = [
     rolesByPeriod: {
       "2023 - 2024": "Medlem",
     },
+  },
+  {
+    name: "Pål-Edward Larsen",
+    href: "/medlem/Pal-Edward-Larsen",
+    rolesByPeriod: {
+      "2020 - 2021": "Leder",
+    }
+  },
+  {
+    name: "Petter Charles",
+    href: "/medlem/Petter-Charles",
+    rolesByPeriod: {
+      "2020 - 2021": "Nestleder",
+    }
+  },
+  {
+    name: "Fredrik Skaug",
+    href: "/medlem/Fredrik-Skaug",
+    rolesByPeriod: {
+      "2020 - 2021": "Medlem",
+      "2021 - 2022": "Nestleder",
+    }
+  },
+  {
+    name: "Philip Hall Andersen",
+    href: "/medlem/Philip-Hall-Andersen",
+    rolesByPeriod: {
+      "2020 - 2021": "Medlem",
+    }
+  },
+  {
+    name: "Johan Solbakken",
+    href: "/medlem/Johan-Solbakken",
+    rolesByPeriod: {
+      "2020 - 2021": "Medlem",
+    }
+  },
+  {
+    name: "Øystein Tveit",
+    href: "/medlem/Oystein-Tveit",
+    rolesByPeriod: {
+      "2020 - 2021": "Medlem",
+      "2021 - 2022": "Medlem",
+    }
+  },
+  {
+    name: "Jonathan Brooks",
+    href: "/medlem/Jonathan-Brooks",
+    rolesByPeriod: {
+      "2020 - 2021": "Medlem",
+    }
+  },
+  {
+    name: "Jørgen Reimers",
+    href: "/medlem/Jørgen-Reimers",
+    rolesByPeriod: {
+      "2020 - 2021": "Medlem",
+      "2021 - 2022": "Medlem",
+    }
+  },
+  {
+    name: "Gard Cappelen",
+    href: "/medlem/Gard-Cappelen",
+    rolesByPeriod: {
+      "2020 - 2021": "Medlem",
+    }
+  },
+  {
+    name: "Jasmina Elizabeth",
+    href: "/medlem/Jasmina-Elizabeth",
+    rolesByPeriod: {
+      "2020 - 2021": "Medlem",
+    }
+  },
+  {
+    name: "Martin Skatvedt",
+    href: "/medlem/Martin-Skatvedt",
+    rolesByPeriod: {
+      "2020 - 2021": "Medlem",
+      "2021 - 2022": "Leder",
+    }
+  },
+  {
+    name: "Keith Charlene (KC) Tan Esmeña",
+    href: "/medlem/Keith-Charlene-Tan-Esmena",
+    rolesByPeriod: {
+      "2020 - 2021": "Medlem",
+      "2021 - 2022": "Medlem",
+    }
+  },
+  {
+    name: "Live Jortveit Sagebakken",
+    href: "/medlem/Live Jortveit Sagebakken",
+    rolesByPeriod: {
+      "2020 - 2021": "Medlem",
+    }
+  },
+  {
+    name: "Øistein Haugland",
+    href: "/medlem/Oistein-Haugland",
+    rolesByPeriod: {
+      "2020 - 2021": "Medlem",
+    }
+  },
+  {
+    name: "Trym Kulseng",
+    href: "/medlem/Trym-Kulseng",
+    rolesByPeriod: {
+      "2021 - 2022": "Medlem",
+    }
+  },
+  {
+    name: "Robin Tveråaen",
+    href: "/medlem/Robin-Tveraaen",
+    rolesByPeriod: {
+      "2021 - 2022": "Medlem",
+      "2022 - 2023": "Leder",
+    }
+  },
+  {
+    name: "David Lekve",
+    href: "/medlem/David-Lekve",
+    rolesByPeriod: {
+      "2021 - 2022": "Medlem",
+      "2022 - 2023": "Nestleder", // var også leder mellom Robin Tveråen og Mats Nyfløt, men ikke et helt skoleår. Dette, pga. endringer i når leder blir valgt. Usikker på hvordan dette bør implementeres.
+    }
+  },
+  {
+    name: "Andreas Haugli",
+    href: "/medlem/Andreas-Haugli",
+    rolesByPeriod: {
+      "2021 - 2022": "Medlem",
+    }
+  },
+  {
+    name: "Simen Førrisdal",
+    href: "/medlem/Simen-Forrisdal",
+    rolesByPeriod: {
+      "2021 - 2022": "Medlem",
+    }
+  },
+  {
+    name: "Hanna Meland Vestvik",
+    href: "/medlem/Hanna-Meland-Vestvik",
+    rolesByPeriod: {
+      "2021 - 2022": "Medlem",
+      "2022 - 2023": "Medlem",
+    }
+  },
+  {
+    name: "Synne Ødegaard",
+    href: "/medlem/Synne Odegaard",
+    rolesByPeriod: {
+      "2021 - 2022": "Medlem",
+    }
+  },
+  {
+    name: "Mathias Lien Opsahl",
+    href: "/medlem/Mathias-Lien-Opsahl",
+    rolesByPeriod: {
+      "2021 - 2022": "Medlem",
+      "2022 - 2023": "Medlem",
+    }
+  },
+  {
+    name: "Jasmina Naseri",
+    href: "/medlem/Jasmina-Naseri",
+    rolesByPeriod: {
+      "2021 - 2022": "Medlem",
+    }
+  },
+  {
+    name: "Endre Gilje Sørnes",
+    href: "/medlem/Endre-Gilje-Sornes",
+    rolesByPeriod: {
+      "2022 - 2023": "Medlem",
+    }
+  },
+  {
+    name: "Ida Matre",
+    href: "/medlem/Ida-Matre",
+    rolesByPeriod: {
+      "2022 - 2023": "Medlem",
+    }
+  },
+  {
+    name: "Lea Aas-Jakobsen",
+    href: "/medlem/Lea-Aas-Jakobsen",
+    rolesByPeriod: {
+      "2022 - 2023": "Medlem",
+    }
+  },
+  {
+    name: "Viktor Tingstad",
+    href: "/medlem/Viktor-Tingstad",
+    rolesByPeriod: {
+      "2022 - 2023": "Medlem",
+    }
   },
 ];
