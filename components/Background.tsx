@@ -68,18 +68,6 @@ export const Background = () => {
     <div className="fixed inset-0 -z-10 min-h-screen bg-gray-950 text-gray-100 overflow-hidden grid place-content-center">
       {horizontalLines}
       {verticalLines}
-      <motion.div
-        className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent"
-        animate={{
-          scaleX: [0, 1, 0],
-          opacity: [0, 1, 0],
-          transition: {
-            repeat: Infinity,
-            duration: 5,
-            ease: 'easeInOut',
-          },
-        }}
-      />
       <DotsGrid />
     </div>
   )
@@ -104,9 +92,10 @@ const DotsGrid = () => {
           dot.classList.add(
             "bg-gradient-to-b",
             "from-slate-700",
-            "to-slate-400",
+            "to-slate-600",
             "opacity-30",
             "w-1",
+            "h-1",
             "aspect-square",
             "rounded-full",
             "absolute",
