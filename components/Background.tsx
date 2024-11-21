@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 const DURATION = 5;
 const MAX_DELAY = 15;
@@ -73,10 +73,26 @@ export const Background = () => {
   )
 }
 
-const numRows = window.innerHeight / 120;
-const numCols = numRows * (window.innerWidth / window.innerHeight);
-
 const DotsGrid = () => {
+  const [numRows, setNumRows] = useState(0);
+  const [numCols, setNumCols] = useState(0);
+
+  useEffect(() => {
+    const updateGridSize = () => {
+      const rows = Math.floor(window.innerHeight / 120);
+      const cols = Math.floor(rows * (window.innerWidth / window.innerHeight));
+      setNumRows(rows);
+      setNumCols(cols);
+    };
+
+    updateGridSize();
+    window.addEventListener("resize", updateGridSize);
+
+    return () => {
+      window.removeEventListener("resize", updateGridSize);
+    };
+  }, []);
+
   useEffect(() => {
     const container = document.getElementById("dots-container");
 
@@ -109,7 +125,7 @@ const DotsGrid = () => {
 
     handleResize(); // Call the handleResize function initially and add an event listener
     window.addEventListener("resize", handleResize);
-  }, []);
+  }, [numCols, numRows]);
 
   return (
     <div className="h-screen w-screen overflow-x-hidden bg-cover bg-opacity-25 bg-no-repeat text-[#333333] flex place-content-center">
