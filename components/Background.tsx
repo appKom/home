@@ -17,7 +17,7 @@ export const Background = () => {
     return (
       <motion.div
         key={i}
-        className="absolute h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent opacity-50"
+        className="absolute h-px bg-gradient-to-r from-transparent via-onlineOrange to-transparent opacity-10"
         style={{
           width: '100%',
           top: `${topPosition}%`,
@@ -44,7 +44,7 @@ export const Background = () => {
     return (
       <motion.div
         key={`vertical-${i}`}
-        className="absolute w-px bg-gradient-to-b from-transparent via-gray-700 to-transparent opacity-50"
+        className="absolute w-px bg-gradient-to-b from-transparent via-onlineOrange to-transparent opacity-10"
         style={{
           height: '100%',
           left: `${leftPosition}%`,
