@@ -1,24 +1,36 @@
-"use client"
+"use client";
 
-import { AnimatePresence, motion } from "framer-motion"
-import { useEffect, useState } from "react"
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 // TODO: change words
-const words = ["fremtidens", "morgendagens", "etterlengtede", "morsomme", "kreative"]
-const shuffledWords = words.sort(() => Math.random() - 0.5);
+const words = [
+  "fremtidens",
+  "morgendagens",
+  "etterlengtede",
+  "morsomme",
+  "kreative",
+];
 
 const INTERVAL_SECONDS = 3;
 
 export const HeroSection = () => {
-  const [currentWordIndex, setCurrentWordIndex] = useState(0)
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [shuffledWords, setShuffledWords] = useState([...words]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentWordIndex((prevIndex) => (prevIndex + 1) % words.length)
-    }, 1000 * INTERVAL_SECONDS)
+      setCurrentWordIndex((prevIndex) => (prevIndex + 1) % words.length);
+    }, 1000 * INTERVAL_SECONDS);
 
-    return () => clearInterval(interval)
-  }, [])
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    setShuffledWords((prevWords) =>
+      [...prevWords].sort(() => Math.random() - 0.5)
+    );
+  }, []);
 
   return (
     <div className="max-w-3xl mx-auto text-center min-h-screen flex flex-col justify-center">
@@ -51,7 +63,8 @@ export const HeroSection = () => {
               {shuffledWords[currentWordIndex]}
             </motion.span>
           </AnimatePresence>
-        </span>{" "}digitale løsninger for informatikkstudenter ved NTNU
+        </span>{" "}
+        digitale løsninger for informatikkstudenter ved NTNU
       </motion.p>
 
       <motion.div
@@ -63,9 +76,10 @@ export const HeroSection = () => {
           href="#"
           className="inline-block px-8 py-3 bg-onlineBlue text-white rounded-full text-lg font-semibold transition-colors hover:bg-opacity-70"
         >
-          hva skal stå her?? {/* TODO: Replace text and link or remove button */}
+          hva skal stå her??{" "}
+          {/* TODO: Replace text and link or remove button */}
         </a>
       </motion.div>
     </div>
-  )
-}
+  );
+};
