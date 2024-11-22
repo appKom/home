@@ -114,6 +114,7 @@ export default function AboutPage() {
             </p>
             <a
               href="https://opptak.online.ntnu.no/"
+              target="_blank"
               className="inline-block rounded-lg bg-gray-900 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-gray-800"
             >
               Online Opptak
