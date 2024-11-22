@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 // TODO: change words
@@ -72,13 +73,12 @@ export const HeroSection = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.4 }}
       >
-        <a
-          href="#"
+        <Link
+          href="/om"
           className="inline-block px-8 py-3 bg-onlineBlue text-white rounded-full text-lg font-semibold transition-colors hover:bg-opacity-70"
         >
-          hva skal stå her??{" "}
-          {/* TODO: Replace text and link or remove button */}
-        </a>
+          Les mer
+        </Link>
       </motion.div>
     </div>
   );
