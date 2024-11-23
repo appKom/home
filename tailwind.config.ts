@@ -14,6 +14,8 @@ const config: Config = {
         tealBlue: "#1995AD",
         lightBlue: "#A1D6E2",
         onlineOrange: "#F9B759",
+        onlineBlue: "#0D5474",
+        gold: "#FFD700",
       },
     },
   },

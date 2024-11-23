@@ -24,3 +24,7 @@ export const allMemberPeriods = Array.from(
 export const getLastMemberPeriod = Array.from(
   new Set(members.flatMap((member) => Object.keys(member.rolesByPeriod)))
 ).reverse()[0];
+
+export const getNumberOfCurrentMembers = () => {
+  return getMembersForPeriod(getLastMemberPeriod).length;
+}
