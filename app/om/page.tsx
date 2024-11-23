@@ -110,7 +110,7 @@ export default function AboutPage() {
           <div className="inline-block rounded-xl w-full bg-onlineOrange p-8">
             <h2 className="mb-4 text-2xl font-bold text-gray-900">Interessert i å bli medlem?</h2>
             <p className="mb-6 text-gray-800">
-              Søk appkom under neste komitéopptak :)
+              Søk Appkom under neste komitéopptak :)
             </p>
             <a
               href="https://opptak.online.ntnu.no/"
