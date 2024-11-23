@@ -1,6 +1,5 @@
-"use client"
+"use client";
 
-import { Button } from "./Button";
 import Image from "next/image";
 import Link from "next/link";
 import { DropdownMenu } from "./DropdownMenu";
@@ -32,9 +31,24 @@ export default function Navbar() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        <Link href="/prosjekt" className="hover:text-onlineOrange transition-colors">Prosjekter</Link>
-        <Link href="/blogg" className="hover:text-onlineOrange transition-colors">Blogg</Link>
-        <Link href="/medlem" className="hover:text-onlineOrange transition-colors">Medlemmer</Link>
+        <Link
+          href="/prosjekt"
+          className="hover:text-onlineOrange transition-colors"
+        >
+          Prosjekter
+        </Link>
+        <Link
+          href="/blogg"
+          className="hover:text-onlineOrange transition-colors"
+        >
+          Blogg
+        </Link>
+        <Link
+          href="/medlem"
+          className="hover:text-onlineOrange transition-colors"
+        >
+          Medlemmer
+        </Link>
         <Link
           href="/kontakt"
           className="px-4 py-2 bg-onlineBlue text-white rounded-full hover:bg-opacity-70 transition-colors"

@@ -20,7 +20,7 @@ export default function BlogsPage() {
       {}
     );
     return groupedBlogs;
-  }, [blogs]);
+  }, []);
 
   return (
     <div className="w-full flex justify-center min-h-screen">
