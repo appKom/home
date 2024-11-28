@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import { headers } from "next/headers";
 import { blogs } from "@/lib/blog";
 import { blogType, memberType } from "@/lib/types";
 import Custom404 from "@/app/not-found";
@@ -19,38 +18,15 @@ interface Params {
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const headersList = headers();
-  const host = headersList.get("host");
-  const protocol = headersList.get("x-forwarded-proto");
-
-  if (!host || !protocol) {
-    return {
-      title: "Error",
-    };
-  }
-
-  const url = new URL(`${protocol}://${host}/artikkel/${params.id}`);
-  const { pathname } = url;
-
-  const parts = pathname.split("-");
-  const title = decodeURIComponent(parts.slice(1).join("-"));
+  const articleTitle = params.id;
 
   return {
-    title: `${title}`,
+    title: `${decodeURIComponent(articleTitle)}`,
   };
 }
 
 export default async function ArticlePage({ params }: Params) {
-  const headersList = headers();
-  const host = headersList.get("host");
-  const protocol = headersList.get("x-forwarded-proto");
-
-  const url = new URL(`${protocol}://${host}/artikkel/${params.id}`);
-  const { pathname } = url;
-
-  const parts = pathname.split("-");
-  const encodedBlogTitle = parts[0].split("/").pop();
-  const blogTitle = decodeURIComponent(encodedBlogTitle ?? "");
+  const blogTitle = decodeURIComponent(params.id ?? "");
 
   const blog: blogType | undefined = blogs.find(
     (blog) => blog.title === blogTitle

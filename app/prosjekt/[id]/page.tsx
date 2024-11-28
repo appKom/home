@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import { headers } from "next/headers";
 import { projects } from "@/lib/projects";
 import { projectType } from "@/lib/types";
 import Custom404 from "@/app/not-found";
@@ -19,40 +18,15 @@ interface Params {
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const headersList = headers();
-  const host = headersList.get("host");
-  const protocol = headersList.get("x-forwarded-proto");
-
-  if (!host || !protocol) {
-    return {
-      title: "Error",
-    };
-  }
-
-  const url = new URL(`${protocol}://${host}/artikkel/${params.id}`);
-  const { pathname } = url;
-
-  const parts = pathname.split("-");
-  const title = decodeURIComponent(parts.slice(1).join("-"));
+  const project = params.id;
 
   return {
-    title: `${title}`,
+    title: `${project}`,
   };
 }
 
 export default async function ProjectPage({ params }: Params) {
-  const headersList = headers();
-  const host = headersList.get("host");
-  const protocol = headersList.get("x-forwarded-proto");
-
-  const url = new URL(`${protocol}://${host}/prosjekt/${params.id}`);
-  const { pathname } = url;
-
-  const parts = pathname.split("/");
-  const encodedProsjektTitle = parts[parts.length - 1] || "";
-  const prosjektTitle = decodeURIComponent(encodedProsjektTitle ?? "");
-
-  console.log(encodedProsjektTitle, prosjektTitle);
+  const prosjektTitle = decodeURIComponent(params.id ?? "");
 
   const project: projectType | undefined = projects.find(
     (project) => project.title.toLowerCase() === prosjektTitle.toLowerCase()

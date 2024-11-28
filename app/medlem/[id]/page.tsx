@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import { headers } from "next/headers";
 import { members } from "@/lib/members";
 import { memberType } from "@/lib/types";
 import Custom404 from "@/app/not-found";
@@ -18,38 +17,14 @@ interface Params {
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const headersList = headers();
-  const host = headersList.get("host");
-  const protocol = headersList.get("x-forwarded-proto");
-
-  if (!host || !protocol) {
-    return {
-      title: "Error",
-    };
-  }
-
-  const url = new URL(`${protocol}://${host}/artikkel/${params.id}`);
-  const { pathname } = url;
-
-  const parts = pathname.split("-");
-  const title = decodeURIComponent(parts.slice(1).join("-"));
-
+  const memberName = params.id.replace("-", " ");
   return {
-    title: `${title}`,
+    title: `${memberName}`,
   };
 }
 
 export default async function MemberPage({ params }: Params) {
-  const headersList = headers();
-  const host = headersList.get("host");
-  const protocol = headersList.get("x-forwarded-proto");
-
-  const url = new URL(`${protocol}://${host}/prosjekt/${params.id}`);
-  const { pathname } = url;
-
-  const parts = pathname.split("/");
-  const encodedProsjektTitle = parts[parts.length - 1] || "";
-  const memberName = decodeURIComponent(encodedProsjektTitle ?? "");
+  const memberName = params.id;
 
   const member: memberType | undefined = members.find(
     (member) =>
