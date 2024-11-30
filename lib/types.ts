@@ -35,3 +35,5 @@ export type projectType = {
     name: string;
   }[];
 };
+
+export type tParams = Promise<{ id: string }>;

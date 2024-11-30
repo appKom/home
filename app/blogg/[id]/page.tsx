@@ -1,6 +1,5 @@
-import { Metadata } from "next";
 import { blogs } from "@/lib/blog";
-import { blogType, memberType } from "@/lib/types";
+import { blogType, memberType, tParams } from "@/lib/types";
 import Custom404 from "@/app/not-found";
 import Image from "next/image";
 import { TbPencilCode } from "react-icons/tb";
@@ -10,26 +9,26 @@ import { formatDate } from "@/lib/utils/dateUtils";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { members } from "@/lib/members";
+import { Metadata } from "next";
 
-interface Params {
-  params: {
-    id: string;
-  };
-}
+export async function generateMetadata(props: {
+  params: tParams;
+}): Promise<Metadata> {
+  const { id } = await props.params;
 
-export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const articleTitle = params.id;
+  const articleTitle = decodeURIComponent(id);
 
   return {
     title: `${decodeURIComponent(articleTitle)}`,
   };
 }
 
-export default async function ArticlePage({ params }: Params) {
-  const blogTitle = decodeURIComponent(params.id ?? "");
+export default async function ArticlePage(props: { params: tParams }) {
+  const { id } = await props.params;
+  const decodedId = decodeURIComponent(id);
 
   const blog: blogType | undefined = blogs.find(
-    (blog) => blog.title === blogTitle
+    (blog) => blog.title === decodedId
   );
 
   if (!blog) {
@@ -55,7 +54,7 @@ export default async function ArticlePage({ params }: Params) {
           </div>
           <div className="flex flex-col px-6">
             <div className="flex flex-col sm:flex-row justify-between pt-8">
-              <h1 className=" font-bold text-xl sm:text-xl md:text-xl lg:text-2xl xl:text-4xl">
+              <h1 className="font-bold text-xl sm:text-xl md:text-xl lg:text-2xl xl:text-4xl">
                 {blog.title}
               </h1>
               {author && (
@@ -64,11 +63,11 @@ export default async function ArticlePage({ params }: Params) {
                   className="flex flex-row items-center gap-2 text-orange-600 hover:text-onlineOrange mt-4 sm:mt-0"
                 >
                   <TbPencilCode size={32} />
-                  <h2>{author?.name}</h2>
-                  {author?.imageUri && (
+                  <h2>{author.name}</h2>
+                  {author.imageUri && (
                     <Image
-                      src={author?.imageUri}
-                      alt={"image of " + author?.name}
+                      src={author.imageUri}
+                      alt={"image of " + author.name}
                       width={50}
                       height={50}
                       className="rounded-full"

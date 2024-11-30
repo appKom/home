@@ -18,14 +18,14 @@ export default function Home() {
         <HeroSection />
         <div className="py-8">
           <HeaderText title="Blogg" />
-            <div className="py-8 flex flex-col md:flex-row justify-between gap-5">
-              {blogs
-                .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
-                .slice(0, 3)
-                .map((blog) => (
-                  <BlogCard blog={blog} key={blog.createdAt.toISOString()} />
-                ))}
-            </div>
+          <div className="py-8 flex flex-col md:flex-row justify-between gap-5">
+            {blogs
+              .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+              .slice(0, 3)
+              .map((blog) => (
+                <BlogCard blog={blog} key={blog.createdAt.toISOString()} />
+              ))}
+          </div>
 
           <div className="flex justify-center items-center mt-2">
             <Button title="Les mer" href="/blogg" color={"onlineOrange"} />

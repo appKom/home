@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { projects } from "@/lib/projects";
-import { projectType } from "@/lib/types";
+import { projectType, tParams } from "@/lib/types";
 import Custom404 from "@/app/not-found";
 import Image from "next/image";
 import { members } from "@/lib/members";
@@ -11,22 +11,22 @@ import { MemberCard } from "@/components/home/MemberCard";
 import { FaGithub, FaGlobe } from "react-icons/fa";
 import { HeaderText } from "@/components/headerText";
 
-interface Params {
-  params: {
-    id: string;
-  };
-}
+export async function generateMetadata(props: {
+  params: tParams;
+}): Promise<Metadata> {
+  const { id } = await props.params;
 
-export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const project = params.id;
+  const project = id;
 
   return {
     title: `${project}`,
   };
 }
 
-export default async function ProjectPage({ params }: Params) {
-  const prosjektTitle = decodeURIComponent(params.id ?? "");
+export default async function ProjectPage(props: { params: tParams }) {
+  const { id } = await props.params;
+
+  const prosjektTitle = decodeURIComponent(id ?? "");
 
   const project: projectType | undefined = projects.find(
     (project) => project.title.toLowerCase() === prosjektTitle.toLowerCase()

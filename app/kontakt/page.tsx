@@ -57,7 +57,7 @@ export default function ContactPage() {
       toast.success("Message sent successfully");
     } catch (error) {
       setStatus({ submitted: false, message: "Error sending message" });
-      toast.error("Error sending message");
+      toast.error("Error sending message: " + (error as Error).message);
       setButtonText("Submit");
     }
   };

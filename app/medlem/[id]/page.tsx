@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { members } from "@/lib/members";
-import { memberType } from "@/lib/types";
+import { memberType, tParams } from "@/lib/types";
 import Custom404 from "@/app/not-found";
 import Image from "next/image";
 import { projects } from "@/lib/projects";
@@ -10,21 +10,20 @@ import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { MdEmail } from "react-icons/md";
 
-interface Params {
-  params: {
-    id: string;
-  };
-}
+export async function generateMetadata(props: {
+  params: tParams;
+}): Promise<Metadata> {
+  const { id } = await props.params;
 
-export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const memberName = params.id.replace("-", " ");
+  const memberName = id.replace("-", " ");
   return {
     title: `${memberName}`,
   };
 }
 
-export default async function MemberPage({ params }: Params) {
-  const memberName = params.id;
+export default async function MemberPage(props: { params: tParams }) {
+  const { id } = await props.params;
+  const memberName = id;
 
   const member: memberType | undefined = members.find(
     (member) =>
