@@ -29,7 +29,7 @@ const AdminPage = () => {
     },
     {
       title: "Prosjekter",
-      href: "/admin/applications",
+      href: "/admin/projects",
       icon: FileText,
       description: "Legg inn eller rediger prosjekter",
     },
