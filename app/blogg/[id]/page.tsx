@@ -1,5 +1,5 @@
 import { blogs } from "@/lib/blog";
-import { blogType, memberType, tParams } from "@/lib/types";
+import { articleType, memberType, tParams } from "@/lib/types";
 import Custom404 from "@/app/not-found";
 import Image from "next/image";
 import { TbPencilCode } from "react-icons/tb";
@@ -10,6 +10,7 @@ import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { members } from "@/lib/members";
 import { Metadata } from "next";
+import { prisma } from "@/lib/prisma";
 
 export async function generateMetadata(props: {
   params: tParams;
@@ -27,16 +28,19 @@ export default async function ArticlePage(props: { params: tParams }) {
   const { id } = await props.params;
   const decodedId = decodeURIComponent(id);
 
-  const blog: blogType | undefined = blogs.find(
-    (blog) => blog.title === decodedId
-  );
+  const blog: articleType | undefined =
+    (await prisma.article.findFirst({
+      where: {
+        title: decodedId,
+      },
+    })) || undefined;
 
   if (!blog) {
     return <Custom404 />;
   }
 
   const author: memberType | undefined = members.find(
-    (member) => member.name === blog.author
+    (member) => member.id === blog.authorId
   );
 
   return (
@@ -84,7 +88,7 @@ export default async function ArticlePage(props: { params: tParams }) {
           </div>
           <article className="w-full break-words whitespace-pre-wrap px-6 py-12">
             <ReactMarkdown className="w-full" rehypePlugins={[rehypeRaw]}>
-              {blog.content}
+              {blog.description}
             </ReactMarkdown>
           </article>
         </main>

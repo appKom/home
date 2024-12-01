@@ -4,10 +4,8 @@ export type articleType = {
   description: string;
   authorId: number;
   author?: memberType;
-  content: string;
   imageUri: string;
   imageDescription: string;
-  attachmentsUri: string[];
   createdAt: Date;
   updatedAt: Date;
 };
