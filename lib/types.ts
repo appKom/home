@@ -1,6 +1,8 @@
 export type blogType = {
+  id: number;
   title: string;
   author?: string;
+  ingress?: string;
   content: string;
   imageUri: string;
   createdAt: Date;

@@ -17,7 +17,7 @@ const AdminPage = () => {
   const routes: IRoute[] = [
     {
       title: "Blogg",
-      href: "/admin/blog",
+      href: "/admin/blogg",
       icon: BookIcon,
       description: "Se og rediger blogginnlegg",
     },
