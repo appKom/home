@@ -2,6 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
 import { env } from "process";
 import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 const supabase = createClient(
   env.SUPABASE_URL as string,
@@ -10,7 +11,7 @@ const supabase = createClient(
 
 export const POST = async (req: NextRequest) => {
   try {
-    const session = await getServerSession();
+    const session = await getServerSession(authOptions);
 
     if (!session || !session.user || !session.user.isAdmin) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });

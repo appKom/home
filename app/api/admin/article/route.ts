@@ -2,11 +2,14 @@ import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { NextRequest } from "next/server";
 import { getServerSession } from "next-auth";
+import { AuthOptions } from "next-auth";
+import { authOptions } from "../../auth/[...nextauth]/route";
 
 export const POST = async (req: NextRequest) => {
   try {
-    const res = new NextResponse();
-    const session = await getServerSession();
+    const session = await getServerSession(authOptions);
+
+    console.log(session);
 
     if (!session || !session.user || !session.user.isAdmin) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
