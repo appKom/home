@@ -24,7 +24,7 @@ export default function BloggPage() {
   const [imageDescription, setImageDescription] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState<File | null>(null);
-  const [author, setAuthor] = useState<memberType | null>(null);
+  const [authorId, setAuthorId] = useState<number | null>(null);
   const [resetImageUploader, setResetImageUploader] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
@@ -40,7 +40,7 @@ export default function BloggPage() {
     description: "",
     imageUri: "",
     imageDescription: "",
-    author: undefined,
+    authorId: 0,
   });
 
   useEffect(() => {
@@ -49,9 +49,9 @@ export default function BloggPage() {
       title,
       description: content,
       imageDescription,
-      author: author ? { ...author } : undefined,
+      authorId: authorId ?? undefined,
     }));
-  }, [title, content, imageDescription, author]);
+  }, [title, content, imageDescription, authorId]);
 
   const handleSubmit = useCallback(async () => {
     setIsLoading(true);
@@ -149,7 +149,7 @@ export default function BloggPage() {
         content={content}
         title={title}
         setTitle={setTitle}
-        setAuthor={setAuthor}
+        setAuthorId={setAuthorId}
         setImage={setImage}
         resetImageUploader={resetImageUploader}
         imageDescription={imageDescription}

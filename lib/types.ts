@@ -2,7 +2,8 @@ export type articleType = {
   id: number;
   title: string;
   description: string;
-  author: memberType;
+  authorId: number;
+  author?: memberType;
   content: string;
   imageUri: string;
   imageDescription: string;

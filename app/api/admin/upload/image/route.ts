@@ -1,90 +1,71 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import { createClient } from "@supabase/supabase-js";
-import formidable from "formidable";
-import fs from "fs";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { NextResponse } from "next/server";
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+const supabaseUrl = process.env.SUPABASE_URL!;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
-const supabase = createClient(
-  process.env.SUPABASE_URL as string,
-  process.env.SUPABASE_SERVICE_ROLE_KEY as string
-);
-
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
-
+export const POST = async (request: Request) => {
   try {
-    const session = await getServerSession(req, res, authOptions);
+    const session = await getServerSession(authOptions);
 
     if (!session || !session.user || !session.user.isAdmin) {
-      return res.status(401).json({ error: "Not authenticated" });
+      return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    const form = new formidable.IncomingForm();
+    const formData = await request.formData();
 
-    form.parse(
-      req,
-      async (err: any, fields: formidable.Fields, files: formidable.Files) => {
-        if (err) {
-          console.error("Formidable Error:", err);
-          return res.status(500).json({ error: "Failed to parse form data" });
-        }
+    const image = formData.get("image") as File | null;
 
-        const file = Array.isArray(files.image) ? files.image[0] : files.image;
-        const fileName = Array.isArray(fields.fileName)
-          ? fields.fileName[0]
-          : fields.fileName;
+    let imageHref = "";
 
-        if (!file || !fileName) {
-          return res
-            .status(400)
-            .json({ error: "Image and fileName are required" });
-        }
+    if (image && image.size > 0) {
+      const arrayBuffer = await image.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
 
-        const fileContent = fs.readFileSync(file.filepath);
+      const fileName = `${Date.now()}.${image.type.split("/")[1]}`;
 
-        const now = new Date();
-        const formattedDate = `${now.getFullYear() % 10}${
-          (now.getMonth() + 1) % 10
-        }${now.getDate() % 10}${now.getHours() % 10}${now.getMinutes() % 10}${
-          now.getSeconds() % 10
-        }`;
-        const sanitizedFileName = fileName.replace(/ /g, "-");
-        const extension = file.originalFilename?.split(".").pop() || "png";
-        const filename = `${sanitizedFileName}-${formattedDate}.${extension}`;
-
-        const { error } = await supabase.storage
-          .from("blogg")
-          .upload(filename, fileContent, {
-            contentType: file.mimetype || "application/octet-stream",
-          });
-
-        if (error) {
-          console.error("Supabase Upload Error:", error);
-          return res.status(500).json({ error: "Failed to upload image" });
-        }
-
-        const { data } = supabase.storage.from("blogg").getPublicUrl(filename);
-
-        return res.status(200).json({
-          message: "Image uploaded successfully",
-          url: data.publicUrl,
+      const { data, error } = await supabase.storage
+        .from("blogg")
+        .upload(fileName, buffer, {
+          contentType: image.type,
         });
+
+      if (error) {
+        console.error("Error uploading image:", error.message);
+        return NextResponse.json(
+          { error: "Error uploading image" },
+          { status: 500 }
+        );
       }
+
+      const { data: publicData } = supabase.storage
+        .from("blogg")
+        .getPublicUrl(data.path);
+
+      if (!publicData?.publicUrl) {
+        return NextResponse.json(
+          { error: "Failed to get image URL" },
+          { status: 500 }
+        );
+      }
+
+      imageHref = publicData.publicUrl;
+    } else {
+      imageHref = "/appkom-logo-m-bakgrunn.jpg";
+    }
+
+    return NextResponse.json(
+      { message: "Image uploaded successfully", imageUrl: imageHref },
+      { status: 200 }
     );
   } catch (error) {
     console.error("Unexpected Error:", error);
-    return res.status(500).json({ error: "An unexpected error occurred" });
+    return NextResponse.json(
+      { error: "An unexpected error occurred" },
+      { status: 500 }
+    );
   }
-}
+};

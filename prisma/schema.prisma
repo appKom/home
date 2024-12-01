@@ -13,30 +13,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id            Int       @id @default(autoincrement())
-  name          String
-  href          String
-  imageUri      String?
-  about         String?
-  quote         String?
-  rolesByPeriod Json
-  email         String?   @unique
-  phone         String?
-  github        String?
-  linkedin      String?
-  Article       Article[]
-}
-
 model Article {
   id               Int      @id @default(autoincrement())
   title            String
   description      String
   imageUri         String
   imageDescription String
-  attachmentsUri   String[]
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
-  author           User     @relation(fields: [userId], references: [id])
-  userId           Int
+  authorId         Int
 }

@@ -43,7 +43,7 @@ interface ContentEditorProps {
   title: string;
   setTitle: (title: string) => void;
   setImage: (image: File | null) => void;
-  setAuthor: (author: memberType) => void;
+  setAuthorId: (author: number) => void;
   resetImageUploader: boolean;
   imageDescription: string;
   setImageDescription: (description: string) => void;
@@ -59,7 +59,7 @@ const ContentEditor = ({
   setTitle,
   content,
   setImage,
-  setAuthor,
+  setAuthorId,
   resetImageUploader,
   imageDescription,
   setImageDescription,
@@ -73,7 +73,7 @@ const ContentEditor = ({
       <div>
         <h2 className="text-4xl">{`Velkommen... ${contentTitle}`} </h2>
         <ImageUploader onImageUpload={setImage} reset={resetImageUploader} />
-        <MemberSelect members={members} onSelect={setAuthor} />
+        <MemberSelect members={members} onSelect={setAuthorId} />
         <div className="w-full max-w-3xl mt-10">
           <TextInput
             label="Bildebeskrivelse"

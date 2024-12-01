@@ -13,10 +13,12 @@ export const POST = async (req: NextRequest) => {
     }
 
     const prisma = new PrismaClient();
-    const { title, description, imageUri, imageDescription, author } =
+    const { title, description, imageUri, imageDescription, authorId } =
       await req.json();
 
-    if (!title || !description || !imageUri || !author) {
+    console.log(!title, !description, !imageUri, !authorId);
+
+    if (!title || !description || !imageUri || !authorId) {
       return NextResponse.json(
         { error: "No article provided or file is not valid" },
         { status: 400 }
@@ -29,7 +31,7 @@ export const POST = async (req: NextRequest) => {
         description,
         imageUri,
         imageDescription,
-        author,
+        authorId: authorId,
       },
     });
 
@@ -37,8 +39,13 @@ export const POST = async (req: NextRequest) => {
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
+      {
+        error: "Internal server error",
+        code: "ERR_INVALID_ARG_TYPE",
+      },
+      {
+        status: 500,
+      }
     );
   }
 };

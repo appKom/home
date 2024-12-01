@@ -1,28 +1,29 @@
 import axios from "axios";
 
 export const uploadImage = async (
-  imageFile: File,
-  fileName: string
+  image: File,
+  title: string
 ): Promise<string | null> => {
-  if (imageFile) {
-    try {
-      const formData = new FormData();
-      formData.append("image", imageFile);
-      formData.append("fileName", fileName);
+  try {
+    const formData = new FormData();
+    formData.append("image", image);
+    formData.append("title", title);
 
-      const response = await axios.post("/api/admin/upload/image", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+    const response = await fetch("/api/admin/upload/image", {
+      method: "POST",
+      body: formData,
+    });
 
-      return response.data.url;
-    } catch (error) {
-      console.error("Image upload failed:", error);
-      return null;
+    if (!response.ok) {
+      throw new Error("Image upload failed");
     }
+
+    const data = await response.json();
+    return data.imageUrl;
+  } catch (error) {
+    console.error("Error uploading image:", error);
+    return null;
   }
-  return null;
 };
 
 export const extractAndUploadImages = async (content: string) => {

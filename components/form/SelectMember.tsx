@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef } from "react";
 
 interface MemberSelectProps {
   members: memberType[];
-  onSelect: (member: memberType) => void;
+  onSelect: (member: number) => void;
 }
 
 export function MemberSelect({ members, onSelect }: MemberSelectProps) {
@@ -25,7 +25,7 @@ export function MemberSelect({ members, onSelect }: MemberSelectProps) {
 
   const handleSelectMember = (member: memberType) => {
     setSelectedMember(member);
-    onSelect(member);
+    onSelect(member.id);
     setIsOpen(false);
   };
 
