@@ -106,11 +106,11 @@ const ContentEditor = ({
         <div className="w-full max-w-3xl mt-4"></div>
 
         <div className="flex flex-row items-center justify-center py-10 gap-6">
-          <Button
+          {/* <Button
             title={`${showPreview ? "Skjul" : "Forhåndsvisning"}`}
             color="onlineOrange"
             onClick={() => setShowPreview(!showPreview)}
-          />
+          /> */}
           <Button title="Send" color="onlineOrange" onClick={handleSubmit} />
         </div>
       </div>
