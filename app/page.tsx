@@ -1,4 +1,3 @@
-import { BlogCard } from "@/components/home/BlogCard";
 import { Button } from "@/components/Button";
 import { MemberCard } from "@/components/home/MemberCard";
 import { ProjectCard } from "@/components/home/ProjectCard";
@@ -9,25 +8,16 @@ import {
   getMembersForPeriod,
 } from "@/lib/utils/getRelevantMembers";
 import { HeroSection } from "@/components/HeroSection";
-import { prisma } from "@/lib/prisma";
+import BlogsDisplay from "@/components/home/BlogsDisplay";
 
 export default async function Home() {
-  const blogs = await prisma.article.findMany();
-
   return (
     <div>
       <main className="container mx-auto px-4 ">
         <HeroSection />
         <div className="py-8">
           <HeaderText title="Blogg" />
-          <div className="py-8 flex flex-col md:flex-row justify-between gap-5">
-            {blogs
-              .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
-              .slice(0, 3)
-              .map((blog) => (
-                <BlogCard blog={blog} key={blog.createdAt.toISOString()} />
-              ))}
-          </div>
+          <BlogsDisplay />
 
           <div className="flex justify-center items-center mt-2">
             <Button title="Les mer" href="/blogg" color={"onlineOrange"} />

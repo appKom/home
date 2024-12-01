@@ -1,5 +1,6 @@
 import BlogTable from "@/components/admin/BlogTable";
 import { prisma } from "@/lib/prisma";
+export const dynamic = "force-dynamic";
 
 export default async function DeleteBloggPage() {
   const blogs = await prisma.article.findMany();
