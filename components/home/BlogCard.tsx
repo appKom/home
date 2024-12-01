@@ -1,11 +1,12 @@
+import { articleType } from "@/lib/types";
 import { formatDate } from "@/lib/utils/dateUtils";
-import { blogType } from "@/lib/types";
+
 import Image from "next/image";
 import Link from "next/link";
 import { FaClock } from "react-icons/fa";
 
 interface Props {
-  blog: blogType;
+  blog: articleType;
 }
 
 export const BlogCard = ({ blog }: Props) => {

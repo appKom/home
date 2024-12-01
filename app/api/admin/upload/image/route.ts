@@ -1,6 +1,7 @@
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { createClient } from "@supabase/supabase-js";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+
 import { NextResponse } from "next/server";
 
 const supabaseUrl = process.env.SUPABASE_URL!;
