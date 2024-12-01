@@ -1,16 +1,16 @@
 "use client";
-
 import React, { useState, useCallback, useEffect, useRef } from "react";
+
 import toast from "react-hot-toast";
 import "react-quill-new/dist/quill.snow.css";
-import { articleType, DeepPartial, memberType } from "@/lib/types";
+import { articleType, DeepPartial } from "@/lib/types";
 import ContentEditor from "@/components/form/ContentEditor";
 import {
   extractAndUploadImages,
   uploadImage,
 } from "@/lib/admin/upload/uploadImage";
 
-const LoadingBar = ({ progress }: { progress: number }) => (
+const LoadingBar = ({ progress }: any) => (
   <div className="w-full h-5 bg-gray-200">
     <div
       className="h-5 bg-blue-500"
@@ -23,8 +23,7 @@ export default function BloggPage() {
   const [title, setTitle] = useState("");
   const [imageDescription, setImageDescription] = useState("");
   const [content, setContent] = useState("");
-  const [image, setImage] = useState<File | null>(null);
-  const [author, setAuthor] = useState<memberType | null>(null);
+  const [image, setImage] = useState<string | null>(null);
   const [resetImageUploader, setResetImageUploader] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
@@ -40,7 +39,6 @@ export default function BloggPage() {
     description: "",
     imageUri: "",
     imageDescription: "",
-    author: undefined,
   });
 
   useEffect(() => {
@@ -49,31 +47,22 @@ export default function BloggPage() {
       title,
       description: content,
       imageDescription,
-      author: author ? { ...author } : undefined,
     }));
-  }, [title, content, imageDescription, author]);
+  }, [title, content, imageDescription]);
 
   const handleSubmit = useCallback(async () => {
     setIsLoading(true);
     setLoadingProgress(20);
 
     if (!articleData.title) {
-      toast.error("Please enter a title");
+      toast.error("Vennligst skriv en tittel");
       setIsLoading(false);
       return;
     }
 
-    let uploadedImageUrl: string = "";
-
+    let uploadedImageUrl = "";
     if (image) {
-      const result = await uploadImage(image, articleData.title);
-      if (result) {
-        uploadedImageUrl = result;
-      } else {
-        toast.error("Image upload failed");
-        setIsLoading(false);
-        return;
-      }
+      uploadedImageUrl = await uploadImage(image, articleData.title, false);
     }
 
     setLoadingProgress(50);
@@ -104,6 +93,7 @@ export default function BloggPage() {
       toast.success("Artikkel sendt inn!");
       setLoadingProgress(100);
 
+      // Reset all fields after successful submission
       setTitle("");
       setImageDescription("");
       setContent("");
@@ -117,7 +107,7 @@ export default function BloggPage() {
       });
       setTimeout(() => setResetImageUploader(false), 100);
     } catch (error) {
-      toast.error("Could not submit the article!");
+      toast.error("Kunne ikke sende inn!");
       setLoadingProgress(0);
     } finally {
       setIsLoading(false);
@@ -149,18 +139,56 @@ export default function BloggPage() {
         content={content}
         title={title}
         setTitle={setTitle}
-        setAuthor={setAuthor}
+        setContent={setContent}
+        image={image}
         setImage={setImage}
-        resetImageUploader={resetImageUploader}
+        resetImageUploader={false}
         imageDescription={imageDescription}
         setImageDescription={setImageDescription}
         handleSubmit={handleSubmit}
-        showPreview={showPreview}
+        showPreview={false}
         setShowPreview={setShowPreview}
         handleEditorChange={handleEditorChange}
       />
-
-      {showPreview && null /* TODO */}
+      {
+        showPreview && null
+        // <div className="fixed inset-0 bg-white z-50 flex justify-center items-center overflow-auto">
+        //   <div className="relative bg-white p-8 rounded shadow-lg max-h-full overflow-auto">
+        //     {/* X Button */}
+        //     <button
+        //       className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+        //       onClick={() => setShowPreview(false)}
+        //     >
+        //       &#x2715;
+        //     </button>
+        //     <ArticleDisplay
+        //       article={{
+        //         id: 0,
+        //         title: articleData.title ?? "",
+        //         description: articleData.description ?? "",
+        //         author: {
+        //           firstName: "",
+        //           lastName: "",
+        //           email: "",
+        //           phone: "",
+        //         },
+        //         content: content,
+        //         imageUri: image ?? "",
+        //         imageDescription: articleData.imageDescription ?? "",
+        //         createdAt: new Date(),
+        //         updatedAt: new Date(),
+        //       }}
+        //     />
+        //     <div className="text-center">
+        //       <Button
+        //         title="Lukk forhåndsvisning"
+        //         color="onlineOrange"
+        //         onClick={() => setShowPreview(false)}
+        //       />
+        //     </div>
+        //   </div>
+        // </div>
+      }
     </div>
   );
 }

@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import Image from "next/image";
 
 interface ImageUploaderProps {
-  onImageUpload: (imageFile: File | null) => void;
+  onImageUpload: (image: string | null) => void;
   reset: boolean;
 }
 
@@ -13,17 +13,20 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   onImageUpload,
   reset,
 }) => {
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [image, setImage] = useState<string | null>(null);
 
   const onDropImage = useCallback(
     (acceptedFiles: File[]) => {
       const file = acceptedFiles[0];
-      if (file) {
-        setSelectedFile(file);
-        setImagePreview(URL.createObjectURL(file));
-        onImageUpload(file);
-      }
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        const result = reader.result as string;
+        setImage(result);
+        onImageUpload(result);
+      };
+
+      reader.readAsDataURL(file);
     },
     [onImageUpload]
   );
@@ -33,13 +36,11 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     accept: {
       "image/*": [],
     },
-    multiple: false,
   });
 
   useEffect(() => {
     if (reset) {
-      setSelectedFile(null);
-      setImagePreview(null);
+      setImage(null);
     }
   }, [reset]);
 
@@ -49,15 +50,10 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       className="border-dashed border-2 border-gray-300 p-5 mt-5 w-full max-w-3xl text-center cursor-pointer"
     >
       <input {...getInputProps()} />
-      {imagePreview ? (
-        <Image
-          src={imagePreview}
-          alt="Uploaded image"
-          width={300}
-          height={300}
-        />
+      {image ? (
+        <Image src={image} alt="Uploaded image" width={300} height={300} />
       ) : (
-        <p>Drag and drop the image here, or click to select</p>
+        <p>Dra og slipp bildet her, eller klikk for å velge</p>
       )}
     </div>
   );
