@@ -19,7 +19,7 @@ const LoadingBar = ({ progress }: any) => (
   </div>
 );
 
-export default function CreateArticle() {
+export default function BloggPage() {
   const [title, setTitle] = useState("");
   const [imageDescription, setImageDescription] = useState("");
   const [content, setContent] = useState("");
