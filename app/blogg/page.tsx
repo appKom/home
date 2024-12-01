@@ -2,6 +2,7 @@ import { BlogCard } from "@/components/home/BlogCard";
 import { articleType } from "@/lib/types";
 import { getMonthNameInNorwegian } from "@/lib/utils/dateUtils";
 import { prisma } from "@/lib/prisma";
+export const dynamic = "force-dynamic";
 
 export default async function BlogsPage() {
   const blogs = await prisma.article.findMany();
