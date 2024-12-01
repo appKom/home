@@ -1,4 +1,3 @@
-import { blogs } from "@/lib/blog";
 import { BlogCard } from "@/components/home/BlogCard";
 import { Button } from "@/components/Button";
 import { MemberCard } from "@/components/home/MemberCard";
@@ -10,8 +9,11 @@ import {
   getMembersForPeriod,
 } from "@/lib/utils/getRelevantMembers";
 import { HeroSection } from "@/components/HeroSection";
+import { prisma } from "@/lib/prisma";
 
-export default function Home() {
+export default async function Home() {
+  const blogs = await prisma.article.findMany();
+
   return (
     <div>
       <main className="container mx-auto px-4 ">

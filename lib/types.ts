@@ -1,12 +1,21 @@
-export type blogType = {
+export type articleType = {
+  id: number;
   title: string;
-  author?: string;
-  content: string;
+  description: string;
+  authorId: number;
+  author?: memberType;
   imageUri: string;
+  imageDescription: string;
   createdAt: Date;
+  updatedAt: Date;
+};
+
+export type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
 };
 
 export type memberType = {
+  id: number;
   name: string;
   href: string;
   imageUri?: string;
