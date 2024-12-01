@@ -2,6 +2,9 @@ import dynamic from "next/dynamic";
 import { Button } from "../Button";
 import TextInput from "./TextInput";
 import ImageUploader from "./ImageUploader";
+import { MemberSelect } from "./SelectMember";
+import { members } from "@/lib/members";
+import { memberType } from "@/lib/types";
 
 const QuillEditor = dynamic(() => import("react-quill-new"), { ssr: false });
 
@@ -39,9 +42,8 @@ interface ContentEditorProps {
   content: string;
   title: string;
   setTitle: (title: string) => void;
-  setContent: (content: string) => void;
-  image: string | null;
-  setImage: (image: string | null) => void;
+  setImage: (image: File | null) => void;
+  setAuthor: (author: memberType) => void;
   resetImageUploader: boolean;
   imageDescription: string;
   setImageDescription: (description: string) => void;
@@ -56,9 +58,8 @@ const ContentEditor = ({
   title,
   setTitle,
   content,
-  setContent,
-  image,
   setImage,
+  setAuthor,
   resetImageUploader,
   imageDescription,
   setImageDescription,
@@ -72,6 +73,7 @@ const ContentEditor = ({
       <div>
         <h2 className="text-4xl">{`Velkommen... ${contentTitle}`} </h2>
         <ImageUploader onImageUpload={setImage} reset={resetImageUploader} />
+        <MemberSelect members={members} onSelect={setAuthor} />
         <div className="w-full max-w-3xl mt-10">
           <TextInput
             label="Bildebeskrivelse"
