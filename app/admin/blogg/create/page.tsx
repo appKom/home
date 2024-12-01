@@ -3,7 +3,7 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import "react-quill-new/dist/quill.snow.css";
-import { articleType, DeepPartial, memberType } from "@/lib/types";
+import { articleType, DeepPartial } from "@/lib/types";
 import ContentEditor from "@/components/form/ContentEditor";
 import {
   extractAndUploadImages,
@@ -117,7 +117,7 @@ export default function BloggPage() {
       });
       setTimeout(() => setResetImageUploader(false), 100);
     } catch (error) {
-      toast.error("Could not submit the article!");
+      toast.error("Det skjedde en feil, plzz prøv på nytt!" + error);
       setLoadingProgress(0);
     } finally {
       setIsLoading(false);

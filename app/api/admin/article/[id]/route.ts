@@ -51,7 +51,11 @@ export const DELETE = async (req: NextRequest) => {
         const pathSegments = url.pathname.split("/").slice(5);
         return pathSegments.join("/");
       } catch (err) {
-        throw new Error(`Invalid URL: ${uri}`);
+        if (err instanceof Error) {
+          throw new Error(`Invalid URL: ${uri} - ${err.message}`);
+        } else {
+          throw new Error(`Invalid URL: ${uri}`);
+        }
       }
     };
 

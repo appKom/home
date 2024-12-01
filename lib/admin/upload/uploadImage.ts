@@ -1,5 +1,3 @@
-import axios from "axios";
-
 export const uploadImage = async (
   image: File,
   title: string

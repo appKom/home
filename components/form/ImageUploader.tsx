@@ -14,6 +14,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   reset,
 }) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  //eslint-disable-next-line
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const onDropImage = useCallback(

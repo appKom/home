@@ -4,7 +4,6 @@ import TextInput from "./TextInput";
 import ImageUploader from "./ImageUploader";
 import { MemberSelect } from "./SelectMember";
 import { members } from "@/lib/members";
-import { memberType } from "@/lib/types";
 
 const QuillEditor = dynamic(() => import("react-quill-new"), { ssr: false });
 
@@ -64,8 +63,6 @@ const ContentEditor = ({
   imageDescription,
   setImageDescription,
   handleSubmit,
-  showPreview,
-  setShowPreview,
   handleEditorChange,
 }: ContentEditorProps) => {
   return (

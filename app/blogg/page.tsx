@@ -1,7 +1,6 @@
 import { BlogCard } from "@/components/home/BlogCard";
 import { articleType } from "@/lib/types";
 import { getMonthNameInNorwegian } from "@/lib/utils/dateUtils";
-import { useMemo } from "react";
 import { prisma } from "@/lib/prisma";
 
 export default async function BlogsPage() {
