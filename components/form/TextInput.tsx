@@ -1,39 +1,41 @@
-"use client";
-
-import React from "react";
-
-interface TextInputProps {
-  id: string;
+interface Props {
+  updateInputValues: Function;
   label: string;
-  type?: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  required?: boolean;
-  className?: string;
+  disabled?: boolean;
+  size: string;
+  placeholder?: string;
+  defaultValue?: string;
 }
 
-const TextInput: React.FC<TextInputProps> = ({
-  id,
-  label,
-  type = "text",
-  value,
-  onChange,
-  required = false,
-  className = "",
-}) => (
-  <div>
-    <label htmlFor={id} className="block text-sm font-medium text-gray-200">
-      {label}
-    </label>
-    <input
-      id={id}
-      type={type}
-      value={value}
-      onChange={onChange}
-      required={required}
-      className={`mt-1 p-1 block w-full max-w-lg rounded-md bg-gray-700 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 ${className}`}
-    />
-  </div>
-);
+const TextInput = (props: Props) => {
+  const handleInputChange = (e: HTMLInputElement) => {
+    props.updateInputValues(e.value);
+  };
+
+  return (
+    <div className={`w-full mx-auto my-6 max-w-${props.size}`}>
+      <div className="relative">
+        <input
+          disabled={props.disabled}
+          required
+          type="text"
+          id="inputComponent"
+          placeholder={props.placeholder}
+          value={props.defaultValue}
+          onChange={(e) => {
+            handleInputChange(e.target);
+          }}
+          className="block w-full px-3 py-2 transition border border-gray-300 rounded-md shadow-sm disabled:bg-white disabled:cursor-not-allowed disabled:text-gray-500 placeholder:text-sm dark:bg-gray-900 dark:border-gray-600"
+        />
+        <label
+          htmlFor="inputComponent"
+          className="absolute z-10 px-1 text-xs text-gray-500 transition bg-white -top-2 left-2 dark:bg-gray-900 dark:text-gray-200"
+        >
+          {props.label}
+        </label>
+      </div>
+    </div>
+  );
+};
 
 export default TextInput;

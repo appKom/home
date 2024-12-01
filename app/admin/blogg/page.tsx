@@ -1,235 +1,194 @@
 "use client";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 
-import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import TextAreaInput from "@/components/form/TextAreaInput";
-import TextInput from "@/components/form/TextInput";
-import { blogType } from "@/lib/types";
+import "react-quill-new/dist/quill.snow.css";
+import { articleType, DeepPartial } from "@/lib/types";
+import ContentEditor from "@/components/form/ContentEditor";
+import {
+  extractAndUploadImages,
+  uploadImage,
+} from "@/lib/admin/upload/uploadImage";
 
-const AdminBlogPage = () => {
+const LoadingBar = ({ progress }: any) => (
+  <div className="w-full h-5 bg-gray-200">
+    <div
+      className="h-5 bg-blue-500"
+      style={{ width: `${progress}%`, transition: "width 0.2s" }}
+    ></div>
+  </div>
+);
+
+export default function CreateArticle() {
   const [title, setTitle] = useState("");
-  const [ingress, setIngress] = useState("");
+  const [imageDescription, setImageDescription] = useState("");
   const [content, setContent] = useState("");
+  const [image, setImage] = useState<string | null>(null);
+  const [resetImageUploader, setResetImageUploader] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const loadingBarRef = useRef<HTMLDivElement>(null);
+  const [showPreview, setShowPreview] = useState(false);
 
-  const [attachment, setAttachment] = useState<File | null>(null);
+  const handleEditorChange = (newContent: string) => {
+    setContent(newContent);
+  };
 
-  const [editingApplication, setEditingApplication] = useState<blogType | null>(
-    null
-  );
-
-  const [isLoading, setIsLoading] = useState(true);
-  const [applications, setApplications] = useState<blogType[]>([]);
+  const [articleData, setArticleData] = useState<DeepPartial<articleType>>({
+    title: "",
+    description: "",
+    imageUri: "",
+    imageDescription: "",
+  });
 
   useEffect(() => {
-    const fetchApplications = async () => {
-      try {
-        const response = await fetch("/api/admin/application");
-        if (response.ok) {
-          const data = await response.json();
+    setArticleData((prev: DeepPartial<articleType>) => ({
+      ...prev,
+      title,
+      description: content,
+      imageDescription,
+    }));
+  }, [title, content, imageDescription]);
 
-          setApplications(data.applications);
-        }
-      } catch (error) {
-        if (error instanceof Error) {
-          toast.error(`Klarte ikke å hente blogger: ${error.message}`);
-        } else {
-          toast.error("Klarte ikke å hente blogger");
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchApplications();
-  }, []);
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = useCallback(async () => {
     setIsLoading(true);
-    e.preventDefault();
+    setLoadingProgress(20);
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("content", content);
-
-    if (attachment) {
-      formData.append("attachment", attachment);
-    }
-
-    try {
-      let response;
-
-      if (editingApplication) {
-        formData.append("id", editingApplication.id.toString());
-        response = await fetch("/api/admin/application", {
-          method: "PUT",
-          body: formData,
-        });
-      } else {
-        response = await fetch("/api/admin/application", {
-          method: "POST",
-          body: formData,
-        });
-      }
-
-      if (response.ok) {
-        toast.success(
-          editingApplication ? "Søknad oppdatert" : "Søknad lagt til!"
-        );
-        resetForm();
-
-        if (editingApplication) {
-          const updatedApplication = await response.json();
-          setApplications(
-            applications.map((application) =>
-              application.id === editingApplication.id
-                ? updatedApplication.application
-                : application
-            )
-          );
-        } else {
-          setApplications([
-            ...applications,
-            (await response.json()).application,
-          ]);
-        }
-
-        setEditingApplication(null);
-      } else {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(`Failed to add application: ${error.message}`);
-      } else {
-        toast.error(
-          editingApplication
-            ? "Klarte ikke å oppdatere søknad"
-            : "Klarte ikke å legge til søknad"
-        );
-      }
-    } finally {
+    if (!articleData.title) {
+      toast.error("Vennligst skriv en tittel");
       setIsLoading(false);
-    }
-  };
-
-  const resetForm = () => {
-    setTitle("");
-
-    setContent("");
-    setEditingApplication(null);
-    setAttachment(null);
-  };
-
-  const handleEdit = (application: blogType) => {
-    setEditingApplication(application);
-    setTitle(application.title);
-    setContent(application.content || "");
-  };
-
-  const handleRemove = async (id: number) => {
-    const confirmed = window.confirm(
-      "Er du sikker på at du vil slette denne søknaden?"
-    );
-    if (!confirmed) {
       return;
     }
 
+    let uploadedImageUrl = "";
+    if (image) {
+      uploadedImageUrl = await uploadImage(image, articleData.title, false);
+    }
+
+    setLoadingProgress(50);
+
+    setLoadingProgress(70);
+
+    const updatedContent = await extractAndUploadImages(content);
+
+    const article = {
+      ...articleData,
+      imageUri: uploadedImageUrl,
+      description: updatedContent,
+    };
+
     try {
-      const response = await fetch("/api/admin/application", {
-        method: "DELETE",
-        body: JSON.stringify({ id }),
+      const response = await fetch(`/api/admin/article`, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify(article),
       });
 
-      if (response.ok) {
-        setApplications(
-          applications.filter((application) => application.id !== id)
-        );
-        toast.success("Søknad fjernet!");
-      } else {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      if (!response.ok) {
+        throw new Error("Failed to submit data");
       }
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(`Klarte ikke å fjerne søknad: ${error.message}`);
-      } else {
-        toast.error("Klarte ikke å fjerne søknad");
-      }
-    }
-  };
 
-  const columns = [
-    {
-      header: "Tittel",
-      accessor: "title" as keyof blogType,
-    },
-  ];
+      toast.success("Artikkel sendt inn!");
+      setLoadingProgress(100);
+
+      // Reset all fields after successful submission
+      setTitle("");
+      setImageDescription("");
+      setContent("");
+      setImage(null);
+      setResetImageUploader(true);
+      setArticleData({
+        title: "",
+        description: "",
+        imageUri: "",
+        imageDescription: "",
+      });
+      setTimeout(() => setResetImageUploader(false), 100);
+    } catch (error) {
+      toast.error("Kunne ikke sende inn!");
+      setLoadingProgress(0);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [articleData, image, content]);
+
+  useEffect(() => {
+    if (isLoading && loadingBarRef.current) {
+      loadingBarRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [isLoading]);
+
+  if (isLoading) {
+    return (
+      <div
+        className="h-screen flex flex-col justify-center items-center px-8"
+        ref={loadingBarRef}
+      >
+        <h1 className="text-3xl">Laster...</h1>
+        <LoadingBar progress={loadingProgress} />
+      </div>
+    );
+  }
 
   return (
-    <div className="w-full flex justify-center min-h-screen">
-      <div className="w-full">
-        <main className="flex flex-col w-full">
-          <h1 className="text-2xl font-bold mb-4">Administrer blogger</h1>
-          <form onSubmit={handleSubmit} className="space-y-4 mb-8 w-full ">
-            <TextInput
-              id="title"
-              label="Tittel"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-            />
-            <TextInput
-              id="ingress"
-              label="Ingress"
-              value={ingress}
-              onChange={(e) => setIngress(e.target.value)}
-            />
-
-            <TextAreaInput
-              id="content"
-              label="Innhold"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-            />
-          </form>
-
-          <h2 className="text-xl font-semibold mb-2">Blogger</h2>
-          {isLoading ? (
-            <div className=" text-white flex items-center justify-center">
-              <div className="text-center">
-                <div className="inline-block animate-spin rounded-full h-16 w-16 border-y-2 border-onlineyellow mb-4"></div>
-                <h2 className="text-2xl font-semibold">
-                  Laster inn blogger...
-                </h2>
-              </div>
-            </div>
-          ) : // <Table
-          //   columns={columns}
-          //   data={applications}
-          //   renderRowActions={(application: blogType) => (
-          //     <>
-          //       <button
-          //         onClick={() => handleEdit(application)}
-          //         className="text-blue-500 hover:text-blue-700 mr-2"
-          //       >
-          //         <Edit className="h-5 w-5" />
-          //       </button>
-          //       <button
-          //         onClick={() => handleRemove(application.id)}
-          //         className="text-red-500 hover:text-red-700"
-          //       >
-          //         <XIcon className="h-5 w-5" />
-          //       </button>
-          //     </>
-          //   )}
-          // />
-          null}
-        </main>
-      </div>
+    <div className="relative px-8 flex flex-col items-center">
+      <ContentEditor
+        contentTitle={"Opprett en artikkel"}
+        content={content}
+        title={title}
+        setTitle={setTitle}
+        setContent={setContent}
+        image={image}
+        setImage={setImage}
+        resetImageUploader={false}
+        imageDescription={imageDescription}
+        setImageDescription={setImageDescription}
+        handleSubmit={handleSubmit}
+        showPreview={false}
+        setShowPreview={setShowPreview}
+        handleEditorChange={handleEditorChange}
+      />
+      {
+        showPreview && null
+        // <div className="fixed inset-0 bg-white z-50 flex justify-center items-center overflow-auto">
+        //   <div className="relative bg-white p-8 rounded shadow-lg max-h-full overflow-auto">
+        //     {/* X Button */}
+        //     <button
+        //       className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+        //       onClick={() => setShowPreview(false)}
+        //     >
+        //       &#x2715;
+        //     </button>
+        //     <ArticleDisplay
+        //       article={{
+        //         id: 0,
+        //         title: articleData.title ?? "",
+        //         description: articleData.description ?? "",
+        //         author: {
+        //           firstName: "",
+        //           lastName: "",
+        //           email: "",
+        //           phone: "",
+        //         },
+        //         content: content,
+        //         imageUri: image ?? "",
+        //         imageDescription: articleData.imageDescription ?? "",
+        //         createdAt: new Date(),
+        //         updatedAt: new Date(),
+        //       }}
+        //     />
+        //     <div className="text-center">
+        //       <Button
+        //         title="Lukk forhåndsvisning"
+        //         color="onlineOrange"
+        //         onClick={() => setShowPreview(false)}
+        //       />
+        //     </div>
+        //   </div>
+        // </div>
+      }
     </div>
   );
-};
-
-export default AdminBlogPage;
+}
