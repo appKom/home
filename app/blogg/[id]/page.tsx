@@ -1,4 +1,3 @@
-import { blogs } from "@/lib/blog";
 import { articleType, memberType, tParams } from "@/lib/types";
 import Custom404 from "@/app/not-found";
 import Image from "next/image";

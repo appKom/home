@@ -1,26 +1,25 @@
 import { BlogCard } from "@/components/home/BlogCard";
-import { blogs } from "@/lib/blog";
+import { articleType } from "@/lib/types";
 import { getMonthNameInNorwegian } from "@/lib/utils/dateUtils";
-import { blogType } from "@/lib/types";
 import { useMemo } from "react";
+import { prisma } from "@/lib/prisma";
 
-export default function BlogsPage() {
-  const blogsByMonth = useMemo(() => {
-    const groupedBlogs = blogs.reduce<Record<string, blogType[]>>(
-      (acc, blog) => {
-        const monthYear = `${getMonthNameInNorwegian(
-          blog.createdAt
-        )} ${blog.createdAt.getFullYear()}`;
-        if (!acc[monthYear]) {
-          acc[monthYear] = [];
-        }
-        acc[monthYear].push(blog);
-        return acc;
-      },
-      {}
-    );
-    return groupedBlogs;
-  }, []);
+export default async function BlogsPage() {
+  const blogs = await prisma.article.findMany();
+
+  const blogsByMonth: Record<string, articleType[]> = blogs.reduce(
+    (acc, blog) => {
+      const monthYear = `${getMonthNameInNorwegian(
+        blog.createdAt
+      )} ${blog.createdAt.getFullYear()}`;
+      if (!acc[monthYear]) {
+        acc[monthYear] = [];
+      }
+      acc[monthYear].push(blog);
+      return acc;
+    },
+    {} as Record<string, articleType[]>
+  );
 
   return (
     <div className="w-full flex justify-center min-h-screen">
