@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { NextRequest } from "next/server";
-import { getSession } from "next-auth/react";
 import { getServerSession } from "next-auth";
 
 export const POST = async (req: NextRequest) => {
@@ -14,8 +13,14 @@ export const POST = async (req: NextRequest) => {
     }
 
     const prisma = new PrismaClient();
-    const { title, description, imageUri, imageDescription, attachmentsUri, author } =
-      await req.json();
+    const {
+      title,
+      description,
+      imageUri,
+      imageDescription,
+      attachmentsUri,
+      author,
+    } = await req.json();
 
     if (!title || !description || !imageUri || !attachmentsUri || !author) {
       console.log(imageDescription);
@@ -32,7 +37,7 @@ export const POST = async (req: NextRequest) => {
         imageUri,
         imageDescription,
         attachmentsUri,
-        author
+        author,
       },
     });
 
@@ -43,5 +48,4 @@ export const POST = async (req: NextRequest) => {
       { status: 500 }
     );
   }
-});
-
+};
