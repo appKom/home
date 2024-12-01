@@ -1,26 +1,22 @@
 import axios from "axios";
 
 export const uploadImage = async (
-  image: string,
-  fileName: string,
-  base64: boolean
-) => {
-  if (image) {
+  imageFile: File,
+  fileName: string
+): Promise<string | null> => {
+  if (imageFile) {
     try {
-      if (!base64) {
-        const base64Image = image.split(",")[1];
-        const response = await axios.post("/api/admin/upload/image", {
-          base64Image,
-          fileName: fileName,
-        });
-        return response.data.url;
-      } else {
-        const response = await axios.post("/api/admin/upload/image", {
-          base64Image: image,
-          fileName: fileName,
-        });
-        return response.data.url;
-      }
+      const formData = new FormData();
+      formData.append("image", imageFile);
+      formData.append("fileName", fileName);
+
+      const response = await axios.post("/api/admin/upload/image", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      return response.data.url;
     } catch (error) {
       console.error("Image upload failed:", error);
       return null;
@@ -36,11 +32,20 @@ export const extractAndUploadImages = async (content: string) => {
   const uploadPromises = base64Images.map(async (match, index) => {
     const mimeType = match[1];
     const base64String = match[2];
-    const extension = match[1];
+    const extension = mimeType.split("/")[1] || "png";
     const fileName = `image_${Date.now()}_${index}.${extension}`;
 
     try {
-      const imageUrl = await uploadImage(base64String, fileName, true);
+      const byteCharacters = atob(base64String);
+      const byteNumbers = Array.from(byteCharacters).map((char) =>
+        char.charCodeAt(0)
+      );
+      const byteArray = new Uint8Array(byteNumbers);
+      const file = new File([byteArray], fileName, {
+        type: `image/${mimeType}`,
+      });
+
+      const imageUrl = await uploadImage(file, fileName);
       return { base64String, imageUrl, mimeType };
     } catch (error) {
       console.error(`Failed to upload image: ${fileName}`, error);

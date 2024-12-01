@@ -16,6 +16,7 @@ export type DeepPartial<T> = {
 };
 
 export type memberType = {
+  id: number;
   name: string;
   href: string;
   imageUri?: string;
