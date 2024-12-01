@@ -1,166 +1,73 @@
 "use client";
 
-import React, { useState, useCallback, useEffect, useRef } from "react";
-import toast from "react-hot-toast";
-import "react-quill-new/dist/quill.snow.css";
-import { articleType, DeepPartial, memberType } from "@/lib/types";
-import ContentEditor from "@/components/form/ContentEditor";
-import {
-  extractAndUploadImages,
-  uploadImage,
-} from "@/lib/admin/upload/uploadImage";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { BookIcon, Edit, DeleteIcon } from "lucide-react";
 
-const LoadingBar = ({ progress }: { progress: number }) => (
-  <div className="w-full h-5 bg-gray-200">
-    <div
-      className="h-5 bg-blue-500"
-      style={{ width: `${progress}%`, transition: "width 0.2s" }}
-    ></div>
-  </div>
-);
+interface IRoute {
+  title: string;
+  href: string;
+  icon: React.FC<React.SVGProps<SVGSVGElement>>;
+  description: string;
+}
 
-export default function BloggPage() {
-  const [title, setTitle] = useState("");
-  const [imageDescription, setImageDescription] = useState("");
-  const [content, setContent] = useState("");
-  const [image, setImage] = useState<File | null>(null);
-  const [authorId, setAuthorId] = useState<number | null>(null);
-  const [resetImageUploader, setResetImageUploader] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [loadingProgress, setLoadingProgress] = useState(0);
-  const loadingBarRef = useRef<HTMLDivElement>(null);
-  const [showPreview, setShowPreview] = useState(false);
+const BloggAdminPage = () => {
+  const { data: session } = useSession();
 
-  const handleEditorChange = (newContent: string) => {
-    setContent(newContent);
-  };
-
-  const [articleData, setArticleData] = useState<DeepPartial<articleType>>({
-    title: "",
-    description: "",
-    imageUri: "",
-    imageDescription: "",
-    authorId: 0,
-  });
-
-  useEffect(() => {
-    setArticleData((prev: DeepPartial<articleType>) => ({
-      ...prev,
-      title,
-      description: content,
-      imageDescription,
-      authorId: authorId ?? undefined,
-    }));
-  }, [title, content, imageDescription, authorId]);
-
-  const handleSubmit = useCallback(async () => {
-    setIsLoading(true);
-    setLoadingProgress(20);
-
-    if (!articleData.title) {
-      toast.error("Please enter a title");
-      setIsLoading(false);
-      return;
-    }
-
-    let uploadedImageUrl: string = "";
-
-    if (image) {
-      const result = await uploadImage(image, articleData.title);
-      if (result) {
-        uploadedImageUrl = result;
-      } else {
-        toast.error("Image upload failed");
-        setIsLoading(false);
-        return;
-      }
-    }
-
-    setLoadingProgress(50);
-
-    setLoadingProgress(70);
-
-    const updatedContent = await extractAndUploadImages(content);
-
-    const article = {
-      ...articleData,
-      imageUri: uploadedImageUrl,
-      description: updatedContent,
-    };
-
-    try {
-      const response = await fetch(`/api/admin/article`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(article),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to submit data");
-      }
-
-      toast.success("Artikkel sendt inn!");
-      setLoadingProgress(100);
-
-      setTitle("");
-      setImageDescription("");
-      setContent("");
-      setImage(null);
-      setResetImageUploader(true);
-      setArticleData({
-        title: "",
-        description: "",
-        imageUri: "",
-        imageDescription: "",
-      });
-      setTimeout(() => setResetImageUploader(false), 100);
-    } catch (error) {
-      toast.error("Could not submit the article!");
-      setLoadingProgress(0);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [articleData, image, content]);
-
-  useEffect(() => {
-    if (isLoading && loadingBarRef.current) {
-      loadingBarRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [isLoading]);
-
-  if (isLoading) {
-    return (
-      <div
-        className="h-screen flex flex-col justify-center items-center px-8"
-        ref={loadingBarRef}
-      >
-        <h1 className="text-3xl">Laster...</h1>
-        <LoadingBar progress={loadingProgress} />
-      </div>
-    );
-  }
+  const routes: IRoute[] = [
+    {
+      title: "Opprett Blogg",
+      href: "/admin/blogg/create",
+      icon: BookIcon,
+      description: "Opprett et nytt blogginnlegg",
+    },
+    {
+      title: "Rediger Blogg",
+      href: "/admin/blogg/edit",
+      icon: Edit,
+      description: "Rediger eksisterende blogginnlegg",
+    },
+    {
+      title: "Slett Blogg",
+      href: "/admin/blogg/delete",
+      icon: DeleteIcon,
+      description: "Slett blogginnlegg",
+    },
+  ];
 
   return (
-    <div className="relative px-8 flex flex-col items-center">
-      <ContentEditor
-        contentTitle={"Opprett en artikkel"}
-        content={content}
-        title={title}
-        setTitle={setTitle}
-        setAuthorId={setAuthorId}
-        setImage={setImage}
-        resetImageUploader={resetImageUploader}
-        imageDescription={imageDescription}
-        setImageDescription={setImageDescription}
-        handleSubmit={handleSubmit}
-        showPreview={showPreview}
-        setShowPreview={setShowPreview}
-        handleEditorChange={handleEditorChange}
-      />
-
-      {showPreview && null /* TODO */}
+    <div className="flex flex-col items-center py-8 ">
+      <main className="max-w-8xl mx-auto px-4 sm:px-6 md:px-8 pt-10 pb-24 lg:pt-16">
+        <div className="mb-10">
+          <h1 className="text-3xl font-extrabold text-white tracking-tight mb-2">
+            Hva ønsker {session?.user!.name} å gjøre?
+          </h1>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {routes.map((item) => (
+            <RouteCard key={item.title} {...item} />
+          ))}
+        </div>
+      </main>
     </div>
   );
-}
+};
+
+export default BloggAdminPage;
+
+const RouteCard = (item: IRoute) => (
+  <Link
+    key={item.title}
+    href={item.href}
+    className="group relative rounded-xl border border-slate-800 p-6 hover:bg-slate-800/50"
+  >
+    <div className="absolute -inset-px rounded-xl border-2 border-transparent opacity-0 [background:linear-gradient(var(--quick-links-hover-bg,theme(colors.slate.800)),var(--quick-links-hover-bg,theme(colors.slate.800)))_padding-box,linear-gradient(to_top,theme(colors.indigo.400),theme(colors.cyan.400),theme(colors.sky.500))_border-box] group-hover:opacity-100 transition" />
+    <div className="relative flex items-center">
+      <item.icon className="w-8 h-8 text-sky-500 mr-4" />
+      <div>
+        <h2 className="text-xl font-semibold text-white mb-1">{item.title}</h2>
+        <p className="text-sm text-slate-400">{item.description}</p>
+      </div>
+    </div>
+  </Link>
+);
