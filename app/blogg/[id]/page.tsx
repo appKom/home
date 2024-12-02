@@ -10,7 +10,8 @@ import rehypeRaw from "rehype-raw";
 import { members } from "@/lib/members";
 import { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
-export const dynamic = "force-dynamic";
+
+export const revalidate = 3600 * 24;
 
 export async function generateMetadata(props: {
   params: tParams;
