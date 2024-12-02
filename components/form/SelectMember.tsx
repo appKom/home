@@ -6,13 +6,27 @@ import React, { useState, useEffect, useRef } from "react";
 interface MemberSelectProps {
   members: memberType[];
   onSelect: (member: number) => void;
+  initialSelectedMemberId?: number | null;
 }
 
-export function MemberSelect({ members, onSelect }: MemberSelectProps) {
+export function MemberSelect({
+  members,
+  onSelect,
+  initialSelectedMemberId,
+}: MemberSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedMember, setSelectedMember] = useState<memberType | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (initialSelectedMemberId) {
+      const member = members.find((m) => m.id === initialSelectedMemberId);
+      if (member) {
+        setSelectedMember(member);
+      }
+    }
+  }, [initialSelectedMemberId, members]);
 
   const getMostRecentRole = (rolesByPeriod: memberType["rolesByPeriod"]) => {
     const periods = Object.keys(rolesByPeriod).sort().reverse();

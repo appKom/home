@@ -1,39 +1,13 @@
-"use client";
+import BlogTable from "@/components/admin/BlogTable";
+import { prisma } from "@/lib/prisma";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { getServerSession } from "next-auth";
+import { Button } from "@/components/Button";
+export const dynamic = "force-dynamic";
 
-import { useSession } from "next-auth/react";
-import Link from "next/link";
-import { BookIcon, Edit, DeleteIcon } from "lucide-react";
-
-interface IRoute {
-  title: string;
-  href: string;
-  icon: React.FC<React.SVGProps<SVGSVGElement>>;
-  description: string;
-}
-
-const BloggAdminPage = () => {
-  const { data: session } = useSession();
-
-  const routes: IRoute[] = [
-    {
-      title: "Opprett Blogg",
-      href: "/admin/blogg/create",
-      icon: BookIcon,
-      description: "Opprett et nytt blogginnlegg",
-    },
-    {
-      title: "Rediger Blogg",
-      href: "/admin/blogg/edit",
-      icon: Edit,
-      description: "Rediger eksisterende blogginnlegg",
-    },
-    {
-      title: "Slett Blogg",
-      href: "/admin/blogg/delete",
-      icon: DeleteIcon,
-      description: "Slett blogginnlegg",
-    },
-  ];
+export default async function AdminBlogsPage() {
+  const blogs = await prisma.article.findMany();
+  const session = await getServerSession(authOptions);
 
   return (
     <div className="flex flex-col items-center py-8 ">
@@ -43,31 +17,18 @@ const BloggAdminPage = () => {
             Hva ønsker {session?.user!.name} å gjøre?
           </h1>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {routes.map((item) => (
-            <RouteCard key={item.title} {...item} />
-          ))}
+        <div className="flex justify-center">
+          <Button
+            title={"Opprett blogg"}
+            href="/admin/blogg/create"
+            color={"onlineOrange"}
+          />
+        </div>
+        <div className="mx-auto max-w-4xl">
+          <h1 className="mb-6 text-3xl font-bold text-gray-100">Blogger</h1>
+          <BlogTable blogs={blogs} />
         </div>
       </main>
     </div>
   );
-};
-
-export default BloggAdminPage;
-
-const RouteCard = (item: IRoute) => (
-  <Link
-    key={item.title}
-    href={item.href}
-    className="group relative rounded-xl border border-slate-800 p-6 hover:bg-slate-800/50"
-  >
-    <div className="absolute -inset-px rounded-xl border-2 border-transparent opacity-0 [background:linear-gradient(var(--quick-links-hover-bg,theme(colors.slate.800)),var(--quick-links-hover-bg,theme(colors.slate.800)))_padding-box,linear-gradient(to_top,theme(colors.indigo.400),theme(colors.cyan.400),theme(colors.sky.500))_border-box] group-hover:opacity-100 transition" />
-    <div className="relative flex items-center">
-      <item.icon className="w-8 h-8 text-sky-500 mr-4" />
-      <div>
-        <h2 className="text-xl font-semibold text-white mb-1">{item.title}</h2>
-        <p className="text-sm text-slate-400">{item.description}</p>
-      </div>
-    </div>
-  </Link>
-);
+}

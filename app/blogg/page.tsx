@@ -31,7 +31,6 @@ export default async function BlogsPage() {
           </h1>
 
           <div className="flex flex-col gap-5">
-            {/* Reverse the keys array here */}
             {Object.keys(blogsByMonth)
               .reverse()
               .map((monthYear) => (

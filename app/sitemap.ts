@@ -3,7 +3,7 @@ import { members } from "@/lib/members";
 import { projects } from "@/lib/projects";
 import type { MetadataRoute } from "next";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 36000;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://appkom.no";
