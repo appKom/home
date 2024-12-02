@@ -39,6 +39,7 @@ export default function BloggEditPage() {
   useEffect(() => {
     const fetchArticleData = async () => {
       try {
+        setIsLoading(true);
         setLoadingProgress(10);
         const response = await fetch(`/api/admin/article/${id}`, {
           method: "GET",
@@ -64,6 +65,7 @@ export default function BloggEditPage() {
         );
       } finally {
         setLoadingProgress(100);
+        setIsLoading(false);
       }
     };
 
@@ -93,6 +95,11 @@ export default function BloggEditPage() {
       const result = await uploadImage(image, formData.title);
       if (result) {
         uploadedImageUrl = result;
+
+        setFormData((prev) => ({
+          ...prev,
+          imageUri: uploadedImageUrl,
+        }));
       } else {
         toast.error("Image upload failed");
         setIsLoading(false);

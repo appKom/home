@@ -66,7 +66,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
           height={300}
         />
       ) : (
-        <p>Drag and drop the image here, or click to select</p>
+        <p>Dra og slipp et bilde her, eller klikk for å velge</p>
       )}
     </div>
   );
