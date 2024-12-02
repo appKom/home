@@ -10,6 +10,57 @@ const supabaseUrl = process.env.SUPABASE_URL!;
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const { id } = params;
+
+  try {
+    const body = await req.json();
+    const { title, description, imageUri, imageDescription, authorId } = body;
+
+    const existingArticle = await prisma.article.findUnique({
+      where: { id: parseInt(id) },
+    });
+
+    if (!existingArticle) {
+      return NextResponse.json({ error: "Article not found" }, { status: 404 });
+    }
+
+    if (existingArticle.imageUri && existingArticle.imageUri !== imageUri) {
+      const oldImagePath = existingArticle.imageUri;
+      const { error: deleteError } = await supabase.storage
+        .from("blogg")
+        .remove([oldImagePath]);
+
+      if (deleteError) {
+        console.error("Error deleting old image:", deleteError);
+      }
+    }
+
+    const updatedArticle = await prisma.article.update({
+      where: { id: parseInt(id) },
+      data: {
+        title,
+        description,
+        imageUri,
+        imageDescription,
+        authorId,
+        updatedAt: new Date(),
+      },
+    });
+
+    return NextResponse.json({ article: updatedArticle }, { status: 200 });
+  } catch (error) {
+    console.error("Error updating article:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
+}
+
 export const GET = async (req: NextRequest) => {
   try {
     const session = await getServerSession(authOptions);

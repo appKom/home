@@ -21,11 +21,6 @@ const LoadingBar = ({ progress }: { progress: number }) => (
 );
 
 export default function BloggEditPage() {
-  //eslint-disable-next-line
-  const [title, setTitle] = useState("");
-  //eslint-disable-next-line
-  const [imageDescription, setImageDescription] = useState("");
-  const [content, setContent] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const [resetImageUploader, setResetImageUploader] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -109,7 +104,12 @@ export default function BloggEditPage() {
 
     setLoadingProgress(70);
 
-    const updatedContent = await extractAndUploadImages(content);
+    if (!formData.description) {
+      toast.error("Please enter a description");
+      setIsLoading(false);
+      return;
+    }
+    const updatedContent = await extractAndUploadImages(formData.description);
 
     const article = {
       ...formData,
@@ -133,17 +133,6 @@ export default function BloggEditPage() {
       toast.success("Artikkel oppdatert inn!");
       setLoadingProgress(100);
 
-      setTitle("");
-      setImageDescription("");
-      setContent("");
-      setImage(null);
-      setResetImageUploader(true);
-      setFormData({
-        title: "",
-        description: "",
-        imageUri: "",
-        imageDescription: "",
-      });
       setTimeout(() => setResetImageUploader(false), 100);
     } catch (error) {
       toast.error("Det skjedde en feil, plzz prøv på nytt!" + error);
@@ -151,7 +140,7 @@ export default function BloggEditPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [formData, image, content]);
+  }, [formData, image]);
 
   useEffect(() => {
     if (isLoading && loadingBarRef.current) {
