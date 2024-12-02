@@ -6,7 +6,11 @@ import { prisma } from "@/lib/prisma";
 export const revalidate = 3600;
 
 export default async function BlogsPage() {
-  const blogs = await prisma.article.findMany();
+  const blogs = await prisma.article.findMany({
+    orderBy: {
+      createdAt: "asc",
+    },
+  });
 
   const blogsByMonth: Record<string, articleType[]> = blogs.reduce(
     (acc, blog) => {
