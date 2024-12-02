@@ -6,13 +6,6 @@ import { getServerSession } from "next-auth";
 import { Button } from "@/components/Button";
 export const dynamic = "force-dynamic";
 
-interface IRoute {
-  title: string;
-  href: string;
-  icon: React.FC<React.SVGProps<SVGSVGElement>>;
-  description: string;
-}
-
 export default async function AdminBlogsPage() {
   const blogs = await prisma.article.findMany();
   const session = await getServerSession(authOptions);

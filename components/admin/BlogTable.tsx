@@ -12,12 +12,14 @@ interface BlogTableProps {
 
 const BlogTable = ({ blogs }: BlogTableProps) => {
   const [blogList, setBlogList] = useState(blogs);
+  const [isLoading, setIsLoading] = useState(false);
 
   const deleteBlog = async (id: number) => {
     const confirmed = confirm(
       "Er du sikker på at du vil slette denne bloggen?"
     );
     if (!confirmed) return;
+    setIsLoading(true);
 
     try {
       const response = await fetch(`/api/admin/article/${id}`, {
@@ -33,8 +35,25 @@ const BlogTable = ({ blogs }: BlogTableProps) => {
     } catch (error) {
       console.error("Error deleting blog:", error);
       toast.error("An error occurred while deleting the blog.");
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className=" text-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-16 w-16 border-y-2  mb-4"></div>
+          <h2 className="text-2xl font-semibold">Sletter blogg...</h2>
+          <p className="text-slate-400 mt-2">
+            {`Vennligst vent mens bloggen blir slettet :)`}
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full p-4">
