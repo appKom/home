@@ -25,7 +25,6 @@ export default function BloggEditPage() {
   const [imageDescription, setImageDescription] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState<File | null>(null);
-  const [authorId, setAuthorId] = useState<number | null>(null);
   const [resetImageUploader, setResetImageUploader] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
@@ -38,6 +37,13 @@ export default function BloggEditPage() {
   };
 
   const [articleData, setArticleData] = useState<DeepPartial<articleType>>({});
+
+  const [formData, setFormData] = useState<DeepPartial<articleType>>({
+    title: "",
+    description: "",
+    imageDescription: "",
+    authorId: undefined,
+  });
 
   useEffect(() => {
     const fetchArticleData = async () => {
@@ -52,7 +58,12 @@ export default function BloggEditPage() {
           throw new Error("Failed to fetch article data");
         }
         const article = await response.json();
-        setArticleData(article);
+        setFormData({
+          title: article.title || "",
+          description: article.description || "",
+          imageDescription: article.imageDescription || "",
+          authorId: article.authorId || null,
+        });
       } catch (error) {
         toast.error(
           "Failed to fetch article data: " + (error as Error).message
@@ -63,15 +74,12 @@ export default function BloggEditPage() {
     fetchArticleData();
   }, [id]);
 
-  useEffect(() => {
-    setArticleData((prev: DeepPartial<articleType>) => ({
+  const handleChange = (field: keyof DeepPartial<articleType>, value: any) => {
+    setFormData((prev) => ({
       ...prev,
-      title,
-      description: content,
-      imageDescription,
-      authorId: authorId ?? undefined,
+      [field]: value,
     }));
-  }, [title, content, imageDescription, authorId]);
+  };
 
   const handleSubmit = useCallback(async () => {
     setIsLoading(true);
@@ -166,18 +174,18 @@ export default function BloggEditPage() {
     <div className=" px-8 flex flex-col w-full items-center">
       <ContentEditor
         contentTitle={"Opprett en artikkel"}
-        content={content}
-        title={title}
-        setTitle={setTitle}
-        setAuthorId={setAuthorId}
+        content={formData.description || ""}
+        title={formData.title || ""}
+        setTitle={(value) => handleChange("title", value)}
+        setAuthorId={(value) => handleChange("authorId", value)}
         setImage={setImage}
         resetImageUploader={resetImageUploader}
-        imageDescription={imageDescription}
-        setImageDescription={setImageDescription}
+        imageDescription={formData.imageDescription || ""}
+        setImageDescription={(value) => handleChange("imageDescription", value)}
         handleSubmit={handleSubmit}
         showPreview={showPreview}
         setShowPreview={setShowPreview}
-        handleEditorChange={handleEditorChange}
+        handleEditorChange={(value) => handleChange("description", value)}
       />
 
       {showPreview && null /* TODO */}
