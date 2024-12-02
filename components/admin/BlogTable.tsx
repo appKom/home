@@ -63,7 +63,7 @@ const BlogTable = ({ blogs }: BlogTableProps) => {
           <Link
             href={`/admin/blogg/edit/${blog.id}`}
             key={blog.id}
-            className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-105"
+            className="bg-white  dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-105"
           >
             <Image
               src={blog.imageUri}
@@ -72,31 +72,32 @@ const BlogTable = ({ blogs }: BlogTableProps) => {
               height={300}
               className="w-full h-40 object-cover"
             />
+            <div className="p-2">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 truncate">
+                {blog.title}
+              </h2>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                {members.find((member) => member.id === blog.authorId)?.name ||
+                  "Unknown Author"}
+              </p>
 
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 truncate">
-              {blog.title}
-            </h2>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              {members.find((member) => member.id === blog.authorId)?.name ||
-                "Unknown Author"}
-            </p>
-
-            <div className="flex justify-end space-x-2 p-4 bg-gray-50 dark:bg-gray-700">
-              <button
-                onClick={(event) => {
-                  event.preventDefault();
-                  deleteBlog(blog.id);
-                }}
-                className="px-3 py-1 text-sm text-white bg-red-500 rounded hover:bg-red-600 transition-colors duration-200"
-              >
-                Slett
-              </button>
-              <Link
-                href={`/admin/blogg/edit/${blog.id}`}
-                className="px-3 py-1 text-sm text-white bg-blue-500 rounded hover:bg-blue-600 transition-colors duration-200"
-              >
-                Rediger
-              </Link>
+              <div className="flex justify-around  ">
+                <button
+                  onClick={(event) => {
+                    event.preventDefault();
+                    deleteBlog(blog.id);
+                  }}
+                  className="px-4 py-2 text-sm text-white bg-red-500 rounded hover:bg-red-600 transition-colors duration-200"
+                >
+                  Slett
+                </button>
+                <Link
+                  href={`/admin/blogg/edit/${blog.id}`}
+                  className="px-4 py-2 text-sm text-white bg-blue-500 rounded hover:bg-blue-600 transition-colors duration-200"
+                >
+                  Rediger
+                </Link>
+              </div>
             </div>
           </Link>
         ))}
