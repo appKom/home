@@ -5,6 +5,7 @@ import { articleType } from "@/lib/types";
 import Link from "next/link";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 interface BlogTableProps {
   blogs: articleType[];
@@ -59,22 +60,33 @@ const BlogTable = ({ blogs }: BlogTableProps) => {
     <div className="w-full p-4">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {blogList.map((blog) => (
-          <div
+          <Link
+            href={`/admin/blogg/edit/${blog.id}`}
             key={blog.id}
             className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-105"
           >
-            <Link href={`/admin/blogg/edit/${blog.id}`} className="block p-4">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 truncate">
-                {blog.title}
-              </h2>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                {members.find((member) => member.id === blog.authorId)?.name ||
-                  "Unknown Author"}
-              </p>
-            </Link>
+            <Image
+              src={blog.imageUri}
+              alt={blog.imageDescription}
+              width={300}
+              height={300}
+              className="w-full h-40 object-cover"
+            />
+
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 truncate">
+              {blog.title}
+            </h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+              {members.find((member) => member.id === blog.authorId)?.name ||
+                "Unknown Author"}
+            </p>
+
             <div className="flex justify-end space-x-2 p-4 bg-gray-50 dark:bg-gray-700">
               <button
-                onClick={() => deleteBlog(blog.id)}
+                onClick={(event) => {
+                  event.preventDefault();
+                  deleteBlog(blog.id);
+                }}
                 className="px-3 py-1 text-sm text-white bg-red-500 rounded hover:bg-red-600 transition-colors duration-200"
               >
                 Slett
@@ -86,7 +98,7 @@ const BlogTable = ({ blogs }: BlogTableProps) => {
                 Rediger
               </Link>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
