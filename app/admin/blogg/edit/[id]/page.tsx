@@ -21,7 +21,9 @@ const LoadingBar = ({ progress }: { progress: number }) => (
 );
 
 export default function BloggEditPage() {
+  //eslint-disable-next-line
   const [title, setTitle] = useState("");
+  //eslint-disable-next-line
   const [imageDescription, setImageDescription] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState<File | null>(null);
@@ -31,12 +33,6 @@ export default function BloggEditPage() {
   const loadingBarRef = useRef<HTMLDivElement>(null);
   const [showPreview, setShowPreview] = useState(false);
   const { id } = useParams<{ id: string }>();
-
-  const handleEditorChange = (newContent: string) => {
-    setContent(newContent);
-  };
-
-  const [articleData, setArticleData] = useState<DeepPartial<articleType>>({});
 
   const [formData, setFormData] = useState<DeepPartial<articleType>>({
     title: "",
@@ -48,6 +44,7 @@ export default function BloggEditPage() {
   useEffect(() => {
     const fetchArticleData = async () => {
       try {
+        setLoadingProgress(10);
         const response = await fetch(`/api/admin/article/${id}`, {
           method: "GET",
           headers: {
@@ -57,6 +54,7 @@ export default function BloggEditPage() {
         if (!response.ok) {
           throw new Error("Failed to fetch article data");
         }
+        setLoadingProgress(50);
         const article = await response.json();
         setFormData({
           title: article.article.title || "",
@@ -69,6 +67,8 @@ export default function BloggEditPage() {
         toast.error(
           "Failed to fetch article data: " + (error as Error).message
         );
+      } finally {
+        setLoadingProgress(100);
       }
     };
 
@@ -86,16 +86,16 @@ export default function BloggEditPage() {
     setIsLoading(true);
     setLoadingProgress(20);
 
-    if (!articleData.title) {
+    if (!formData.title) {
       toast.error("Please enter a title");
       setIsLoading(false);
       return;
     }
 
-    let uploadedImageUrl: string = "";
+    let uploadedImageUrl: string = formData.imageUri || "";
 
     if (image) {
-      const result = await uploadImage(image, articleData.title);
+      const result = await uploadImage(image, formData.title);
       if (result) {
         uploadedImageUrl = result;
       } else {
@@ -112,14 +112,14 @@ export default function BloggEditPage() {
     const updatedContent = await extractAndUploadImages(content);
 
     const article = {
-      ...articleData,
+      ...formData,
       imageUri: uploadedImageUrl,
       description: updatedContent,
     };
 
     try {
-      const response = await fetch(`/api/admin/article`, {
-        method: "POST",
+      const response = await fetch(`/api/admin/article/${id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -130,7 +130,7 @@ export default function BloggEditPage() {
         throw new Error("Failed to submit data");
       }
 
-      toast.success("Artikkel sendt inn!");
+      toast.success("Artikkel oppdatert inn!");
       setLoadingProgress(100);
 
       setTitle("");
@@ -138,7 +138,7 @@ export default function BloggEditPage() {
       setContent("");
       setImage(null);
       setResetImageUploader(true);
-      setArticleData({
+      setFormData({
         title: "",
         description: "",
         imageUri: "",
@@ -151,7 +151,7 @@ export default function BloggEditPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [articleData, image, content]);
+  }, [formData, image, content]);
 
   useEffect(() => {
     if (isLoading && loadingBarRef.current) {
@@ -188,6 +188,7 @@ export default function BloggEditPage() {
         showPreview={showPreview}
         setShowPreview={setShowPreview}
         handleEditorChange={(value) => handleChange("description", value)}
+        initialImageUrl={formData.imageUri}
       />
 
       {showPreview && null /* TODO */}

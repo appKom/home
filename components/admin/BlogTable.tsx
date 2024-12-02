@@ -44,7 +44,7 @@ const BlogTable = ({ blogs }: BlogTableProps) => {
             key={blog.id}
             className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-105"
           >
-            <Link href={`/admin/blogg/${blog.id}`} className="block p-4">
+            <Link href={`/admin/blogg/edit/${blog.id}`} className="block p-4">
               <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 truncate">
                 {blog.title}
               </h2>

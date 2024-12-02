@@ -7,15 +7,23 @@ import Image from "next/image";
 interface ImageUploaderProps {
   onImageUpload: (imageFile: File | null) => void;
   reset: boolean;
+  initialImageUrl?: string;
 }
 
 const ImageUploader: React.FC<ImageUploaderProps> = ({
   onImageUpload,
   reset,
+  initialImageUrl,
 }) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   //eslint-disable-next-line
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  useEffect(() => {
+    if (initialImageUrl) {
+      setImagePreview(initialImageUrl);
+    }
+  }, [initialImageUrl]);
 
   const onDropImage = useCallback(
     (acceptedFiles: File[]) => {
