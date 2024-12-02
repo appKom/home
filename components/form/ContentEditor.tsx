@@ -50,6 +50,7 @@ interface ContentEditorProps {
   showPreview: boolean;
   setShowPreview: (showPreview: boolean) => void;
   handleEditorChange: (newContent: string) => void;
+  authorId?: number | null;
 }
 
 const ContentEditor = ({
@@ -64,13 +65,18 @@ const ContentEditor = ({
   setImageDescription,
   handleSubmit,
   handleEditorChange,
+  authorId,
 }: ContentEditorProps) => {
   return (
     <>
       <div className="w-full flex-col max-w-5xl">
         <h2 className="text-4xl text-center">{`${contentTitle}`} </h2>
         <ImageUploader onImageUpload={setImage} reset={resetImageUploader} />
-        <MemberSelect members={members} onSelect={setAuthorId} />
+        <MemberSelect
+          members={members}
+          onSelect={setAuthorId}
+          initialSelectedMemberId={authorId}
+        />
         <div className="w-full max-w-3xl mt-10">
           <TextInput
             label="Bildebeskrivelse"

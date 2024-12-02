@@ -59,10 +59,11 @@ export default function BloggEditPage() {
         }
         const article = await response.json();
         setFormData({
-          title: article.title || "",
-          description: article.description || "",
-          imageDescription: article.imageDescription || "",
-          authorId: article.authorId || null,
+          title: article.article.title || "",
+          description: article.article.description || "",
+          imageDescription: article.article.imageDescription || "",
+          authorId: article.article.authorId || null,
+          imageUri: article.article.imageUri || "",
         });
       } catch (error) {
         toast.error(
@@ -178,6 +179,7 @@ export default function BloggEditPage() {
         title={formData.title || ""}
         setTitle={(value) => handleChange("title", value)}
         setAuthorId={(value) => handleChange("authorId", value)}
+        authorId={formData.authorId}
         setImage={setImage}
         resetImageUploader={resetImageUploader}
         imageDescription={formData.imageDescription || ""}
