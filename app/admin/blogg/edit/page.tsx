@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import "react-quill-new/dist/quill.snow.css";
 import { articleType, DeepPartial } from "@/lib/types";
