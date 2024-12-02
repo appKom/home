@@ -22,7 +22,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
     return (
       <div className="min-h-screen text-white flex items-center justify-center">
         <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-16 w-16 border-y-2 border-onlineyellow mb-4"></div>
+          <div className="inline-block animate-spin rounded-full h-16 w-16 border-y-2  mb-4"></div>
           <h2 className="text-2xl font-semibold">
             Laster inn administrasjonspanel...
           </h2>

@@ -66,9 +66,9 @@ const ContentEditor = ({
   handleEditorChange,
 }: ContentEditorProps) => {
   return (
-    <div>
-      <div>
-        <h2 className="text-4xl">{`Velkommen... ${contentTitle}`} </h2>
+    <>
+      <div className="w-full flex-col max-w-5xl">
+        <h2 className="text-4xl text-center">{`${contentTitle}`} </h2>
         <ImageUploader onImageUpload={setImage} reset={resetImageUploader} />
         <MemberSelect members={members} onSelect={setAuthorId} />
         <div className="w-full max-w-3xl mt-10">
@@ -97,7 +97,7 @@ const ContentEditor = ({
             modules={quillModules}
             formats={quillFormats}
             placeholder="Skriv innholdet her..."
-            className="w-full h-[70%] mt-10 text-white"
+            className="w-full h-[300px] mt-10 text-white"
           />
         </div>
         <div className="w-full max-w-3xl mt-4"></div>
@@ -111,7 +111,7 @@ const ContentEditor = ({
           <Button title="Send" color="onlineOrange" onClick={handleSubmit} />
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

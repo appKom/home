@@ -10,7 +10,8 @@ import {
 import { HeroSection } from "@/components/HeroSection";
 import { prisma } from "@/lib/prisma";
 import { BlogCard } from "@/components/home/BlogCard";
-export const dynamic = "force-dynamic";
+
+export const revalidate = 3600;
 
 export default async function Home() {
   const blogs = await prisma.article.findMany();

@@ -46,7 +46,7 @@ export function MemberSelect({ members, onSelect }: MemberSelectProps) {
   }, []);
 
   return (
-    <div className="w-full mt-8 z-50 max-w-md " ref={dropdownRef}>
+    <div className="w-full mt-8 z-50 max-w-2xl " ref={dropdownRef}>
       <label className="block text-sm font-medium text-gray-200">
         Velg forfatter
       </label>
