@@ -11,7 +11,7 @@ import { members } from "@/lib/members";
 import { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 
-export const revalidate = 3600 * 24;
+export const revalidate = 36000;
 
 export async function generateMetadata(props: {
   params: tParams;
