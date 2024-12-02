@@ -1,4 +1,3 @@
-import { useSession } from "next-auth/react";
 import BlogTable from "@/components/admin/BlogTable";
 import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";

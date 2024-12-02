@@ -10,18 +10,20 @@ const supabaseUrl = process.env.SUPABASE_URL!;
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-export async function PUT(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const { id } = params;
+export async function PUT(req: NextRequest) {
+  const url = new URL(req.url);
+  const id = Number(url.pathname.split("/").pop());
+
+  if (!id) {
+    return NextResponse.json({ error: "No article provided" }, { status: 400 });
+  }
 
   try {
     const body = await req.json();
     const { title, description, imageUri, imageDescription, authorId } = body;
 
     const existingArticle = await prisma.article.findUnique({
-      where: { id: parseInt(id) },
+      where: { id },
     });
 
     if (!existingArticle) {
@@ -40,7 +42,7 @@ export async function PUT(
     }
 
     const updatedArticle = await prisma.article.update({
-      where: { id: parseInt(id) },
+      where: { id },
       data: {
         title,
         description,

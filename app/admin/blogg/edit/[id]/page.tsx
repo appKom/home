@@ -29,7 +29,9 @@ export default function BloggEditPage() {
   const [showPreview, setShowPreview] = useState(false);
   const { id } = useParams<{ id: string }>();
 
-  const [formData, setFormData] = useState<DeepPartial<articleType>>({
+  const [formData, setFormData] = useState<
+    DeepPartial<articleType> & { imageUri?: string }
+  >({
     title: "",
     description: "",
     imageDescription: "",
@@ -72,7 +74,10 @@ export default function BloggEditPage() {
     fetchArticleData();
   }, [id]);
 
-  const handleChange = (field: keyof DeepPartial<articleType>, value: any) => {
+  const handleChange = <K extends keyof DeepPartial<articleType>>(
+    field: K,
+    value: DeepPartial<articleType>[K]
+  ) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
