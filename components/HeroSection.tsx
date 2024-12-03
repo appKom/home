@@ -51,7 +51,7 @@ export const HeroSection = () => {
         transition={{ duration: 0.8, delay: 0.2 }}
       >
         Vi utvikler{" "}
-        <span className="inline-block">
+        <span className="inline-block w-[14ch] text-center">
           <AnimatePresence mode="popLayout">
             <motion.span
               key={currentWordIndex}
@@ -64,7 +64,7 @@ export const HeroSection = () => {
               {shuffledWords[currentWordIndex]}
             </motion.span>
           </AnimatePresence>
-        </span>{" "}
+        </span>
         digitale løsninger for informatikkstudenter ved NTNU
       </motion.p>
 
