@@ -1,7 +1,6 @@
-"use client"
-
-import { motion } from "framer-motion"
-import { useEffect, useState } from "react"
+"use client";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 const DURATION = 5;
 const MAX_DELAY = 15;
@@ -10,59 +9,68 @@ const NUMBER_OF_HORIZONTAL_LINES = 3;
 const MARGIN = 10;
 
 export const Background = () => {
-  const horizontalLines = Array.from({ length: NUMBER_OF_HORIZONTAL_LINES }, (_, i) => {
-    const randomDelay = Math.random() * MAX_DELAY;
-    // Randomly position each line
-    const topPosition = MARGIN + Math.random() * (100 - 2 * MARGIN);
-    return (
-      <motion.div
-        key={i}
-        className="absolute h-px bg-gradient-to-r from-transparent via-onlineOrange to-transparent opacity-10"
-        style={{
-          width: '100%',
-          top: `${topPosition}%`,
-          left: 0,
-        }}
-        animate={{
-          x: ['-100%', '100%'],
-          transition: {
-            repeat: Infinity,
-            repeatType: 'loop',
-            duration: DURATION,
-            delay: randomDelay,
-            ease: 'linear',
-          },
-        }}
-      />
-    );
-  });
+  const [horizontalLines, setHorizontalLines] = useState<JSX.Element[]>([]);
+  const [verticalLines, setVerticalLines] = useState<JSX.Element[]>([]);
 
-  const verticalLines = Array.from({ length: NUMBER_OF_VERTICAL_LINES }, (_, i) => {
-    const randomDelay = Math.random() * MAX_DELAY;
-    // Randomly position each line
-    const leftPosition = MARGIN + Math.random() * (100 - 2 * MARGIN);
-    return (
-      <motion.div
-        key={`vertical-${i}`}
-        className="absolute w-px bg-gradient-to-b from-transparent via-onlineOrange to-transparent opacity-10"
-        style={{
-          height: '100%',
-          left: `${leftPosition}%`,
-          top: 0,
-        }}
-        animate={{
-          y: ['-100%', '100%'],
-          transition: {
-            repeat: Infinity,
-            repeatType: 'loop',
-            duration: DURATION,
-            delay: randomDelay,
-            ease: 'linear',
-          },
-        }}
-      />
+  useEffect(() => {
+    const hLines = Array.from(
+      { length: NUMBER_OF_HORIZONTAL_LINES },
+      (_, i) => {
+        const randomDelay = Math.random() * MAX_DELAY;
+        const topPosition = MARGIN + Math.random() * (100 - 2 * MARGIN);
+        return (
+          <motion.div
+            key={`horizontal-${i}`}
+            className="absolute h-px bg-gradient-to-r from-transparent via-onlineOrange to-transparent opacity-10"
+            style={{
+              width: "100%",
+              top: `${topPosition}%`,
+              left: 0,
+            }}
+            animate={{
+              x: ["-100%", "100%"],
+              transition: {
+                repeat: Infinity,
+                repeatType: "loop",
+                duration: DURATION,
+                delay: randomDelay,
+                ease: "linear",
+              },
+            }}
+          />
+        );
+      }
     );
-  });
+
+    const vLines = Array.from({ length: NUMBER_OF_VERTICAL_LINES }, (_, i) => {
+      const randomDelay = Math.random() * MAX_DELAY;
+      const leftPosition = MARGIN + Math.random() * (100 - 2 * MARGIN);
+      return (
+        <motion.div
+          key={`vertical-${i}`}
+          className="absolute w-px bg-gradient-to-b from-transparent via-onlineOrange to-transparent opacity-10"
+          style={{
+            height: "100%",
+            left: `${leftPosition}%`,
+            top: 0,
+          }}
+          animate={{
+            y: ["-100%", "100%"],
+            transition: {
+              repeat: Infinity,
+              repeatType: "loop",
+              duration: DURATION,
+              delay: randomDelay,
+              ease: "linear",
+            },
+          }}
+        />
+      );
+    });
+
+    setHorizontalLines(hLines);
+    setVerticalLines(vLines);
+  }, []);
 
   return (
     <div className="fixed inset-0 -z-10 min-h-screen bg-gray-950 text-gray-100 overflow-hidden grid place-content-center">
@@ -70,8 +78,8 @@ export const Background = () => {
       {verticalLines}
       <DotsGrid />
     </div>
-  )
-}
+  );
+};
 
 const DotsGrid = () => {
   const [numRows, setNumRows] = useState(0);
@@ -96,11 +104,10 @@ const DotsGrid = () => {
   useEffect(() => {
     const container = document.getElementById("dots-container");
 
+    if (!container) return;
+
     const handleResize = () => {
-      // Remove the existing dots before adding new ones on resize
-      while (container?.firstChild) {
-        container.removeChild(container.firstChild);
-      }
+      container.innerHTML = ""; // Clear existing dots
 
       for (let row = 0; row < numRows; row++) {
         for (let col = 0; col < numCols; col++) {
@@ -114,17 +121,21 @@ const DotsGrid = () => {
             "h-1",
             "aspect-square",
             "rounded-full",
-            "absolute",
+            "absolute"
           );
           dot.style.top = `${(row * 100) / numRows + 1}%`;
           dot.style.left = `${(col * 100) / numCols + 1}%`;
-          container?.appendChild(dot);
+          container.appendChild(dot);
         }
       }
     };
 
-    handleResize(); // Call the handleResize function initially and add an event listener
+    handleResize();
     window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, [numCols, numRows]);
 
   return (
@@ -135,4 +146,4 @@ const DotsGrid = () => {
       />
     </div>
   );
-}
+};
