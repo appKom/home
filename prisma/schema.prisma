@@ -17,3 +17,37 @@ model Article {
   updatedAt        DateTime @updatedAt
   authorId         Int
 }
+
+enum RoleType {
+  Leder
+  Nestleder
+  Økonomiansvarlig
+  Medlem
+}
+
+model Role {
+  id        Int      @id @default(autoincrement())
+  period    String
+  role      RoleType
+  member    Member   @relation(fields: [memberId], references: [id])
+  memberId  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([memberId, period])
+}
+
+model Member {
+  id        Int      @id @default(autoincrement())
+  name      String
+  imageUri  String
+  isActive  Boolean
+  roles     Role[]
+  about     String?
+  quote     String?
+  email     String?
+  phone     String?
+  github    String?
+  linkedin  String?
+  createdAt DateTime @default(now())
+}
