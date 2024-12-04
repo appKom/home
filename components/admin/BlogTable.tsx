@@ -63,7 +63,7 @@ const BlogTable = ({ blogs }: BlogTableProps) => {
           <Link
             href={`/admin/blogg/edit/${blog.id}`}
             key={blog.id}
-            className="bg-white  dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-105"
+            className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-105"
           >
             <Image
               src={blog.imageUri}
@@ -91,12 +91,9 @@ const BlogTable = ({ blogs }: BlogTableProps) => {
                 >
                   Slett
                 </button>
-                <Link
-                  href={`/admin/blogg/edit/${blog.id}`}
-                  className="px-4 py-2 text-sm text-white bg-blue-500 rounded hover:bg-blue-600 transition-colors duration-200"
-                >
+                <div className="px-4 py-2 text-sm text-white bg-blue-500 rounded hover:bg-blue-600 transition-colors duration-200">
                   Rediger
-                </Link>
+                </div>
               </div>
             </div>
           </Link>
