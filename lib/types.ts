@@ -19,6 +19,7 @@ export type memberType = {
   name: string;
   href: string;
   imageUri?: string;
+  isCurrent: boolean;
   about?: string;
   quote?: string;
   rolesByPeriod: {

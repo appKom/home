@@ -30,6 +30,7 @@ model Member {
   name          String
   href          String         @unique
   imageUri      String         @default("/medlemmer/default_profile_picture.png")
+  isCurrent     Boolean
   about         String?
   quote         String?
   email         String?        @unique
