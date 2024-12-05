@@ -18,36 +18,36 @@ model Article {
   authorId         Int
 }
 
+model Member {
+  id            Int            @id @default(autoincrement())
+  name          String
+  href          String         @unique
+  imageUri      String?
+  isCurrent     Boolean        @default(true)
+  about         String?
+  quote         String?
+  rolesByPeriod RoleByPeriod[]
+  email         String?        @unique
+  phone         String?
+  github        String?
+  linkedin      String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model RoleByPeriod {
+  id       Int      @id @default(autoincrement())
+  period   String
+  role     RoleEnum
+  member   Member   @relation(fields: [memberId], references: [id])
+  memberId Int
+
+  @@unique([memberId, period])
+}
+
 enum RoleEnum {
   Leder
   Nestleder
   Økonomiansvarlig
   Medlem
-}
-
-model Member {
-  id            Int            @id @default(autoincrement())
-  name          String
-  href          String         @unique
-  imageUri      String         @default("/medlemmer/default_profile_picture.png")
-  isCurrent     Boolean
-  about         String?
-  quote         String?
-  email         String?        @unique
-  phone         String?
-  github        String?        @unique
-  linkedin      String?        @unique
-  rolesByPeriod RoleByPeriod[] @relation("MemberRoles")
-
-  @@map("members")
-}
-
-model RoleByPeriod {
-  member   Member   @relation("MemberRoles", fields: [memberId], references: [id])
-  memberId Int      @map("member_id")
-  period   String
-  role     RoleEnum
-
-  @@id([memberId, period])
-  @@map("roles_by_period")
 }
