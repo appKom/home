@@ -42,62 +42,51 @@ export const POST = async (request: Request) => {
     const formData = await request.formData();
 
     const name = formData.get("name") as string;
-    const role = formData.get("role") as string | null;
     const isCurrent = formData.get("isCurrent") as string;
-    const year = formData.get("year") as string;
-    const quote = formData.get("quoute") as string | null;
+    const quote = formData.get("quote") as string | null;
     const about = formData.get("about") as string | null;
+    const rolesByPeriodRaw = formData.get("rolesByPeriod") as string;
 
     const image = formData.get("image") as File | null;
 
-    let imageUri = "";
-
-    if (image && image.size > 0) {
-      const arrayBuffer = await image.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
-
-      const fileName = `${Date.now()}_${sanitizeFileName(name)}.${
-        image.type.split("/")[1]
-      }`;
-
-      const { data, error } = await supabase.storage
-        .from("members")
-        .upload(fileName, buffer, {
-          contentType: image.type,
-        });
-
-      if (error) {
-        console.error("Error uploading image:", error.message);
+    let rolesByPeriod: { period: string; role: RoleEnum }[] = [];
+    if (rolesByPeriodRaw) {
+      try {
+        const parsed = JSON.parse(rolesByPeriodRaw);
+        if (Array.isArray(parsed)) {
+          rolesByPeriod = parsed.map((item: any) => ({
+            period: item.period,
+            role: item.role as RoleEnum,
+          }));
+        } else {
+          return NextResponse.json(
+            { error: "Invalid rolesByPeriod format" },
+            { status: 400 }
+          );
+        }
+      } catch (error) {
         return NextResponse.json(
-          { error: "Error uploading image" },
-          { status: 500 }
+          { error: "Invalid JSON for rolesByPeriod" },
+          { status: 400 }
         );
       }
+    }
 
-      const { data: publicData } = supabase.storage
-        .from("members")
-        .getPublicUrl(data.path);
-
-      if (!publicData?.publicUrl) {
+    for (const pr of rolesByPeriod) {
+      if (!Object.values(RoleEnum).includes(pr.role)) {
         return NextResponse.json(
-          { error: "Failed to get image URL" },
-          { status: 500 }
+          { error: `Invalid role provided: ${pr.role}` },
+          { status: 400 }
         );
       }
+    }
 
-      imageUri = publicData.publicUrl;
-    } else {
-      imageUri = "/medlemmer/default_profile_picture.png";
+    const imageUri = await handleImageUpload(image, name);
+    if (imageUri instanceof NextResponse) {
+      return imageUri;
     }
 
     const href = await generateUniqueHref(name);
-
-    if (!role || !Object.values(RoleEnum).includes(role as RoleEnum)) {
-      return NextResponse.json(
-        { error: "Invalid role provided" },
-        { status: 400 }
-      );
-    }
 
     const member = await prisma.member.create({
       data: {
@@ -108,10 +97,10 @@ export const POST = async (request: Request) => {
         quote,
         isCurrent: isCurrent === "true",
         rolesByPeriod: {
-          create: {
-            period: `${year}`,
-            role: role as RoleEnum,
-          },
+          create: rolesByPeriod.map((pr) => ({
+            period: pr.period,
+            role: pr.role,
+          })),
         },
       },
       include: {
@@ -122,6 +111,9 @@ export const POST = async (request: Request) => {
     return NextResponse.json({ member }, { status: 200 });
   } catch (error) {
     console.error("Error creating member:", error);
+    if (error instanceof Error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
@@ -141,12 +133,12 @@ export const PUT = async (request: Request) => {
 
     const id = formData.get("id") as string;
     const name = formData.get("name") as string;
-    const role = formData.get("role") as string;
     const isCurrent = formData.get("isCurrent") as string;
-    const year = formData.get("year") as string;
-    const image = formData.get("image") as File | null;
-    const quote = formData.get("quote") as string | null; // Fixed typo
+    const quote = formData.get("quote") as string | null;
     const about = formData.get("about") as string | null;
+    const rolesByPeriodRaw = formData.get("rolesByPeriod") as string;
+
+    const image = formData.get("image") as File | null;
 
     if (!id) {
       return NextResponse.json(
@@ -155,49 +147,46 @@ export const PUT = async (request: Request) => {
       );
     }
 
-    let imageUri: string | undefined;
-
-    if (image && image.size > 0) {
-      const arrayBuffer = await image.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
-
-      const fileName = `${Date.now()}_${sanitizeFileName(name)}.${
-        image.type.split("/")[1]
-      }`;
-
-      const { data, error } = await supabase.storage
-        .from("members")
-        .upload(fileName, buffer, {
-          contentType: image.type,
-        });
-
-      if (error) {
-        console.error("Error uploading image:", error.message);
+    let rolesByPeriod: { period: string; role: RoleEnum }[] = [];
+    if (rolesByPeriodRaw) {
+      try {
+        const parsed = JSON.parse(rolesByPeriodRaw);
+        if (Array.isArray(parsed)) {
+          rolesByPeriod = parsed.map((item: any) => ({
+            period: item.period,
+            role: item.role as RoleEnum,
+          }));
+        } else {
+          return NextResponse.json(
+            { error: "Invalid rolesByPeriod format" },
+            { status: 400 }
+          );
+        }
+      } catch (error) {
         return NextResponse.json(
-          { error: "Error uploading image" },
-          { status: 500 }
+          { error: "Invalid JSON for rolesByPeriod" },
+          { status: 400 }
         );
       }
+    }
 
-      const { data: publicData } = supabase.storage
-        .from("members")
-        .getPublicUrl(data.path);
-
-      if (!publicData?.publicUrl) {
+    for (const pr of rolesByPeriod) {
+      if (!Object.values(RoleEnum).includes(pr.role)) {
         return NextResponse.json(
-          { error: "Failed to get image URL" },
-          { status: 500 }
+          { error: `Invalid role provided: ${pr.role}` },
+          { status: 400 }
         );
       }
+    }
 
-      imageUri = publicData.publicUrl;
+    const imageUri = await handleImageUpload(image, name);
+    if (imageUri instanceof NextResponse) {
+      return imageUri;
     }
 
     interface UpdateData {
       name: string;
-      role: string;
       isCurrent: boolean;
-      year: number;
       imageUri?: string;
       about?: string;
       quote?: string;
@@ -205,9 +194,7 @@ export const PUT = async (request: Request) => {
 
     const updateData: UpdateData = {
       name,
-      role,
       isCurrent: isCurrent === "true",
-      year: Number(year),
       ...(about !== null && { about }),
       ...(quote !== null && { quote }),
     };
@@ -218,7 +205,19 @@ export const PUT = async (request: Request) => {
 
     const member = await prisma.member.update({
       where: { id: Number(id) },
-      data: updateData,
+      data: {
+        ...updateData,
+        rolesByPeriod: {
+          deleteMany: {},
+          create: rolesByPeriod.map((pr) => ({
+            period: pr.period,
+            role: pr.role,
+          })),
+        },
+      },
+      include: {
+        rolesByPeriod: true,
+      },
     });
 
     return NextResponse.json({ member }, { status: 200 });
@@ -253,20 +252,22 @@ export const DELETE = async (request: Request) => {
       where: {
         id: Number(id),
       },
+      include: {
+        rolesByPeriod: true,
+      },
     });
 
-    // Optionally, delete the image from Supabase storage if it's not the default image
     if (
       member.imageUri &&
       member.imageUri !== "/medlemmer/default_profile_picture.png"
     ) {
+      const fileName = member.imageUri.split("/").pop()!;
       const { error } = await supabase.storage
         .from("members")
-        .remove([member.imageUri.split("/").pop()!]);
+        .remove([fileName]);
 
       if (error) {
         console.error("Error deleting image from storage:", error.message);
-        // Continue even if image deletion fails
       }
     }
 
@@ -288,13 +289,12 @@ export const GET = async () => {
       },
     });
 
-    // Transform rolesByPeriod array to an object for easier access on the client
     const transformedMembers = members.map((member) => ({
       ...member,
-      rolesByPeriod: member.rolesByPeriod.reduce((acc, role) => {
-        acc[role.period] = role.role;
-        return acc;
-      }, {} as { [period: string]: "Leder" | "Nestleder" | "Økonomiansvarlig" | "Medlem" }),
+      rolesByPeriod: member.rolesByPeriod.map((role) => ({
+        period: role.period,
+        role: role.role,
+      })),
     }));
 
     return NextResponse.json({ members: transformedMembers }, { status: 200 });
@@ -304,5 +304,56 @@ export const GET = async () => {
       { error: "Internal server error" },
       { status: 500 }
     );
+  }
+};
+
+const handleImageUpload = async (
+  image: File | null,
+  name: string
+): Promise<string | NextResponse> => {
+  if (image && image.size > 0) {
+    try {
+      const arrayBuffer = await image.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+
+      const fileName = `${Date.now()}_${sanitizeFileName(name)}.${
+        image.type.split("/")[1]
+      }`;
+
+      const { data, error } = await supabase.storage
+        .from("members")
+        .upload(fileName, buffer, {
+          contentType: image.type,
+        });
+
+      if (error) {
+        console.error("Error uploading image:", error.message);
+        return NextResponse.json(
+          { error: "Error uploading image" },
+          { status: 500 }
+        );
+      }
+
+      const { data: publicData } = supabase.storage
+        .from("members")
+        .getPublicUrl(data.path);
+
+      if (!publicData?.publicUrl) {
+        return NextResponse.json(
+          { error: "Failed to get image URL" },
+          { status: 500 }
+        );
+      }
+
+      return publicData.publicUrl;
+    } catch (uploadError) {
+      console.error("Error processing image:", uploadError);
+      return NextResponse.json(
+        { error: "Error processing image" },
+        { status: 500 }
+      );
+    }
+  } else {
+    return "/medlemmer/default_profile_picture.png";
   }
 };

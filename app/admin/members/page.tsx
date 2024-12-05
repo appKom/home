@@ -118,16 +118,14 @@ const AdminMemberPage = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    const rolesByPeriod: {
-      [period: string]: "Leder" | "Nestleder" | "Økonomiansvarlig" | "Medlem";
-    } = {};
-    periodRoles.forEach((pr) => {
-      rolesByPeriod[pr.period] = pr.role;
-    });
+    const rolesByPeriod = periodRoles.map((pr) => ({
+      period: pr.period,
+      role: pr.role,
+    }));
 
     const formData = new FormData();
     formData.append("name", name);
-    formData.append("rolesByPeriod", JSON.stringify(rolesByPeriod)); // Send as JSON string
+    formData.append("rolesByPeriod", JSON.stringify(rolesByPeriod));
 
     if (quote !== "") {
       formData.append("quote", quote);
@@ -174,7 +172,6 @@ const AdminMemberPage = () => {
           setMembers(
             [...members, responseData.member].sort(
               (a, b) =>
-                // Adjust sorting logic as needed
                 new Date(
                   Object.keys(b.rolesByPeriod)[0].split(" - ")[1]
                 ).getTime() -
@@ -257,7 +254,6 @@ const AdminMemberPage = () => {
   };
 
   const addPeriodRole = () => {
-    // Prevent adding duplicate periods by filtering available periods
     const existingPeriods = periodRoles.map((pr) => pr.period);
     const availablePeriods = periodOptions.filter(
       (period) => !existingPeriods.includes(period.value)
@@ -268,7 +264,7 @@ const AdminMemberPage = () => {
       return;
     }
 
-    const newPeriod = availablePeriods[0].value; // Choose the next available period
+    const newPeriod = availablePeriods[0].value;
     setPeriodRoles([
       ...periodRoles,
       {
@@ -414,9 +410,6 @@ const AdminMemberPage = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Perioder og Roller
-          </label>
           {periodRoles.map(
             (
               pr: {
