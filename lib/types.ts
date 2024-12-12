@@ -22,15 +22,15 @@ export type memberType = {
   id: number;
   name: string;
   href: string;
-  imageUri?: string;
+  imageUri?: string | null;
   isCurrent: boolean;
-  about?: string;
-  quote?: string;
+  about?: string | null;
+  quote?: string | null;
   rolesByPeriod: RolesByPeriod;
-  email?: string;
-  phone?: string;
-  github?: string;
-  linkedin?: string;
+  email?: string | null;
+  phone?: string | null;
+  github?: string | null;
+  linkedin?: string | null;
 };
 
 export type projectType = {

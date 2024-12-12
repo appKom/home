@@ -20,7 +20,7 @@ export const MemberCard = ({
   const roleForPeriod = member.rolesByPeriod[period];
 
   return (
-    <Link href={member.href} className="p-8 w-full text-gray-300">
+    <Link href={"/medlem/" + member.href} className="p-8 w-full text-gray-300">
       <div className="relative flex flex-col items-center hover:scale-110 transition-transform duration-300 ease-in-out text-center">
         {!hideRole && roleForPeriod && (
           <>

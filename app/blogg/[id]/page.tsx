@@ -7,10 +7,10 @@ import { FaClock } from "react-icons/fa";
 import { formatDate } from "@/lib/utils/dateUtils";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
-import { members } from "@/lib/members";
 import { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import MarkdownComponents from "@/components/Markdown";
+import { getMember } from "@/lib/utils/getRelevantMembers";
 
 export const revalidate = 36000;
 
@@ -41,9 +41,7 @@ export default async function ArticlePage(props: { params: tParams }) {
     return <Custom404 />;
   }
 
-  const author: memberType | undefined = members.find(
-    (member) => member.id === blog.authorId
-  );
+  const author: memberType | undefined = getMember(String(blog.authorId));
 
   return (
     <div className="w-full flex justify-center min-h-screen">

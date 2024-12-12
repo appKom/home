@@ -1,10 +1,33 @@
-import { members } from "@/lib/members";
+import { prisma } from "../prisma";
+import { memberType, RolesByPeriod } from "../types";
 
 const roleOrder = {
   Leder: 1,
   Nestleder: 2,
   Økonomiansvarlig: 3,
   Medlem: 4,
+};
+
+const membersFromPrisma = await prisma.member.findMany({
+  include: {
+    rolesByPeriod: true,
+  },
+});
+
+const members: memberType[] = membersFromPrisma.map((member) => ({
+  ...member,
+  rolesByPeriod: member.rolesByPeriod.reduce<RolesByPeriod>((acc, role) => {
+    acc[role.period] = role.role;
+    return acc;
+  }, {}),
+}));
+
+export const getMember = (memberHref: string) => {
+  return members.find((member) => member.href === memberHref);
+};
+
+export const getAllMembers = () => {
+  return members;
 };
 
 export const getMembersForPeriod = (period: string) => {
@@ -27,4 +50,4 @@ export const getLastMemberPeriod = Array.from(
 
 export const getNumberOfCurrentMembers = () => {
   return getMembersForPeriod(getLastMemberPeriod).length;
-}
+};

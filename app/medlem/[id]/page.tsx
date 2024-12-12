@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import { members } from "@/lib/members";
 import { memberType, tParams } from "@/lib/types";
 import Custom404 from "@/app/not-found";
 import Image from "next/image";
@@ -9,6 +8,9 @@ import { FaCrown, FaGithub, FaLinkedin, FaPhone } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { MdEmail } from "react-icons/md";
+import { getMember } from "@/lib/utils/getRelevantMembers";
+
+export const revalidate = 36000;
 
 export async function generateMetadata(props: {
   params: tParams;
@@ -25,10 +27,7 @@ export default async function MemberPage(props: { params: tParams }) {
   const { id } = await props.params;
   const memberName = id;
 
-  const member: memberType | undefined = members.find(
-    (member) =>
-      member.href.toLowerCase() === `/medlem/${memberName.toLowerCase()}`
-  );
+  const member: memberType | undefined = getMember(memberName);
 
   if (!member) {
     return <Custom404 />;

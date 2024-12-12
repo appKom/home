@@ -3,7 +3,8 @@ import { Button } from "../Button";
 import TextInput from "./TextInput";
 import ImageUploader from "./ImageUploader";
 import { MemberSelect } from "./SelectMember";
-import { members } from "@/lib/members";
+import { memberType } from "@/lib/types";
+import { getAllMembers } from "@/lib/utils/getRelevantMembers";
 
 const QuillEditor = dynamic(() => import("react-quill-new"), { ssr: false });
 
@@ -68,6 +69,8 @@ const ContentEditor = ({
   authorId,
   initialImageUrl,
 }: ContentEditorProps) => {
+  const members: memberType[] = getAllMembers();
+
   return (
     <>
       <div className="w-full flex-col max-w-5xl">
