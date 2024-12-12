@@ -29,7 +29,7 @@ const OptionsBox: React.FC<OptionsBoxProps> = ({
       value={value}
       onChange={onChange}
       required={required}
-      className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-gray-800 text-gray-200 ${className}`}
+      className={`mt-1 py-1.5 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-gray-800 text-gray-200 ${className}`}
     >
       <option className="text-gray-200" value="" disabled>
         Velg {label.toLowerCase()}

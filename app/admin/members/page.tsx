@@ -38,8 +38,6 @@ const AdminMemberPage = () => {
   const [email, setEmail] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
 
-  const years = Array.from({ length: 100 }, (_, i) => currentYear - i);
-
   const roles = ["Leder", "Nestleder", "Økonomiansvarlig", "Medlem"] as const;
   const [isLoading, setIsLoading] = useState(true);
 
@@ -51,7 +49,7 @@ const AdminMemberPage = () => {
       period: string;
       role: "Leder" | "Nestleder" | "Økonomiansvarlig" | "Medlem";
     }[]
-  >([{ period: `${currentYear - 1} - ${currentYear}`, role: "Medlem" }]);
+  >([{ period: `${currentYear} - ${currentYear + 1}`, role: "Medlem" }]);
 
   const generatePeriods = (startYear: number, count: number) => {
     const periods = [];
