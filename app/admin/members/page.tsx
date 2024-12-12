@@ -33,6 +33,10 @@ const AdminMemberPage = () => {
   const currentYear = new Date().getFullYear();
   const [selectedYear, setSelectedYear] = useState<number>(currentYear);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [github, setGithub] = useState<string>("");
+  const [linkedin, setLinkedin] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
 
   const years = Array.from({ length: 100 }, (_, i) => currentYear - i);
 
@@ -116,6 +120,10 @@ const AdminMemberPage = () => {
     setQuote(member.quote || "");
     setAbout(member.about || "");
     setIsCurrent(member.isCurrent);
+    setGithub(member.github || "");
+    setLinkedin(member.linkedin || "");
+    setEmail(member.email || "");
+    setPhone(member.phone || "");
     setSelectedYear(
       member.isCurrent
         ? currentYear
@@ -182,6 +190,19 @@ const AdminMemberPage = () => {
 
     if (image) {
       formData.append("image", image);
+    }
+
+    if (github !== "") {
+      formData.append("github", github);
+    }
+    if (linkedin !== "") {
+      formData.append("linkedin", linkedin);
+    }
+    if (email !== "") {
+      formData.append("email", email);
+    }
+    if (phone !== "") {
+      formData.append("phone", phone);
     }
 
     try {
@@ -454,6 +475,34 @@ const AdminMemberPage = () => {
             setAbout(e.target.value)
           }
         />
+        <TextInput
+          id="github"
+          label="Github"
+          defaultValue={github}
+          updateInputValues={(value: string) => setGithub(value)}
+          size="medium"
+        />
+        <TextInput
+          id="linkedin"
+          label="LinkedIn"
+          defaultValue={linkedin}
+          updateInputValues={(value: string) => setLinkedin(value)}
+          size="medium"
+        />
+        <TextInput
+          id="email"
+          label="Email"
+          defaultValue={email}
+          updateInputValues={(value: string) => setEmail(value)}
+          size="medium"
+        />
+        <TextInput
+          id="phone"
+          label="Phone"
+          defaultValue={phone}
+          updateInputValues={(value: string) => setPhone(value)}
+          size="medium"
+        />
 
         <div>
           <div className="flex items-center gap-4 mt-4">
@@ -496,7 +545,7 @@ const AdminMemberPage = () => {
               },
               index
             ) => (
-              <div key={index} className="flex justify-between my-4">
+              <div key={index} className="flex justify-between my-4 gap-8">
                 <OptionsBox
                   id={`period-${index}`}
                   label="Periode"

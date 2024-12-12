@@ -46,6 +46,10 @@ export const POST = async (request: Request) => {
     const quote = formData.get("quote") as string | null;
     const about = formData.get("about") as string | null;
     const rolesByPeriodRaw = formData.get("rolesByPeriod") as string;
+    const email = formData.get("email") as string | null;
+    const phone = formData.get("phone") as string | null;
+    const github = formData.get("github") as string | null;
+    const linkedin = formData.get("linkedin") as string | null;
 
     const image = formData.get("image") as File | null;
 
@@ -95,6 +99,10 @@ export const POST = async (request: Request) => {
         imageUri,
         about,
         quote,
+        email,
+        phone,
+        github,
+        linkedin,
         isCurrent: isCurrent === "true",
         rolesByPeriod: {
           create: rolesByPeriod.map((pr) => ({
@@ -137,9 +145,12 @@ export const PUT = async (request: Request) => {
     const quote = formData.get("quote") as string | null;
     const about = formData.get("about") as string | null;
     const rolesByPeriodRaw = formData.get("rolesByPeriod") as string;
+    const email = formData.get("email") as string | null;
+    const phone = formData.get("phone") as string | null;
+    const github = formData.get("github") as string | null;
+    const linkedin = formData.get("linkedin") as string | null;
 
     const image = formData.get("image") as File | null;
-    console.log("hei");
 
     if (!id) {
       return NextResponse.json(
@@ -147,8 +158,6 @@ export const PUT = async (request: Request) => {
         { status: 400 }
       );
     }
-
-    console.log("hei2");
 
     let rolesByPeriod: { period: string; role: RoleEnum }[] = [];
     if (rolesByPeriodRaw) {
@@ -172,7 +181,6 @@ export const PUT = async (request: Request) => {
         );
       }
     }
-    console.log("hei3");
 
     for (const pr of rolesByPeriod) {
       if (!Object.values(RoleEnum).includes(pr.role)) {
@@ -183,9 +191,14 @@ export const PUT = async (request: Request) => {
       }
     }
 
-    const imageUri = await handleImageUpload(image, name);
-    if (imageUri instanceof NextResponse) {
-      return imageUri;
+    let imageUri: string | undefined;
+
+    if (image && image.size > 0) {
+      const uploadResult = await handleImageUpload(image, name);
+      if (uploadResult instanceof NextResponse) {
+        return uploadResult;
+      }
+      imageUri = uploadResult;
     }
 
     interface UpdateData {
@@ -194,6 +207,10 @@ export const PUT = async (request: Request) => {
       imageUri?: string;
       about?: string;
       quote?: string;
+      email?: string;
+      phone?: string;
+      github?: string;
+      linkedin?: string;
     }
 
     const updateData: UpdateData = {
@@ -201,6 +218,10 @@ export const PUT = async (request: Request) => {
       isCurrent: isCurrent === "true",
       ...(about !== null && { about }),
       ...(quote !== null && { quote }),
+      ...(email !== null && { email }),
+      ...(phone !== null && { phone }),
+      ...(github !== null && { github }),
+      ...(linkedin !== null && { linkedin }),
     };
 
     if (imageUri) {
