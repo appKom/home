@@ -93,6 +93,16 @@ const AdminMemberPage = () => {
 
           setLoadingProgress(80);
 
+          normalizedMembers.sort(
+            (a: memberType, b: memberType) =>
+              new Date(
+                Object.keys(b.rolesByPeriod)[0].split(" - ")[1]
+              ).getTime() -
+              new Date(
+                Object.keys(a.rolesByPeriod)[0].split(" - ")[1]
+              ).getTime()
+          );
+
           setMembers(normalizedMembers);
         } else {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -389,9 +399,13 @@ const AdminMemberPage = () => {
             className="w-10 h-10 rounded-full object-cover"
           />
         ) : (
-          <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
-            <span className="text-gray-700">N/A</span>
-          </div>
+          <Image
+            height={50}
+            width={50}
+            src={"/medlemmer/default_profile_picture.png"}
+            alt={member.name}
+            className="w-10 h-10 rounded-full object-cover"
+          />
         ),
     },
     {
