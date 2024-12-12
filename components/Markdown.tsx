@@ -1,11 +1,13 @@
 import React from "react";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 interface MarkdownComponentProps {
   node: any;
   children: React.ReactNode;
   [key: string]: any;
 }
 
+/* eslint-enable @typescript-eslint/no-explicit-any */
 const MarkdownComponents: Record<string, React.FC<MarkdownComponentProps>> = {
   h1: ({ node, ...props }) => (
     <h1 className="text-4xl font-bold my-4" {...props} />
