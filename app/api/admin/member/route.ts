@@ -278,7 +278,7 @@ export const DELETE = async (request: Request) => {
 
     const member = await prisma.member.delete({
       where: {
-        id: Number(id),
+        id: id,
       },
       include: {
         rolesByPeriod: true,

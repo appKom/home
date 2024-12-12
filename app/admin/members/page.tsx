@@ -449,7 +449,7 @@ const AdminMemberPage = () => {
   }
 
   return (
-    <div className="py-4 px-5 w-full items-start max-w-2xl">
+    <div className="py-4 px-5 w-full items-start max-w-4xl">
       <h1 className="text-2xl font-bold mb-4">Administrer medlemmer</h1>
       <form onSubmit={handleSubmit} className="space-y-4 mb-8">
         <TextInput
