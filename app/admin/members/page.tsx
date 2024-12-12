@@ -11,6 +11,15 @@ import Image from "next/image";
 import { memberType, RolesByPeriod } from "@/lib/types";
 import TextAreaInput from "@/components/form/TextAreaInput";
 
+const LoadingBar = ({ progress }: { progress: number }) => (
+  <div className="w-full h-5 bg-gray-200">
+    <div
+      className="h-5 bg-blue-500"
+      style={{ width: `${progress}%`, transition: "width 0.2s" }}
+    ></div>
+  </div>
+);
+
 const AdminMemberPage = () => {
   const [members, setMembers] = useState<memberType[]>([]);
   const [editingMember, setEditingMember] = useState<memberType | null>(null);
@@ -30,7 +39,9 @@ const AdminMemberPage = () => {
   const roles = ["Leder", "Nestleder", "Økonomiansvarlig", "Medlem"] as const;
   const [isLoading, setIsLoading] = useState(true);
 
-  // State for multiple period-role pairs
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const loadingBarRef = useRef<HTMLDivElement>(null);
+
   const [periodRoles, setPeriodRoles] = useState<
     {
       period: string;
@@ -38,7 +49,6 @@ const AdminMemberPage = () => {
     }[]
   >([{ period: `${currentYear - 1} - ${currentYear}`, role: "Medlem" }]);
 
-  // Function to generate period options
   const generatePeriods = (startYear: number, count: number) => {
     const periods = [];
     for (let i = 0; i < count; i++) {
@@ -54,15 +64,17 @@ const AdminMemberPage = () => {
     label: period,
   }));
 
-  // AdminMemberPage.tsx
-
   useEffect(() => {
     const fetchMembers = async () => {
+      setIsLoading(true);
+      setLoadingProgress(10);
       try {
         const response = await fetch("/api/admin/member");
         if (response.ok) {
+          setLoadingProgress(30);
           const data = await response.json();
           console.log("Fetched Members:", data.members);
+          setLoadingProgress(50);
 
           const normalizedMembers = data.members.map((member: any) => {
             if (Array.isArray(member.rolesByPeriod)) {
@@ -77,6 +89,8 @@ const AdminMemberPage = () => {
             return member;
           });
 
+          setLoadingProgress(80);
+
           setMembers(normalizedMembers);
         } else {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -88,6 +102,7 @@ const AdminMemberPage = () => {
           toast.error("Klarte ikke å hente medlemmer");
         }
       } finally {
+        setLoadingProgress(100);
         setIsLoading(false);
       }
     };
@@ -393,6 +408,24 @@ const AdminMemberPage = () => {
     ...member,
     rolesByPeriod: member.rolesByPeriod,
   }));
+
+  useEffect(() => {
+    if (isLoading && loadingBarRef.current) {
+      loadingBarRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [isLoading]);
+
+  if (isLoading) {
+    return (
+      <div
+        className="h-screen flex flex-col justify-center items-center px-8"
+        ref={loadingBarRef}
+      >
+        <h1 className="text-3xl">Laster...</h1>
+        <LoadingBar progress={loadingProgress} />
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 w-full items-start">
