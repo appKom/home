@@ -51,7 +51,7 @@ export const HeroSection = () => {
         transition={{ duration: 0.8, delay: 0.2 }}
       >
         Vi utvikler{" "}
-        <span className="inline-block w-[14ch] text-center">
+        <span className="text-center pr-1">
           <AnimatePresence mode="popLayout">
             <motion.span
               key={currentWordIndex}
