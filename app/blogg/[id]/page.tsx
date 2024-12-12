@@ -65,17 +65,20 @@ export default async function ArticlePage(props: { params: tParams }) {
             {author && (
               <Link
                 href={author.href}
-                className="flex flex-row items-center gap-2 text-orange-600 hover:text-onlineOrange mt-4 sm:mt-0"
+                className="flex flex-row items-center gap-2 text-orange-600 hover:text-onlineOrange mt-4 sm:mt-0 group"
               >
-                <TbPencilCode size={32} />
-                <h2>{author.name}</h2>
+                <TbPencilCode
+                  size={32}
+                  className="group-hover:text-onlineOrange"
+                />
+                <h2 className="group-hover:text-onlineOrange">{author.name}</h2>
                 {author.imageUri && (
                   <Image
                     src={author.imageUri}
                     alt={"image of " + author.name}
                     width={50}
                     height={50}
-                    className="rounded-full"
+                    className="rounded-full size-16 border-2 border-orange-600 group-hover:border-onlineOrange"
                   />
                 )}
               </Link>
