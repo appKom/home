@@ -64,6 +64,6 @@ model Project {
 enum RoleEnum {
   Leder
   Nestleder
-  Økonomiansvarlig
+  // Økonomiansvarlig
   Medlem
 }
