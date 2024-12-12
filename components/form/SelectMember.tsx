@@ -60,7 +60,7 @@ export function MemberSelect({
   }, []);
 
   return (
-    <div className="w-full mt-8 z-50 max-w-2xl " ref={dropdownRef}>
+    <div className="w-full mt-8 z-50 max-w-3xl " ref={dropdownRef}>
       <label className="block text-sm font-medium text-gray-200">
         Velg forfatter
       </label>

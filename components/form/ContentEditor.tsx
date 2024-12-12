@@ -1,10 +1,12 @@
+"use client";
 import dynamic from "next/dynamic";
 import { Button } from "../Button";
 import TextInput from "./TextInput";
 import ImageUploader from "./ImageUploader";
 import { MemberSelect } from "./SelectMember";
-import { memberType } from "@/lib/types";
-import { getAllMembers } from "@/lib/utils/getRelevantMembers";
+import { memberType, RolesByPeriod } from "@/lib/types";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const QuillEditor = dynamic(() => import("react-quill-new"), { ssr: false });
 
@@ -69,7 +71,72 @@ const ContentEditor = ({
   authorId,
   initialImageUrl,
 }: ContentEditorProps) => {
-  const members: memberType[] = getAllMembers();
+  const [members, setMembers] = useState<memberType[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchMembers = async () => {
+      try {
+        const response = await fetch("/api/admin/member");
+        if (response.ok) {
+          const data = await response.json();
+
+          const normalizedMembers = data.members.map((member: any) => {
+            if (Array.isArray(member.rolesByPeriod)) {
+              const rolesByPeriodObject: RolesByPeriod = {};
+              member.rolesByPeriod.forEach((pr: any) => {
+                if (pr.period && pr.role) {
+                  rolesByPeriodObject[pr.period] = pr.role;
+                }
+              });
+              return { ...member, rolesByPeriod: rolesByPeriodObject };
+            }
+            return member;
+          });
+
+          normalizedMembers.sort(
+            (a: memberType, b: memberType) =>
+              new Date(
+                Object.keys(b.rolesByPeriod)[0].split(" - ")[1]
+              ).getTime() -
+              new Date(
+                Object.keys(a.rolesByPeriod)[0].split(" - ")[1]
+              ).getTime()
+          );
+
+          setMembers(normalizedMembers);
+        } else {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          toast.error(`Klarte ikke å hente medlemmer: ${error.message}`);
+        } else {
+          toast.error("Klarte ikke å hente medlemmer");
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchMembers();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className=" min-h-screen text-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-16 w-16 border-y-2  mb-4"></div>
+          <h2 className="text-2xl font-semibold">
+            Laster inn administrasjonspanel...
+          </h2>
+          <p className="text-slate-400 mt-2">
+            Vennligst vent mens vi henter informasjonen din
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>

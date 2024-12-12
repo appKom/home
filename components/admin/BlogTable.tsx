@@ -1,7 +1,6 @@
 "use client";
 
-import { members } from "@/lib/members";
-import { articleType } from "@/lib/types";
+import { articleType, memberType } from "@/lib/types";
 import Link from "next/link";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -9,9 +8,10 @@ import Image from "next/image";
 
 interface BlogTableProps {
   blogs: articleType[];
+  members: memberType[];
 }
 
-const BlogTable = ({ blogs }: BlogTableProps) => {
+const BlogTable = ({ blogs, members }: BlogTableProps) => {
   const [blogList, setBlogList] = useState(blogs);
   const [isLoading, setIsLoading] = useState(false);
 

@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
-import { members } from "@/lib/members";
 import { projects } from "@/lib/projects";
+import { memberType } from "@/lib/types";
+import { getAllMembers } from "@/lib/utils/getRelevantMembers";
 import type { MetadataRoute } from "next";
 
 export const revalidate = 36000;
@@ -9,6 +10,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://appkom.no";
 
   const blogs = await prisma.article.findMany();
+  const members: memberType[] = getAllMembers();
 
   return [
     {
@@ -42,7 +44,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     ...members.map((member): MetadataRoute.Sitemap[number] => ({
-      url: `${baseUrl}${member.href}`,
+      url: `${baseUrl}/medlem/${member.href}`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,

@@ -1,15 +1,15 @@
 import { Metadata } from "next";
 import { projects } from "@/lib/projects";
-import { projectType, tParams } from "@/lib/types";
+import { memberType, projectType, tParams } from "@/lib/types";
 import Custom404 from "@/app/not-found";
 import Image from "next/image";
-import { members } from "@/lib/members";
 
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { MemberCard } from "@/components/home/MemberCard";
 import { FaGithub, FaGlobe } from "react-icons/fa";
 import { HeaderText } from "@/components/headerText";
+import { getAllMembers } from "@/lib/utils/getRelevantMembers";
 
 export async function generateMetadata(props: {
   params: tParams;
@@ -25,6 +25,7 @@ export async function generateMetadata(props: {
 
 export default async function ProjectPage(props: { params: tParams }) {
   const { id } = await props.params;
+  const members: memberType[] = getAllMembers();
 
   const prosjektTitle = decodeURIComponent(id ?? "");
 

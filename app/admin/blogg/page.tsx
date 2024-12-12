@@ -3,10 +3,13 @@ import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
 import { Button } from "@/components/Button";
+import { getAllMembers } from "@/lib/utils/getRelevantMembers";
+import { memberType } from "@/lib/types";
 export const dynamic = "force-dynamic";
 
 export default async function AdminBlogsPage() {
   const blogs = await prisma.article.findMany();
+  const members: memberType[] = getAllMembers();
   const session = await getServerSession(authOptions);
 
   return (
@@ -26,7 +29,7 @@ export default async function AdminBlogsPage() {
         </div>
         <div className="mx-auto max-w-4xl">
           <h1 className="mb-6 text-3xl font-bold text-gray-100">Blogger</h1>
-          <BlogTable blogs={blogs} />
+          <BlogTable blogs={blogs} members={members} />
         </div>
       </main>
     </div>
