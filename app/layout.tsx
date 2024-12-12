@@ -33,7 +33,7 @@ export default function RootLayout({
         <div className="min-h-screen flex flex-col">
           <Background />
           <Navbar />
-          <div className="flex-grow flex mt-24 items-center justify-center w-full max-w-screen-xl mx-auto text-white">
+          <div className="mt-24 w-full max-w-screen-xl mx-auto text-white">
             {children}
           </div>
           <Footer />
