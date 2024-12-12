@@ -8,7 +8,7 @@ import OptionsBox from "@/components/form/OptionsBox";
 import Checkbox from "@/components/form/Checkbox";
 import Table from "@/components/form/Table";
 import Image from "next/image";
-import { memberType } from "@/lib/types";
+import { memberType, RolesByPeriod } from "@/lib/types";
 import TextAreaInput from "@/components/form/TextAreaInput";
 
 const AdminMemberPage = () => {
@@ -54,23 +54,23 @@ const AdminMemberPage = () => {
     label: period,
   }));
 
+  // AdminMemberPage.tsx
+
   useEffect(() => {
     const fetchMembers = async () => {
       try {
         const response = await fetch("/api/admin/member");
         if (response.ok) {
           const data = await response.json();
+          console.log("Fetched Members:", data.members);
+
           const normalizedMembers = data.members.map((member: any) => {
             if (Array.isArray(member.rolesByPeriod)) {
-              const rolesByPeriodObject: {
-                [period: string]:
-                  | "Leder"
-                  | "Nestleder"
-                  | "Økonomiansvarlig"
-                  | "Medlem";
-              } = {};
+              const rolesByPeriodObject: RolesByPeriod = {};
               member.rolesByPeriod.forEach((pr: any) => {
-                rolesByPeriodObject[pr.period] = pr.role;
+                if (pr.period && pr.role) {
+                  rolesByPeriodObject[pr.period] = pr.role;
+                }
               });
               return { ...member, rolesByPeriod: rolesByPeriodObject };
             }
@@ -135,14 +135,25 @@ const AdminMemberPage = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    const rolesByPeriod = periodRoles.map((pr) => ({
-      period: pr.period,
-      role: pr.role,
-    }));
-
     const formData = new FormData();
     formData.append("name", name);
-    formData.append("rolesByPeriod", JSON.stringify(rolesByPeriod));
+
+    if (!editingMember) {
+      const rolesByPeriodObject = periodRoles.reduce((acc, pr) => {
+        acc[pr.period] = pr.role;
+        return acc;
+      }, {} as RolesByPeriod);
+      formData.append("rolesByPeriod", JSON.stringify(rolesByPeriodObject));
+    }
+
+    if (editingMember) {
+      const rolesByPeriodArray = periodRoles.map((pr) => ({
+        period: pr.period,
+        role: pr.role,
+      }));
+
+      formData.append("rolesByPeriod", JSON.stringify(rolesByPeriodArray));
+    }
 
     if (quote !== "") {
       formData.append("quote", quote);
@@ -179,18 +190,38 @@ const AdminMemberPage = () => {
         resetForm();
 
         const responseData = await response.json();
+
+        const normalizedMember: memberType = {
+          ...responseData.member,
+          rolesByPeriod: Array.isArray(responseData.member.rolesByPeriod)
+            ? responseData.member.rolesByPeriod.reduce(
+                (acc: RolesByPeriod, pr: any) => {
+                  if (pr.period && pr.role) {
+                    acc[pr.period] = pr.role;
+                  }
+                  return acc;
+                },
+                {}
+              )
+            : responseData.member.rolesByPeriod,
+        };
+
         if (editingMember) {
           setMembers(
             members.map((member) =>
-              member.id === editingMember.id ? responseData.member : member
+              member.id === editingMember.id ? normalizedMember : member
             )
           );
         } else {
           setMembers(
-            [...members, responseData.member].sort(
+            [...members, normalizedMember].sort(
               (a, b) =>
-                new Date(b.rolesByPeriod[0].period.split(" - ")[1]).getTime() -
-                new Date(a.rolesByPeriod[0].period.split(" - ")[1]).getTime()
+                new Date(
+                  Object.keys(b.rolesByPeriod)[0].split(" - ")[1]
+                ).getTime() -
+                new Date(
+                  Object.keys(a.rolesByPeriod)[0].split(" - ")[1]
+                ).getTime()
             )
           );
         }

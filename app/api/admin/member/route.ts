@@ -139,6 +139,7 @@ export const PUT = async (request: Request) => {
     const rolesByPeriodRaw = formData.get("rolesByPeriod") as string;
 
     const image = formData.get("image") as File | null;
+    console.log("hei");
 
     if (!id) {
       return NextResponse.json(
@@ -146,6 +147,8 @@ export const PUT = async (request: Request) => {
         { status: 400 }
       );
     }
+
+    console.log("hei2");
 
     let rolesByPeriod: { period: string; role: RoleEnum }[] = [];
     if (rolesByPeriodRaw) {
@@ -169,6 +172,7 @@ export const PUT = async (request: Request) => {
         );
       }
     }
+    console.log("hei3");
 
     for (const pr of rolesByPeriod) {
       if (!Object.values(RoleEnum).includes(pr.role)) {
@@ -222,7 +226,10 @@ export const PUT = async (request: Request) => {
 
     return NextResponse.json({ member }, { status: 200 });
   } catch (error) {
-    console.error("Error updating member:", error);
+    console.error("Error creating member:", error);
+    if (error instanceof Error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
