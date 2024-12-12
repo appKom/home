@@ -33,7 +33,15 @@ export type memberType = {
   linkedin?: string | null;
 };
 
+export type ProjectRole = "Prosjektleder" | "Prosjektmedlem";
+
+export type ProjectMemberType = {
+  role: ProjectRole;
+  member: memberType;
+};
+
 export type projectType = {
+  id: number;
   title: string;
   shortDescription: string;
   description: string;
@@ -42,10 +50,9 @@ export type projectType = {
   techStack?: string[];
   link?: string;
   github: string;
-  people: {
-    role: "Prosjektleder" | "Prosjektmedlem";
-    name: string;
-  }[];
+  createdAt: Date;
+  updatedAt: Date;
+  projectMembers: ProjectMemberType[];
 };
 
 export type tParams = Promise<{ id: string }>;

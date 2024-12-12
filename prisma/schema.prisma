@@ -26,23 +26,39 @@ model Member {
   isCurrent     Boolean        @default(true)
   about         String?
   quote         String?
-  rolesByPeriod RoleByPeriod[]
   email         String?        @unique
   phone         String?
   github        String?
   linkedin      String?
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
+  projectId     Int?
+  Project       Project?       @relation(fields: [projectId], references: [id])
+  rolesByPeriod RoleByPeriod[]
 }
 
 model RoleByPeriod {
   id       Int      @id @default(autoincrement())
   period   String
   role     RoleEnum
-  member   Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
   memberId Int
+  member   Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
 
   @@unique([memberId, period])
+}
+
+model Project {
+  id               Int      @id @default(autoincrement())
+  title            String
+  shortDescription String
+  description      String
+  imageUri         String
+  techStack        String[]
+  href             String
+  link             String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  Member           Member[]
 }
 
 enum RoleEnum {
