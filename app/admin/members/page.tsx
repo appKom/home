@@ -161,22 +161,12 @@ const AdminMemberPage = () => {
     const formData = new FormData();
     formData.append("name", name);
 
-    if (!editingMember) {
-      const rolesByPeriodObject = periodRoles.reduce((acc, pr) => {
-        acc[pr.period] = pr.role;
-        return acc;
-      }, {} as RolesByPeriod);
-      formData.append("rolesByPeriod", JSON.stringify(rolesByPeriodObject));
-    }
+    const rolesByPeriodArray = periodRoles.map((pr) => ({
+      period: pr.period,
+      role: pr.role,
+    }));
 
-    if (editingMember) {
-      const rolesByPeriodArray = periodRoles.map((pr) => ({
-        period: pr.period,
-        role: pr.role,
-      }));
-
-      formData.append("rolesByPeriod", JSON.stringify(rolesByPeriodArray));
-    }
+    formData.append("rolesByPeriod", JSON.stringify(rolesByPeriodArray));
 
     if (quote !== "") {
       formData.append("quote", quote);
@@ -323,6 +313,11 @@ const AdminMemberPage = () => {
     setImagePreview(null);
     setAbout("");
     setQuote("");
+    setGithub("");
+    setLinkedin("");
+    setEmail("");
+    setPhone("");
+    setEditingMember(null);
     setIsCurrent(true);
     setSelectedYear(currentYear);
     setPeriodRoles([
@@ -514,17 +509,17 @@ const AdminMemberPage = () => {
               ref={fileInputRef}
               className="hidden"
             />
-            {isCurrent && (
-              <button
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                className="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                <Upload className="inline-block mr-2 h-4 w-4" />
-                Last opp bilde
-              </button>
-            )}
-            {imagePreview && isCurrent && (
+
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              <Upload className="inline-block mr-2 h-4 w-4" />
+              Last opp bilde
+            </button>
+
+            {imagePreview && (
               <Image
                 src={imagePreview}
                 alt="Preview"
@@ -593,18 +588,6 @@ const AdminMemberPage = () => {
           checked={isCurrent}
           onChange={(e) => setIsCurrent(e.target.checked)}
         />
-
-        {!isCurrent && (
-          <OptionsBox
-            label="Aktivt år"
-            value={selectedYear.toString()}
-            onChange={(e) => setSelectedYear(Number(e.target.value))}
-            options={years.map((year) => ({
-              value: year.toString(),
-              label: year.toString(),
-            }))}
-          />
-        )}
 
         <button
           type="submit"
