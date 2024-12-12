@@ -10,6 +10,7 @@ import rehypeRaw from "rehype-raw";
 import { members } from "@/lib/members";
 import { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
+import MarkdownComponents from "@/components/Markdown";
 
 export const revalidate = 36000;
 
@@ -88,7 +89,11 @@ export default async function ArticlePage(props: { params: tParams }) {
             </div>
           </div>
           <article className="w-full break-words whitespace-pre-wrap px-6 py-12">
-            <ReactMarkdown className="w-full" rehypePlugins={[rehypeRaw]}>
+            <ReactMarkdown
+              className="w-full"
+              rehypePlugins={[rehypeRaw]}
+              components={MarkdownComponents}
+            >
               {blog.description}
             </ReactMarkdown>
           </article>
