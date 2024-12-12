@@ -14,6 +14,10 @@ export type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
 };
 
+export type RolesByPeriod = {
+  [period: string]: "Leder" | "Nestleder" | "Økonomiansvarlig" | "Medlem";
+};
+
 export type memberType = {
   id: number;
   name: string;
@@ -22,9 +26,7 @@ export type memberType = {
   isCurrent: boolean;
   about?: string;
   quote?: string;
-  rolesByPeriod: {
-    [period: string]: "Leder" | "Nestleder" | "Økonomiansvarlig" | "Medlem";
-  };
+  rolesByPeriod: RolesByPeriod;
   email?: string;
   phone?: string;
   github?: string;

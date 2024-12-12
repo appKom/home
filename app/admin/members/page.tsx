@@ -60,7 +60,24 @@ const AdminMemberPage = () => {
         const response = await fetch("/api/admin/member");
         if (response.ok) {
           const data = await response.json();
-          setMembers(data.members);
+          const normalizedMembers = data.members.map((member: any) => {
+            if (Array.isArray(member.rolesByPeriod)) {
+              const rolesByPeriodObject: {
+                [period: string]:
+                  | "Leder"
+                  | "Nestleder"
+                  | "Økonomiansvarlig"
+                  | "Medlem";
+              } = {};
+              member.rolesByPeriod.forEach((pr: any) => {
+                rolesByPeriodObject[pr.period] = pr.role;
+              });
+              return { ...member, rolesByPeriod: rolesByPeriodObject };
+            }
+            return member;
+          });
+
+          setMembers(normalizedMembers);
         } else {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -172,12 +189,8 @@ const AdminMemberPage = () => {
           setMembers(
             [...members, responseData.member].sort(
               (a, b) =>
-                new Date(
-                  Object.keys(b.rolesByPeriod)[0].split(" - ")[1]
-                ).getTime() -
-                new Date(
-                  Object.keys(a.rolesByPeriod)[0].split(" - ")[1]
-                ).getTime()
+                new Date(b.rolesByPeriod[0].period.split(" - ")[1]).getTime() -
+                new Date(a.rolesByPeriod[0].period.split(" - ")[1]).getTime()
             )
           );
         }
@@ -347,6 +360,7 @@ const AdminMemberPage = () => {
 
   const tableData = members.map((member) => ({
     ...member,
+    rolesByPeriod: member.rolesByPeriod,
   }));
 
   return (
