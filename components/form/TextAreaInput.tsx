@@ -28,7 +28,7 @@ const TextAreaInput: React.FC<TextInputProps> = ({
       value={value}
       onChange={onChange}
       required={required}
-      className={`mt-1 p-1 min-h-[300px] block w-full rounded-md bg-gray-700 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 ${className}`}
+      className={`mt-1 p-1 min-h-[300px] block w-full rounded-md bg-gray-700 border border-gray-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 ${className}`}
     />
   </div>
 );

@@ -31,7 +31,7 @@ const TextInput: React.FC<Props> = ({
         <label
           id={id}
           htmlFor="inputComponent"
-          className="mb-1 text-sm text-gray-500 dark:text-gray-200"
+          className="mb-1 text-sm text-gray-200"
         >
           {label}
         </label>
@@ -43,7 +43,7 @@ const TextInput: React.FC<Props> = ({
           placeholder={placeholder}
           value={defaultValue}
           onChange={handleInputChange}
-          className="w-full px-3 py-2 transition border border-gray-300 rounded-md shadow-sm disabled:bg-white disabled:cursor-not-allowed disabled:text-gray-500 placeholder:text-sm dark:bg-gray-900 dark:border-gray-600"
+          className="w-full px-3 py-2 transition border rounded-md shadow-sm disabled:bg-white disabled:cursor-not-allowed disabled:text-gray-500 placeholder:text-sm bg-gray-900 border-gray-700"
         />
       </div>
     </div>
