@@ -1,5 +1,5 @@
 import { prisma } from "../prisma";
-import { memberType, RolesByPeriod } from "../types";
+import { memberType, RoleByPeriodType } from "../types";
 
 const roleOrder = {
   Leder: 1,
@@ -16,10 +16,10 @@ const membersFromPrisma = await prisma.member.findMany({
 
 const members: memberType[] = membersFromPrisma.map((member) => ({
   ...member,
-  rolesByPeriod: member.rolesByPeriod.reduce<RolesByPeriod>((acc, role) => {
-    acc[role.period] = role.role;
-    return acc;
-  }, {}),
+  rolesByPeriod: member.rolesByPeriod.map((r) => ({
+    ...r,
+    role: r.role === "Okonomiansvarlig" ? "Økonomiansvarlig" : r.role,
+  })) as RoleByPeriodType[],
 }));
 
 export const getMember = (memberHref: string) => {
@@ -32,21 +32,31 @@ export const getAllMembers = () => {
 
 export const getMembersForPeriod = (period: string) => {
   return members
-    .filter((member) => member.rolesByPeriod.hasOwnProperty(period))
+    .filter((member) =>
+      member.rolesByPeriod?.some((role) => role.period === period)
+    )
     .map((member) => {
-      const roleForPeriod = member.rolesByPeriod[period];
+      const roleForPeriod = member.rolesByPeriod?.find(
+        (role) => role.period === period
+      )?.role;
       return { ...member, roleForPeriod };
     })
-    .sort((a, b) => roleOrder[a.roleForPeriod] - roleOrder[b.roleForPeriod]);
+    .sort(
+      (a, b) =>
+        (roleOrder[a.roleForPeriod!] ?? 99) -
+        (roleOrder[b.roleForPeriod!] ?? 99)
+    );
 };
 
 export const allMemberPeriods = Array.from(
-  new Set(members.flatMap((member) => Object.keys(member.rolesByPeriod)))
+  new Set(
+    members.flatMap(
+      (member) => member.rolesByPeriod?.map((r) => r.period) ?? []
+    )
+  )
 ).reverse();
 
-export const getLastMemberPeriod = Array.from(
-  new Set(members.flatMap((member) => Object.keys(member.rolesByPeriod)))
-).reverse()[0];
+export const getLastMemberPeriod = allMemberPeriods[0];
 
 export const getNumberOfCurrentMembers = () => {
   return getMembersForPeriod(getLastMemberPeriod).length;

@@ -8,10 +8,9 @@ import Image from "next/image";
 
 interface BlogTableProps {
   blogs: articleType[];
-  members: memberType[];
 }
 
-const BlogTable = ({ blogs, members }: BlogTableProps) => {
+const BlogTable = ({ blogs }: BlogTableProps) => {
   const [blogList, setBlogList] = useState(blogs);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -77,8 +76,7 @@ const BlogTable = ({ blogs, members }: BlogTableProps) => {
                 {blog.title}
               </h2>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                {members.find((member) => member.id === blog.authorId)?.name ||
-                  "Unknown Author"}
+                {blog.author?.name || "Unknown Author"}
               </p>
 
               <div className="flex justify-around  ">

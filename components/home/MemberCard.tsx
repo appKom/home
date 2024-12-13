@@ -17,7 +17,9 @@ export const MemberCard = ({
   hideRole,
   isProjectLead,
 }: Props) => {
-  const roleForPeriod = member.rolesByPeriod[period];
+  const roleForPeriod = member.rolesByPeriod?.find(
+    (r) => r.period === period
+  )?.role;
 
   return (
     <Link href={"/medlem/" + member.href} className="p-8 w-full text-gray-300">

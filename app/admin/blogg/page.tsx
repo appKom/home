@@ -8,8 +8,11 @@ import { memberType } from "@/lib/types";
 export const dynamic = "force-dynamic";
 
 export default async function AdminBlogsPage() {
-  const blogs = await prisma.article.findMany();
-  const members: memberType[] = getAllMembers();
+  const blogs = await prisma.article.findMany({
+    include: {
+      author: true,
+    },
+  });
   const session = await getServerSession(authOptions);
 
   return (
@@ -29,7 +32,7 @@ export default async function AdminBlogsPage() {
         </div>
         <div className="mx-auto max-w-4xl">
           <h1 className="mb-6 text-3xl font-bold text-gray-100">Blogger</h1>
-          <BlogTable blogs={blogs} members={members} />
+          <BlogTable blogs={blogs} />
         </div>
       </main>
     </div>

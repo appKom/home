@@ -1,7 +1,6 @@
 import { Button } from "@/components/Button";
 import { MemberCard } from "@/components/home/MemberCard";
 import { ProjectCard } from "@/components/home/ProjectCard";
-import { projects } from "@/lib/projects";
 import { HeaderText } from "@/components/headerText";
 import {
   getLastMemberPeriod,
@@ -15,6 +14,17 @@ export const revalidate = 3600;
 
 export default async function Home() {
   const blogs = await prisma.article.findMany();
+
+  const projects = await prisma.project.findMany({
+    include: {
+      projectMembers: {
+        include: {
+          Member: true,
+        },
+      },
+    },
+  });
+
   return (
     <div>
       <main className="container mx-auto px-4 ">
@@ -60,7 +70,7 @@ export default async function Home() {
           <div className="flex justify-center">
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 w-full gap-4">
               {getMembersForPeriod(getLastMemberPeriod).map((member) => {
-                const rolesByPeriod = member.rolesByPeriod;
+                const rolesByPeriod = member.rolesByPeriod || {};
                 const lastPeriod = Object.keys(rolesByPeriod)
                   .sort()
                   .reverse()[0];
