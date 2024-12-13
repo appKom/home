@@ -126,6 +126,126 @@ export const GET = async (request: Request) => {
   }
 };
 
+export const PUT = async (request: Request) => {
+  try {
+    const session = await getServerSession(authOptions);
+
+    if (!session || !session.user || !session.user.isAdmin) {
+      return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    }
+
+    const formData = await request.formData();
+
+    const projectId = formData.get("id");
+    if (!projectId) {
+      return NextResponse.json(
+        { error: "Missing project ID" },
+        { status: 400 }
+      );
+    }
+
+    const id = parseInt(projectId.toString(), 10);
+    if (isNaN(id)) {
+      return NextResponse.json(
+        { error: "Invalid project ID" },
+        { status: 400 }
+      );
+    }
+
+    const title = formData.get("title") as string;
+    const shortDescription = formData.get("shortDescription") as string;
+    const description = formData.get("description") as string | null;
+    const github = formData.get("github") as string | null;
+    const techStack = formData.get("techStack") as string | null;
+    const link = formData.get("link") as string | null;
+    const projectMembersString = formData.get("projectMembers") as
+      | string
+      | null;
+
+    const image = formData.get("image") as File | null;
+
+    const existingProject = await prisma.project.findUnique({
+      where: { id },
+      include: { projectMembers: true },
+    });
+
+    if (!existingProject) {
+      return NextResponse.json({ error: "Project not found" }, { status: 404 });
+    }
+
+    if (!title || !shortDescription || !description || !github || !techStack) {
+      return NextResponse.json(
+        { error: "Missing required fields" },
+        { status: 400 }
+      );
+    }
+
+    let parsedMembers: { memberId: number; Role: ProjectRoles }[] = [];
+    if (projectMembersString) {
+      try {
+        parsedMembers = JSON.parse(projectMembersString);
+      } catch (err) {
+        return NextResponse.json(
+          { error: "Invalid projectMembers JSON" },
+          { status: 400 }
+        );
+      }
+    }
+
+    let imageUri = existingProject.imageUri;
+    if (image && image.size > 0) {
+      const uploadedImageUri = await handleImageUpload(image, title);
+      if (uploadedImageUri instanceof NextResponse) {
+        return uploadedImageUri;
+      }
+      imageUri = uploadedImageUri;
+    }
+
+    const href = generateSlug(title);
+    await prisma.projectMember.deleteMany({
+      where: { projectId: id },
+    });
+
+    const updatedProject = await prisma.project.update({
+      where: { id },
+      data: {
+        title,
+        shortDescription,
+        description,
+        github,
+        imageUri,
+        techStack,
+        href,
+        link: link || null,
+        projectMembers:
+          parsedMembers.length > 0
+            ? {
+                create: parsedMembers.map((pm) => ({
+                  memberId: pm.memberId,
+                  Role: pm.Role,
+                })),
+              }
+            : undefined,
+      },
+      include: {
+        projectMembers: {
+          include: {
+            Member: true,
+          },
+        },
+      },
+    });
+
+    return NextResponse.json(updatedProject, { status: 200 });
+  } catch (error) {
+    console.error("Error updating project:", error);
+    return NextResponse.json(
+      { error: "Internal server error", code: "ERR_INVALID_ARG_TYPE" },
+      { status: 500 }
+    );
+  }
+};
+
 const handleImageUpload = async (
   image: File | null,
   projectName: string
