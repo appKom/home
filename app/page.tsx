@@ -70,16 +70,11 @@ export default async function Home() {
           <div className="flex justify-center">
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 w-full gap-4">
               {getMembersForPeriod(getLastMemberPeriod).map((member) => {
-                const rolesByPeriod = member.rolesByPeriod || {};
-                const lastPeriod = Object.keys(rolesByPeriod)
-                  .sort()
-                  .reverse()[0];
-
                 return (
                   <MemberCard
                     member={member}
                     key={member.name}
-                    period={lastPeriod}
+                    period={getLastMemberPeriod}
                   />
                 );
               })}
