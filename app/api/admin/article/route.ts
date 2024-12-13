@@ -31,7 +31,7 @@ export const POST = async (req: NextRequest) => {
         description,
         imageUri,
         imageDescription,
-        authorId: authorId,
+        memberId: authorId,
       },
     });
 
