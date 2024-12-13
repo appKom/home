@@ -61,7 +61,7 @@ const BlogTable = ({ blogs }: BlogTableProps) => {
         {blogList.map((blog) => (
           <div
             key={blog.id}
-            className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-105"
+            className="bg-gray-800 rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-105"
           >
             <Link href={`/admin/blogg/edit/${blog.id}`} className="w-full">
               <Image
@@ -72,10 +72,10 @@ const BlogTable = ({ blogs }: BlogTableProps) => {
                 className="w-full h-40 object-cover"
               />
               <div className="p-2">
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 truncate">
+                <h2 className="text-lg font-semibold text-gray-100 mb-2 truncate">
                   {blog.title}
                 </h2>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                <p className="text-sm   text-gray-400 mb-4">
                   {blog.author?.name || "Unknown Author"}
                 </p>
 

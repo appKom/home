@@ -67,7 +67,7 @@ export default function ContactPage() {
       <div className="py-6 px-6 w-full max-w-screen-lg">
         <main className="flex flex-col gap-5 pb-6">
           <div className="w-full max-w-3xl mx-auto justify-center">
-            <p className="text-xl text-center border-solid rounded-2xl border-2 border-gray-700 dark:border-white p-2">
+            <p className="text-xl text-center border-solid rounded-2xl border-2 border-gray-700  p-2">
               Ønsker du å komme i kontakt med oss? <br /> Fyll ut skjemaet
               under. <br />
               Eller send oss en e-post på{" "}
@@ -82,7 +82,7 @@ export default function ContactPage() {
 
           <div
             id="contact-me"
-            className="flex flex-col w-full max-w-3xl  p-4 mx-auto border-solid rounded-2xl border-2 border-gray-700 dark:border-white"
+            className="flex flex-col w-full max-w-3xl  p-4 mx-auto border-solid rounded-2xl border-2 border-gray-700 "
           >
             <h1 className="text-center font-bold text-4xl">Kontakt oss</h1>
             <form onSubmit={handleSubmit} className="w-full">
@@ -99,7 +99,7 @@ export default function ContactPage() {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="my-2 p-2 w-full rounded-3xl  border-solid border-2 border-white bg-gray-900 transition-none outline-none"
+                className="my-2 p-2 w-full rounded-3xl  border-solid border-2 border-gray-600 bg-gray-900 transition-none outline-none"
               />
               <label
                 className="text-shadow block text-xl font-medium"
@@ -114,7 +114,7 @@ export default function ContactPage() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="my-2 p-2 w-full rounded-3xl  border-solid border-2 border-white bg-gray-900 transition-none outline-none"
+                className="my-2 p-2 w-full rounded-3xl  border-solid border-2 border-gray-600 bg-gray-900 transition-none outline-none"
               />
               <label
                 className="text-shadow block text-xl font-medium"
@@ -128,7 +128,7 @@ export default function ContactPage() {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                className="my-2 p-2 w-full rounded-3xl  border-solid border-2 border-white bg-gray-900 transition-none outline-none"
+                className="my-2 p-2 w-full rounded-3xl  border-solid border-2 border-gray-600 bg-gray-900 transition-none outline-none"
               />
               <label
                 className="text-shadow block text-xl font-medium"
@@ -142,7 +142,7 @@ export default function ContactPage() {
                 value={formData.message}
                 onChange={handleChange}
                 required
-                className="my-2 p-2 h-60 w-full rounded-3xl   border-solid border-2 border-white bg-gray-900 transition-none outline-none"
+                className="my-2 p-2 h-60 w-full rounded-3xl   border-solid border-2 border-gray-600 bg-gray-900 transition-none outline-none"
               />
 
               <div className="my-4 flex items-center justify-center">
