@@ -80,6 +80,7 @@ const ContentEditor = ({
         <MemberSelect
           onSelect={setAuthorId}
           initialSelectedMemberId={authorId}
+          isBlog={true}
         />
         <div className="w-full max-w-3xl mt-10">
           <TextInput

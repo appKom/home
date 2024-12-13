@@ -8,12 +8,14 @@ interface MemberSelectProps {
   onSelect: (member: number) => void;
   onSelectName?: (member: string) => void;
   initialSelectedMemberId?: number | null;
+  isBlog?: boolean;
 }
 
 export function MemberSelect({
   onSelect,
   onSelectName,
   initialSelectedMemberId,
+  isBlog,
 }: MemberSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedMember, setSelectedMember] = useState<memberType | null>(null);
@@ -158,14 +160,16 @@ export function MemberSelect({
   return (
     <div className="w-full mt-8 z-50  relative" ref={dropdownRef}>
       <label className="block text-sm font-medium text-gray-200">
-        Velg medlem
+        {`Velg ${isBlog ? "forfatter" : "medlem"}`}
       </label>
       <button
         type="button"
         className="w-full px-4 py-2 text-left bg-gray-800 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         onClick={() => setIsOpen(!isOpen)}
       >
-        {selectedMember ? selectedMember.name : "Velg medlem..."}
+        {selectedMember
+          ? selectedMember.name
+          : `Velg ${isBlog ? "forfatter" : "medlem"}`}
       </button>
       {isOpen && (
         <div className="absolute z-10 w-full max-w-md mt-1 bg-gray-700 border border-gray-300 rounded-md shadow-lg">

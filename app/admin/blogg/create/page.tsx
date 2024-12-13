@@ -153,7 +153,7 @@ export default function BloggPage() {
   }
 
   return (
-    <div className=" px-8 flex flex-col w-full max-w-4xl">
+    <div className=" px-8 flex flex-col w-full max-w-3xl">
       <ContentEditor
         contentTitle={"Opprett en artikkel"}
         content={content}
