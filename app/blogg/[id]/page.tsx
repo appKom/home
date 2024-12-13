@@ -35,13 +35,16 @@ export default async function ArticlePage(props: { params: tParams }) {
       where: {
         title: decodedId,
       },
+      include: {
+        author: true,
+      },
     })) || undefined;
+
+  const author: memberType | undefined = blog?.author;
 
   if (!blog) {
     return <Custom404 />;
   }
-
-  const author: memberType | undefined = getMember(String(blog.authorId));
 
   return (
     <div className="w-full">
@@ -62,7 +65,7 @@ export default async function ArticlePage(props: { params: tParams }) {
             </h1>
             {author && (
               <Link
-                href={author.href}
+                href={"/medlem/" + author.href}
                 className="flex flex-row items-center gap-2 text-orange-600 hover:text-onlineOrange mt-4 sm:mt-0 group"
               >
                 <TbPencilCode
@@ -83,22 +86,21 @@ export default async function ArticlePage(props: { params: tParams }) {
             )}
           </div>
 
-            <div className="flex flex-row gap-2 pt-4">
-              <FaClock size={32} />
-              <p>{`Sist oppdatert: ${formatDate(blog.createdAt)}`}</p>
-            </div>
+          <div className="flex flex-row gap-2 pt-4">
+            <FaClock size={32} />
+            <p>{`Sist oppdatert: ${formatDate(blog.createdAt)}`}</p>
           </div>
-          <article className="w-full break-words whitespace-pre-wrap px-6 py-12">
-            <ReactMarkdown
-              className="w-full"
-              rehypePlugins={[rehypeRaw]}
-              components={MarkdownComponents}
-            >
-              {blog.description}
-            </ReactMarkdown>
-          </article>
-        </main>
-      </div>
+        </div>
+        <article className="w-full break-words whitespace-pre-wrap px-6 py-12">
+          <ReactMarkdown
+            className="w-full"
+            rehypePlugins={[rehypeRaw]}
+            components={MarkdownComponents}
+          >
+            {blog.description}
+          </ReactMarkdown>
+        </article>
+      </main>
     </div>
   );
 }

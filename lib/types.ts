@@ -2,7 +2,7 @@ export type articleType = {
   id: number;
   title: string;
   description: string;
-  authorId: number;
+  memberId: number;
   author?: memberType;
   imageUri: string;
   imageDescription: string;
@@ -14,8 +14,10 @@ export type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
 };
 
-export type RolesByPeriod = {
-  [period: string]: "Leder" | "Nestleder" | "Økonomiansvarlig" | "Medlem";
+export type RoleByPeriodType = {
+  id: number;
+  period: string;
+  role: "Leder" | "Nestleder" | "Økonomiansvarlig" | "Medlem";
 };
 
 export type memberType = {
@@ -26,7 +28,7 @@ export type memberType = {
   isCurrent: boolean;
   about?: string | null;
   quote?: string | null;
-  rolesByPeriod: RolesByPeriod;
+  rolesByPeriod?: RoleByPeriodType[];
   email?: string | null;
   phone?: string | null;
   github?: string | null;
