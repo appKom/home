@@ -1,14 +1,14 @@
 import { Metadata } from "next";
-import { memberType, tParams } from "@/lib/types";
+import { tParams } from "@/lib/types";
 import Custom404 from "@/app/not-found";
 import Image from "next/image";
-import { projects } from "@/lib/projects";
 import { ProjectCard } from "@/components/home/ProjectCard";
 import { FaCrown, FaGithub, FaLinkedin, FaPhone } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { MdEmail } from "react-icons/md";
-import { getMember } from "@/lib/utils/getRelevantMembers";
+import { prisma } from "@/lib/prisma";
+import { Member } from "@prisma/client";
 
 export const revalidate = 36000;
 
@@ -25,24 +25,37 @@ export async function generateMetadata(props: {
 
 export default async function MemberPage(props: { params: tParams }) {
   const { id } = await props.params;
-  const memberName = id;
+  console.log(id);
 
-  const member: memberType | undefined = getMember(memberName);
+  const member = await prisma.member.findFirst({
+    where: {
+      href: id,
+    },
+    include: {
+      rolesByPeriod: true,
+    },
+  });
 
-  if (!member) {
+  if (!member || !member.rolesByPeriod) {
     return <Custom404 />;
   }
 
   const periods = Object.keys(member.rolesByPeriod).sort();
   const latestPeriod = periods[periods.length - 1];
   const earliestPeriod = periods[0].split("-")[0];
-  const latestRole = member.rolesByPeriod[latestPeriod];
-  const isFinished =
-    latestPeriod.split("-")[1] !== new Date().getFullYear().toString();
+  const latestRole =
+    member.rolesByPeriod.find((r) => r.period === latestPeriod)?.role ??
+    "Unknown Role";
 
-  const projectsWithMember = projects.filter((project) =>
-    project.people.some((person) => person.name === member.href)
-  );
+  const projectsWithMember = await prisma.project.findMany({
+    where: {
+      projectMembers: {
+        some: {
+          memberId: member.id,
+        },
+      },
+    },
+  });
 
   return (
     <main className="container mx-auto px-4 py-12">
@@ -66,15 +79,24 @@ export default async function MemberPage(props: { params: tParams }) {
           <h1 className="text-3xl font-bold mb-2">{member.name}</h1>
           <div className="flex gap-2 flex-wrap justify-center md:justify-start">
             {periods
-              .filter((period) => member.rolesByPeriod[period] !== "Medlem")
+              .filter((period) => {
+                const roleObj = member.rolesByPeriod?.find(
+                  (r) => r.period === period
+                );
+                return roleObj?.role !== "Medlem";
+              })
               .map((period) => {
-                const role = member.rolesByPeriod[period];
+                const roleObj = member.rolesByPeriod?.find(
+                  (r) => r.period === period
+                );
+                const role = roleObj?.role ?? "Unknown Role";
+
                 const roleColor =
                   role === "Leder"
                     ? "text-yellow-500"
                     : role === "Nestleder"
                     ? "text-purple-500"
-                    : role === "Økonomiansvarlig"
+                    : role === "Okonomiansvarlig"
                     ? "text-green-500"
                     : "text-gray-200";
                 return (
@@ -89,7 +111,7 @@ export default async function MemberPage(props: { params: tParams }) {
           </div>
           <p className="text-gray-400 my-2">
             Medlem fra {earliestPeriod}{" "}
-            {isFinished && "-" + latestPeriod.split("-")[1]}
+            {!member.isCurrent && "-" + latestPeriod.split("-")[1]}
           </p>
 
           {/* Contact Info */}
@@ -185,7 +207,7 @@ const Quote = ({
   member,
   latestRole,
 }: {
-  member: memberType;
+  member: Member;
   latestRole: string;
 }) => (
   <figure className="max-w-screen-md mx-auto text-center mt-8 md:mt-0">

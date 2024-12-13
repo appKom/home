@@ -1,5 +1,4 @@
 import { prisma } from "@/lib/prisma";
-import { projects } from "@/lib/projects";
 import { memberType } from "@/lib/types";
 import { getAllMembers } from "@/lib/utils/getRelevantMembers";
 import type { MetadataRoute } from "next";
@@ -11,6 +10,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const blogs = await prisma.article.findMany();
   const members: memberType[] = getAllMembers();
+  const projects = await prisma.project.findMany();
 
   return [
     {
@@ -50,7 +50,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     })),
     ...projects.map((project): MetadataRoute.Sitemap[number] => ({
-      url: `${baseUrl}/prosjekt/${encodeURIComponent(project.title)}`,
+      url: `${baseUrl}/prosjekt/${encodeURIComponent(project.href)}`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.6,

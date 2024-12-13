@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import { projects } from "@/lib/projects";
 import { memberType, projectType, tParams } from "@/lib/types";
 import Custom404 from "@/app/not-found";
 import Image from "next/image";
@@ -10,6 +9,9 @@ import { MemberCard } from "@/components/home/MemberCard";
 import { FaGithub, FaGlobe } from "react-icons/fa";
 import { HeaderText } from "@/components/headerText";
 import { getAllMembers } from "@/lib/utils/getRelevantMembers";
+import { prisma } from "@/lib/prisma";
+
+export const revalidate = 36000;
 
 export async function generateMetadata(props: {
   params: tParams;
@@ -29,9 +31,20 @@ export default async function ProjectPage(props: { params: tParams }) {
 
   const prosjektTitle = decodeURIComponent(id ?? "");
 
-  const project: projectType | undefined = projects.find(
-    (project) => project.title.toLowerCase() === prosjektTitle.toLowerCase()
-  );
+  const project = await prisma.project.findFirst({
+    where: {
+      href: prosjektTitle,
+    },
+    include: {
+      projectMembers: {
+        include: {
+          Member: true,
+        },
+      },
+    },
+  });
+
+  console.log(project?.projectMembers);
 
   if (!project) {
     return <Custom404 />;
@@ -61,7 +74,7 @@ export default async function ProjectPage(props: { params: tParams }) {
                   <div>
                     <h2 className="text-2xl font-bold">Teknologier</h2>
                     <ul className="flex flex-wrap gap-2">
-                      {project.techStack.map((tech) => (
+                      {project.techStack.split(",").map((tech) => (
                         <li
                           key={tech}
                           className="px-2 py-1 bg-gray-800 border border-gray-600 rounded-md"
@@ -104,16 +117,19 @@ export default async function ProjectPage(props: { params: tParams }) {
 
             <h2 className="text-2xl font-bold">Utviklerne</h2>
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 w-full gap-4 pt-6">
-              {project.people.map((person) => {
+              {project.projectMembers.map((person) => {
+                // Find the member by using `person.Member.href`
                 const member = members.find(
-                  (member) =>
-                    member.href.toLowerCase() === person.name.toLowerCase()
+                  (m) =>
+                    m.href.toLowerCase() === person.Member.href.toLowerCase()
                 );
+
                 if (member) {
-                  const isProjectLead = !!project.people.find(
-                    (person) =>
-                      person.role === "Prosjektleder" &&
-                      person.name.toLowerCase() === member.href.toLowerCase()
+                  // Determine if this member was a project leader
+                  const isProjectLead = project.projectMembers.some(
+                    (pm) =>
+                      pm.Role === "Prosjektleder" &&
+                      pm.Member.id === person.Member.id
                   );
 
                   return (
@@ -126,6 +142,7 @@ export default async function ProjectPage(props: { params: tParams }) {
                     />
                   );
                 }
+
                 return null;
               })}
             </div>

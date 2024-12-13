@@ -10,7 +10,6 @@ import rehypeRaw from "rehype-raw";
 import { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import MarkdownComponents from "@/components/Markdown";
-import { getMember } from "@/lib/utils/getRelevantMembers";
 
 export const revalidate = 36000;
 
