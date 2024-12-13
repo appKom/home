@@ -17,9 +17,14 @@ export async function generateMetadata(props: {
 }): Promise<Metadata> {
   const { id } = await props.params;
 
-  const memberName = id.replace("-", " ");
+  const member = await prisma.member.findFirst({
+    where: { href: id },
+    select: { name: true },
+  });
+
+  const title = member ? member.name : "Member Not Found";
   return {
-    title: `${memberName}`,
+    title: title,
   };
 }
 

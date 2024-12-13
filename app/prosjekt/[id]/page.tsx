@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { memberType, projectType, tParams } from "@/lib/types";
+import { tParams } from "@/lib/types";
 import Custom404 from "@/app/not-found";
 import Image from "next/image";
 
@@ -8,7 +8,6 @@ import rehypeRaw from "rehype-raw";
 import { MemberCard } from "@/components/home/MemberCard";
 import { FaGithub, FaGlobe } from "react-icons/fa";
 import { HeaderText } from "@/components/headerText";
-import { getAllMembers } from "@/lib/utils/getRelevantMembers";
 import { prisma } from "@/lib/prisma";
 
 export const revalidate = 36000;
@@ -27,7 +26,6 @@ export async function generateMetadata(props: {
 
 export default async function ProjectPage(props: { params: tParams }) {
   const { id } = await props.params;
-  const members: memberType[] = getAllMembers();
 
   const prosjektTitle = decodeURIComponent(id ?? "");
 
@@ -118,23 +116,17 @@ export default async function ProjectPage(props: { params: tParams }) {
             <h2 className="text-2xl font-bold">Utviklerne</h2>
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 w-full gap-4 pt-6">
               {project.projectMembers.map((person) => {
-                // Find the member by using `person.Member.href`
-                const member = members.find(
-                  (m) =>
-                    m.href.toLowerCase() === person.Member.href.toLowerCase()
-                );
+                const member = person.Member;
 
                 if (member) {
-                  // Determine if this member was a project leader
                   const isProjectLead = project.projectMembers.some(
                     (pm) =>
-                      pm.Role === "Prosjektleder" &&
-                      pm.Member.id === person.Member.id
+                      pm.Role === "Prosjektleder" && pm.Member.id === member.id
                   );
 
                   return (
                     <MemberCard
-                      key={member.name}
+                      key={member.id}
                       member={member}
                       hideRole={true}
                       isProjectLead={isProjectLead}
@@ -142,7 +134,6 @@ export default async function ProjectPage(props: { params: tParams }) {
                     />
                   );
                 }
-
                 return null;
               })}
             </div>

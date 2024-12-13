@@ -36,7 +36,7 @@ export const MemberCard = ({
                 <FaCrown className="text-gray-500" size={32} />
               </div>
             )}
-            {roleForPeriod === "Økonomiansvarlig" && (
+            {roleForPeriod === "Okonomiansvarlig" && (
               <div className="absolute -top-8">
                 <BiDollar className="text-gray-500" size={32} />
               </div>
@@ -59,7 +59,9 @@ export const MemberCard = ({
         <p className="mt-4">{member.name}</p>
         <p className="text-sm text-gray-500">
           {!hideRole
-            ? roleForPeriod
+            ? roleForPeriod === "Okonomiansvarlig"
+              ? "Økonomiansvarlig"
+              : roleForPeriod
             : isProjectLead
             ? "Prosjektleder"
             : "Bidragsyter"}

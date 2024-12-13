@@ -19,7 +19,7 @@ export type DeepPartial<T> = {
 export type RoleByPeriodType = {
   id: number;
   period: string;
-  role: "Leder" | "Nestleder" | "Økonomiansvarlig" | "Medlem";
+  role: "Leder" | "Nestleder" | "Okonomiansvarlig" | "Medlem";
 };
 
 export type memberType = {

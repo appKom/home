@@ -1,11 +1,24 @@
 import { HeaderText } from "@/components/headerText";
 import { MemberCard } from "@/components/home/MemberCard";
-import {
-  allMemberPeriods,
-  getMembersForPeriod,
-} from "@/lib/utils/getRelevantMembers";
+import { prisma } from "@/lib/prisma";
 
-export default function MembersPage() {
+export const revalidate = 36000;
+
+export default async function MembersPage() {
+  const members = await prisma.member.findMany({
+    include: {
+      rolesByPeriod: true,
+    },
+  });
+
+  const allMemberPeriods = Array.from(
+    new Set(
+      members.flatMap(
+        (member) => member.rolesByPeriod?.map((r) => r.period) ?? []
+      )
+    )
+  ).reverse();
+
   return (
     <div className="w-full flex justify-center min-h-screen">
       <div className="py-6 px-6 w-full">
@@ -18,7 +31,7 @@ export default function MembersPage() {
               </h2>
               <div className="flex justify-center">
                 <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 w-full gap-4">
-                  {getMembersForPeriod(period).map((member) => (
+                  {members.map((member) => (
                     <MemberCard
                       member={member}
                       key={member.name}
