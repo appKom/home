@@ -103,29 +103,32 @@ const AdminProjectPage = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    const payload = {
-      title,
-      shortDescription,
-      description,
-      github,
-      imageUri,
-      techStack,
-      link,
-      projectMembers,
-    };
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("shortDescription", shortDescription);
+    formData.append("description", description);
+    formData.append("techStack", techStack);
+    formData.append("link", link);
+    formData.append("github", github);
+    if (image) {
+      formData.append("image", image);
+    }
+
+    formData.append("projectMembers", JSON.stringify(projectMembers));
 
     try {
       let response;
 
       if (editingProject) {
+        formData.append("id", editingProject.id.toString());
         response = await fetch("/api/admin/project", {
           method: "PUT",
-          body: JSON.stringify({ ...payload, id: editingProject.id }),
+          body: formData,
         });
       } else {
         response = await fetch("/api/admin/project", {
           method: "POST",
-          body: JSON.stringify(payload),
+          body: formData,
         });
       }
 
@@ -359,7 +362,7 @@ const AdminProjectPage = () => {
               alt="Preview"
               height={500}
               width={500}
-              className="rounded-full object-cover"
+              className="w-full max-h-96 object-cover"
             />
           )}
         </div>
