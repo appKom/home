@@ -47,60 +47,58 @@ export default async function ArticlePage(props: { params: tParams }) {
   }
 
   return (
-    <div className="w-full">
-      <main className="flex flex-col">
-        <div className="w-full flex justify-center">
-          <Image
-            src={blog.imageUri}
-            alt={`${blog.title} illustrasjon`}
-            width={1200}
-            height={1200}
-            className="w-full object-cover max-h-96"
-          />
-        </div>
-        <div className="flex flex-col px-6">
-          <div className="flex flex-col sm:flex-row justify-between pt-8">
-            <h1 className="font-bold text-xl sm:text-xl md:text-xl lg:text-2xl xl:text-4xl">
-              {blog.title}
-            </h1>
-            {author && (
-              <Link
-                href={"/medlem/" + author.href}
-                className="flex flex-row items-center gap-2 text-orange-600 hover:text-onlineOrange mt-4 sm:mt-0 group"
-              >
-                <TbPencilCode
-                  size={32}
-                  className="group-hover:text-onlineOrange"
+    <main className="flex flex-col w-full">
+      <div className="w-full flex justify-center">
+        <Image
+          src={blog.imageUri}
+          alt={`${blog.title} illustrasjon`}
+          width={1200}
+          height={1200}
+          className="w-full object-cover max-h-96"
+        />
+      </div>
+      <div className="flex flex-col px-6">
+        <div className="flex flex-col sm:flex-row justify-between pt-8">
+          <h1 className="font-bold text-xl sm:text-xl md:text-xl lg:text-2xl xl:text-4xl">
+            {blog.title}
+          </h1>
+          {author && (
+            <Link
+              href={"/medlem/" + author.href}
+              className="flex flex-row items-center gap-2 text-orange-600 hover:text-onlineOrange mt-4 sm:mt-0 group"
+            >
+              <TbPencilCode
+                size={32}
+                className="group-hover:text-onlineOrange"
+              />
+              <h2 className="group-hover:text-onlineOrange">{author.name}</h2>
+              {author.imageUri && (
+                <Image
+                  src={author.imageUri}
+                  alt={"image of " + author.name}
+                  width={50}
+                  height={50}
+                  className="rounded-full size-16 border-2 border-orange-600 group-hover:border-onlineOrange"
                 />
-                <h2 className="group-hover:text-onlineOrange">{author.name}</h2>
-                {author.imageUri && (
-                  <Image
-                    src={author.imageUri}
-                    alt={"image of " + author.name}
-                    width={50}
-                    height={50}
-                    className="rounded-full size-16 border-2 border-orange-600 group-hover:border-onlineOrange"
-                  />
-                )}
-              </Link>
-            )}
-          </div>
-
-          <div className="flex flex-row gap-2 pt-4">
-            <FaClock size={32} />
-            <p>{`Sist oppdatert: ${formatDate(blog.createdAt)}`}</p>
-          </div>
+              )}
+            </Link>
+          )}
         </div>
-        <article className="w-full break-words whitespace-pre-wrap px-6 py-12">
-          <ReactMarkdown
-            className="w-full"
-            rehypePlugins={[rehypeRaw]}
-            components={MarkdownComponents}
-          >
-            {blog.description}
-          </ReactMarkdown>
-        </article>
-      </main>
-    </div>
+
+        <div className="flex flex-row gap-2 pt-4">
+          <FaClock size={32} />
+          <p>{`Sist oppdatert: ${formatDate(blog.createdAt)}`}</p>
+        </div>
+      </div>
+      <article className="w-full break-words whitespace-pre-wrap px-6 py-12">
+        <ReactMarkdown
+          className="w-full"
+          rehypePlugins={[rehypeRaw]}
+          components={MarkdownComponents}
+        >
+          {blog.description}
+        </ReactMarkdown>
+      </article>
+    </main>
   );
 }

@@ -20,23 +20,23 @@ model Article {
 }
 
 model Member {
-  id            Int            @id @default(autoincrement())
-  name          String
-  href          String         @unique
-  imageUri      String?
-  isCurrent     Boolean        @default(true)
-  about         String?
-  quote         String?
-  email         String?        @unique
-  phone         String?
-  github        String?
-  linkedin      String?
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  projectId     Int?
-  Project       Project?       @relation(fields: [projectId], references: [id])
+  id        Int      @id @default(autoincrement())
+  name      String
+  href      String   @unique
+  imageUri  String?
+  isCurrent Boolean  @default(true)
+  about     String?
+  quote     String?
+  email     String?  @unique
+  phone     String?
+  github    String?
+  linkedin  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   rolesByPeriod RoleByPeriod[]
   Article       Article[]
+  ProjectMember ProjectMember[]
 }
 
 model RoleByPeriod {
@@ -49,19 +49,33 @@ model RoleByPeriod {
   @@unique([memberId, period])
 }
 
+enum ProjectRoles {
+  Prosjektleder
+  Bidragsyter
+}
+
+model ProjectMember {
+  id        Int          @id @default(autoincrement())
+  projectId Int
+  memberId  Int
+  Project   Project      @relation(fields: [projectId], references: [id])
+  Member    Member       @relation(fields: [memberId], references: [id])
+  Role      ProjectRoles
+}
+
 model Project {
-  id               Int      @id @default(autoincrement())
+  id               Int             @id @default(autoincrement())
   title            String
   shortDescription String
   description      String
   github           String
   imageUri         String
-  techStack        String[]
+  techStack        String
   href             String
-  link             String
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-  Member           Member[]
+  link             String?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  ProjectMember    ProjectMember[]
 }
 
 enum RoleEnum {
