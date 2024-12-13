@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { UserPlus, Upload, XIcon, Edit } from "lucide-react";
+import { Upload, XIcon, Edit, FileText } from "lucide-react";
 import toast from "react-hot-toast";
 import TextInput from "@/components/form/TextInput";
 import TextAreaInput from "@/components/form/TextAreaInput";
@@ -473,7 +473,7 @@ const AdminProjectPage = () => {
             </>
           ) : (
             <>
-              <UserPlus className="mr-2 h-4 w-4" />
+              <FileText className="mr-2 h-4 w-4" />
               Legg til Prosjekt
             </>
           )}
