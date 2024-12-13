@@ -35,6 +35,9 @@ export const POST = async (req: NextRequest) => {
       },
     });
 
+    {
+      /* Display currently added members */
+    }
     return NextResponse.json({ article }, { status: 200 });
   } catch (error) {
     console.error(error);

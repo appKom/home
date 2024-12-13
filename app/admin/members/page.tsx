@@ -535,8 +535,6 @@ const AdminMemberPage = () => {
             setAbout(e.target.value)
           }
         />
-
-        <MemberSelect />
         <TextInput
           id="github"
           label="Github"

@@ -4,12 +4,12 @@ import { useState, useRef, useEffect } from "react";
 import { UserPlus, Upload, XIcon, Edit } from "lucide-react";
 import toast from "react-hot-toast";
 import TextInput from "@/components/form/TextInput";
-import OptionsBox from "@/components/form/OptionsBox";
-import Checkbox from "@/components/form/Checkbox";
+import TextAreaInput from "@/components/form/TextAreaInput";
 import Table from "@/components/form/Table";
 import Image from "next/image";
-import TextAreaInput from "@/components/form/TextAreaInput";
-import { ProjectMember, projectType } from "@/lib/types";
+import { ProjectMember, projectType, memberType } from "@/lib/types";
+import { MemberSelect } from "@/components/form/SelectMember";
+type ProjectRole = "Prosjektleder" | "Bidragsyter";
 
 const LoadingBar = ({ progress }: { progress: number }) => (
   <div className="w-full h-5 bg-gray-200">
@@ -39,9 +39,11 @@ const AdminProjectPage = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [isLoading, setIsLoading] = useState(true);
-
   const [loadingProgress, setLoadingProgress] = useState(0);
   const loadingBarRef = useRef<HTMLDivElement>(null);
+
+  const [selectedMemberId, setSelectedMemberId] = useState<number | null>(null);
+  const [selectedRole, setSelectedRole] = useState<ProjectRole>("Bidragsyter");
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -53,18 +55,16 @@ const AdminProjectPage = () => {
           setLoadingProgress(30);
           const data = await response.json();
           setLoadingProgress(50);
-
-          setLoadingProgress(80);
-
           setProjects(data.projects);
+          setLoadingProgress(80);
         } else {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
       } catch (error) {
         if (error instanceof Error) {
-          toast.error(`Klarte ikke å hente Prosjektmer: ${error.message}`);
+          toast.error(`Klarte ikke å hente Prosjekter: ${error.message}`);
         } else {
-          toast.error("Klarte ikke å hente Prosjektmer");
+          toast.error("Klarte ikke å hente Prosjekter");
         }
       } finally {
         setLoadingProgress(100);
@@ -103,30 +103,29 @@ const AdminProjectPage = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("shortDescription", shortDescription);
-    formData.append("description", description);
-    formData.append("techStack", techStack);
-    formData.append("link", link);
-    formData.append("github", github);
-    if (image) {
-      formData.append("image", image);
-    }
-    formData.append("projectMembers", JSON.stringify(projectMembers));
+    const payload = {
+      title,
+      shortDescription,
+      description,
+      github,
+      imageUri,
+      techStack,
+      link,
+      projectMembers,
+    };
+
     try {
       let response;
 
       if (editingProject) {
-        formData.append("id", editingProject.id.toString());
         response = await fetch("/api/admin/project", {
           method: "PUT",
-          body: formData,
+          body: JSON.stringify({ ...payload, id: editingProject.id }),
         });
       } else {
         response = await fetch("/api/admin/project", {
           method: "POST",
-          body: formData,
+          body: JSON.stringify(payload),
         });
       }
 
@@ -134,8 +133,6 @@ const AdminProjectPage = () => {
         toast.success(
           editingProject ? "Prosjekt oppdatert" : "Prosjekt lagt til!"
         );
-        resetForm();
-
         const responseData = await response.json();
 
         if (editingProject) {
@@ -148,6 +145,7 @@ const AdminProjectPage = () => {
           setProjects([...projects, responseData]);
         }
 
+        resetForm();
         setEditingProject(null);
       } else {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -274,6 +272,36 @@ const AdminProjectPage = () => {
     }
   }, [isLoading]);
 
+  const addMemberWithRole = () => {
+    if (!selectedMemberId) {
+      toast.error("Du må velge en medlem før du kan legge til!");
+      return;
+    }
+
+    // Normally, you'd fetch the selected member details from the members array,
+    // but here we assume MemberSelect or a global store would provide it.
+    // For simplicity, we'll just store the IDs and role.
+    const newProjectMember: ProjectMember = {
+      id: Date.now(), // Temporary ID, backend will assign real ID
+      projectId: editingProject ? editingProject.id : 0,
+      memberId: selectedMemberId,
+      Role: selectedRole,
+      Member: {
+        id: selectedMemberId,
+        name: "Ukjent navn (hentes ved visning)",
+        href: "#",
+        isCurrent: true,
+      },
+    };
+
+    setProjectMembers((prev) => [...prev, newProjectMember]);
+
+    // Reset selection fields if desired
+    setSelectedMemberId(null);
+    setSelectedRole("Bidragsyter");
+    toast.success("Medlem lagt til med valgt rolle!");
+  };
+
   if (isLoading) {
     return (
       <div
@@ -288,7 +316,7 @@ const AdminProjectPage = () => {
 
   return (
     <div className="py-4 px-5 w-full items-start max-w-4xl">
-      <h1 className="text-2xl font-bold mb-4">Administrer Prosjektmer</h1>
+      <h1 className="text-2xl font-bold mb-4">Administrer Prosjekter</h1>
       <form onSubmit={handleSubmit} className="space-y-4 mb-8">
         <TextInput
           id="title"
@@ -305,7 +333,8 @@ const AdminProjectPage = () => {
           updateInputValues={(value: string) => setShortDescription(value)}
           size="medium"
         />
-        <div>
+
+        <div className="flex flex-col gap-2">
           <div className="flex items-center gap-4 mt-4">
             <input
               id="image"
@@ -315,7 +344,6 @@ const AdminProjectPage = () => {
               ref={fileInputRef}
               className="hidden"
             />
-
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
@@ -324,18 +352,18 @@ const AdminProjectPage = () => {
               <Upload className="inline-block mr-2 h-4 w-4" />
               Last opp bilde
             </button>
-
-            {imagePreview && (
-              <Image
-                src={imagePreview}
-                alt="Preview"
-                height={40}
-                width={40}
-                className="w-16 h-16 rounded-full object-cover"
-              />
-            )}
           </div>
+          {imagePreview && (
+            <Image
+              src={imagePreview}
+              alt="Preview"
+              height={500}
+              width={500}
+              className="rounded-full object-cover"
+            />
+          )}
         </div>
+
         <TextAreaInput
           id={"description"}
           label={"Beskrivelse"}
@@ -351,6 +379,47 @@ const AdminProjectPage = () => {
           updateInputValues={(value: string) => setGithub(value)}
           size="medium"
         />
+
+        <div className="mt-8">
+          <h3 className="text-lg font-semibold mb-2">
+            Legg til medlemmer med rolle
+          </h3>
+          <MemberSelect onSelect={setSelectedMemberId} />
+
+          <label className="block text-sm font-medium text-gray-200 mt-4 mb-2">
+            Velg Rolle
+          </label>
+          <select
+            className="px-4 py-2 border border-gray-300 rounded-md w-full bg-gray-800 text-white"
+            value={selectedRole}
+            onChange={(e) => setSelectedRole(e.target.value as ProjectRole)}
+          >
+            <option value="Prosjektleder">Prosjektleder</option>
+            <option value="Bidragsyter">Bidragsyter</option>
+          </select>
+
+          <button
+            type="button"
+            onClick={addMemberWithRole}
+            className="mt-4 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700"
+          >
+            Legg til medlem
+          </button>
+        </div>
+
+        {projectMembers.length > 0 && (
+          <div className="mt-4">
+            <h4 className="text-md font-semibold mb-2">Valgte medlemmer:</h4>
+            <ul className="list-disc list-inside">
+              {projectMembers.map((pm) => (
+                <li key={pm.id}>
+                  MedlemID: {pm.Member.name}, Rolle: {pm.Role}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
         <TextInput
           id="link"
           label="Link / URL"
@@ -389,9 +458,7 @@ const AdminProjectPage = () => {
         <div className="text-white flex items-center justify-center">
           <div className="text-center">
             <div className="inline-block animate-spin rounded-full h-16 w-16 border-y-2 border-onlineyellow mb-4"></div>
-            <h2 className="text-2xl font-semibold">
-              Laster inn Prosjektmer...
-            </h2>
+            <h2 className="text-2xl font-semibold">Laster inn Prosjekter...</h2>
           </div>
         </div>
       ) : (
