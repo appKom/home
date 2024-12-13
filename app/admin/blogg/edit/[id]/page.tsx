@@ -3,13 +3,21 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import "react-quill-new/dist/quill.snow.css";
-import { articleType, DeepPartial } from "@/lib/types";
+import { DeepPartial } from "@/lib/types";
 import ContentEditor from "@/components/form/ContentEditor";
 import {
   extractAndUploadImages,
   uploadImage,
 } from "@/lib/admin/upload/uploadImage";
 import { useParams } from "next/navigation";
+
+type createArticleType = {
+  title: string;
+  description: string;
+  imageDescription: string;
+  authorId: number | null;
+  imageUri: string;
+};
 
 const LoadingBar = ({ progress }: { progress: number }) => (
   <div className="w-full h-5 bg-gray-200">
@@ -30,7 +38,7 @@ export default function BloggEditPage() {
   const { id } = useParams<{ id: string }>();
 
   const [formData, setFormData] = useState<
-    DeepPartial<articleType> & { imageUri?: string }
+    DeepPartial<createArticleType> & { imageUri?: string }
   >({
     title: "",
     description: "",
@@ -74,9 +82,9 @@ export default function BloggEditPage() {
     fetchArticleData();
   }, [id]);
 
-  const handleChange = <K extends keyof DeepPartial<articleType>>(
+  const handleChange = <K extends keyof DeepPartial<createArticleType>>(
     field: K,
-    value: DeepPartial<articleType>[K]
+    value: DeepPartial<createArticleType>[K]
   ) => {
     setFormData((prev) => ({
       ...prev,

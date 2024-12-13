@@ -53,7 +53,7 @@ export const POST = async (request: Request) => {
         parsedMembers = JSON.parse(projectMembersString);
       } catch (err) {
         return NextResponse.json(
-          { error: "Invalid projectMembers JSON" },
+          { error: "Invalid projectMembers JSON" + err },
           { status: 400 }
         );
       }
@@ -104,7 +104,7 @@ export const POST = async (request: Request) => {
   }
 };
 
-export const GET = async (request: Request) => {
+export const GET = async () => {
   try {
     const projects = await prisma.project.findMany({
       include: {
@@ -186,7 +186,7 @@ export const PUT = async (request: Request) => {
         parsedMembers = JSON.parse(projectMembersString);
       } catch (err) {
         return NextResponse.json(
-          { error: "Invalid projectMembers JSON" },
+          { error: "Invalid projectMembers JSON" + err },
           { status: 400 }
         );
       }

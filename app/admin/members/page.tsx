@@ -8,9 +8,8 @@ import OptionsBox from "@/components/form/OptionsBox";
 import Checkbox from "@/components/form/Checkbox";
 import Table from "@/components/form/Table";
 import Image from "next/image";
-import { memberType, RoleByPeriodType } from "@/lib/types";
+import { memberType } from "@/lib/types";
 import TextAreaInput from "@/components/form/TextAreaInput";
-import { MemberSelect } from "@/components/form/SelectMember";
 
 const LoadingBar = ({ progress }: { progress: number }) => (
   <div className="w-full h-5 bg-gray-200">
@@ -32,14 +31,13 @@ const AdminMemberPage = () => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isCurrent, setIsCurrent] = useState(true);
   const currentYear = new Date().getFullYear();
-  const [selectedYear, setSelectedYear] = useState<number>(currentYear);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [github, setGithub] = useState<string>("");
   const [linkedin, setLinkedin] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
 
-  const roles = ["Leder", "Nestleder", "Økonomiansvarlig", "Medlem"] as const;
+  const roles = ["Leder", "Nestleder", "Okonomiansvarlig", "Medlem"] as const;
   const [isLoading, setIsLoading] = useState(true);
 
   const [loadingProgress, setLoadingProgress] = useState(0);
@@ -48,7 +46,7 @@ const AdminMemberPage = () => {
   const [periodRoles, setPeriodRoles] = useState<
     {
       period: string;
-      role: "Leder" | "Nestleder" | "Økonomiansvarlig" | "Medlem";
+      role: "Leder" | "Nestleder" | "Okonomiansvarlig" | "Medlem";
     }[]
   >([{ period: `${currentYear} - ${currentYear + 1}`, role: "Medlem" }]);
 
@@ -79,11 +77,13 @@ const AdminMemberPage = () => {
           console.log("Fetched Members:", data.members);
           setLoadingProgress(50);
 
+          //eslint-disable-next-line
           const normalizedMembers = data.members.map((member: any) => {
             return {
               ...member,
               rolesByPeriod: Array.isArray(member.rolesByPeriod)
-                ? member.rolesByPeriod.map((pr: any) => ({
+                ? //eslint-disable-next-line
+                  member.rolesByPeriod.map((pr: any) => ({
                     period: pr.period,
                     role: pr.role,
                   }))
@@ -150,18 +150,7 @@ const AdminMemberPage = () => {
     setLinkedin(member.linkedin || "");
     setEmail(member.email || "");
     setPhone(member.phone || "");
-    setSelectedYear(
-      member.isCurrent
-        ? currentYear
-        : member.rolesByPeriod && member.rolesByPeriod.length > 0
-        ? parseInt(
-            member.rolesByPeriod[member.rolesByPeriod.length - 1].period.split(
-              " - "
-            )[1],
-            10
-          )
-        : currentYear
-    );
+
     setImagePreview(member.imageUri || null);
     setImage(null);
 
@@ -258,7 +247,8 @@ const AdminMemberPage = () => {
         const normalizedMember: memberType = {
           ...responseData.member,
           rolesByPeriod: Array.isArray(responseData.member.rolesByPeriod)
-            ? responseData.member.rolesByPeriod.map((pr: any) => ({
+            ? //eslint-disable-next-line
+              responseData.member.rolesByPeriod.map((pr: any) => ({
                 period: pr.period,
                 role: pr.role,
               }))
@@ -370,7 +360,6 @@ const AdminMemberPage = () => {
     setPhone("");
     setEditingMember(null);
     setIsCurrent(true);
-    setSelectedYear(currentYear);
     setPeriodRoles([
       { period: `${currentYear - 1} - ${currentYear}`, role: "Medlem" },
     ]);
@@ -416,7 +405,7 @@ const AdminMemberPage = () => {
       updated[index].role = value as
         | "Leder"
         | "Nestleder"
-        | "Økonomiansvarlig"
+        | "Okonomiansvarlig"
         | "Medlem";
     } else {
       updated[index].period = value;
@@ -601,7 +590,7 @@ const AdminMemberPage = () => {
             (
               pr: {
                 period: string;
-                role: "Leder" | "Nestleder" | "Økonomiansvarlig" | "Medlem";
+                role: "Leder" | "Nestleder" | "Okonomiansvarlig" | "Medlem";
               },
               index
             ) => (

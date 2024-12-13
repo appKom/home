@@ -3,8 +3,6 @@ import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
 import { Button } from "@/components/Button";
-import { getAllMembers } from "@/lib/utils/getRelevantMembers";
-import { memberType } from "@/lib/types";
 export const dynamic = "force-dynamic";
 
 export default async function AdminBlogsPage() {

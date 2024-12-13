@@ -15,7 +15,7 @@ const generateSlug = (name: string) => {
 };
 
 const generateUniqueHref = async (name: string) => {
-  let slug = generateSlug(name);
+  const slug = generateSlug(name);
   let uniqueSlug = slug;
   let count = 1;
 
@@ -58,6 +58,7 @@ export const POST = async (request: Request) => {
       try {
         const parsed = JSON.parse(rolesByPeriodRaw);
         if (Array.isArray(parsed)) {
+          //eslint-disable-next-line
           rolesByPeriod = parsed.map((item: any) => ({
             period: item.period,
             role: item.role as RoleEnum,
@@ -70,7 +71,7 @@ export const POST = async (request: Request) => {
         }
       } catch (error) {
         return NextResponse.json(
-          { error: "Invalid JSON for rolesByPeriod" },
+          { error: "Invalid JSON for rolesByPeriod" + error },
           { status: 400 }
         );
       }
@@ -164,6 +165,7 @@ export const PUT = async (request: Request) => {
       try {
         const parsed = JSON.parse(rolesByPeriodRaw);
         if (Array.isArray(parsed)) {
+          //eslint-disable-next-line
           rolesByPeriod = parsed.map((item: any) => ({
             period: item.period,
             role: item.role as RoleEnum,
@@ -176,7 +178,7 @@ export const PUT = async (request: Request) => {
         }
       } catch (error) {
         return NextResponse.json(
-          { error: "Invalid JSON for rolesByPeriod" },
+          { error: "Invalid JSON for rolesByPeriod" + error },
           { status: 400 }
         );
       }

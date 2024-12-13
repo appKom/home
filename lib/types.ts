@@ -1,5 +1,3 @@
-import { Prisma } from "@prisma/client";
-
 export type articleType = {
   id: number;
   title: string;

@@ -1,6 +1,4 @@
 import { prisma } from "@/lib/prisma";
-import { memberType } from "@/lib/types";
-import { getAllMembers } from "@/lib/utils/getRelevantMembers";
 import type { MetadataRoute } from "next";
 
 export const revalidate = 36000;
@@ -9,7 +7,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://appkom.no";
 
   const blogs = await prisma.article.findMany();
-  const members: memberType[] = getAllMembers();
+  const members = await prisma.member.findMany();
   const projects = await prisma.project.findMany();
 
   return [

@@ -1,6 +1,6 @@
 "use client";
 
-import { articleType, memberType } from "@/lib/types";
+import { articleType } from "@/lib/types";
 import Link from "next/link";
 import { useState } from "react";
 import toast from "react-hot-toast";

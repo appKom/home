@@ -3,7 +3,7 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import "react-quill-new/dist/quill.snow.css";
-import { articleType, DeepPartial } from "@/lib/types";
+import { DeepPartial } from "@/lib/types";
 import ContentEditor from "@/components/form/ContentEditor";
 import {
   extractAndUploadImages,
@@ -18,6 +18,14 @@ const LoadingBar = ({ progress }: { progress: number }) => (
     ></div>
   </div>
 );
+
+type createArticleType = {
+  title: string;
+  description: string;
+  imageDescription: string;
+  authorId: number | null;
+  imageUri: string;
+};
 
 export default function BloggPage() {
   const [title, setTitle] = useState("");
@@ -35,7 +43,9 @@ export default function BloggPage() {
     setContent(newContent);
   };
 
-  const [articleData, setArticleData] = useState<DeepPartial<articleType>>({
+  const [articleData, setArticleData] = useState<
+    DeepPartial<createArticleType>
+  >({
     title: "",
     description: "",
     imageUri: "",
@@ -44,7 +54,7 @@ export default function BloggPage() {
   });
 
   useEffect(() => {
-    setArticleData((prev: DeepPartial<articleType>) => ({
+    setArticleData((prev: DeepPartial<createArticleType>) => ({
       ...prev,
       title,
       description: content,

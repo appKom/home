@@ -1,3 +1,4 @@
+"use client";
 import { motion } from "framer-motion";
 import { HiOutlineSparkles } from "react-icons/hi2";
 import { MdGroups2 } from "react-icons/md";

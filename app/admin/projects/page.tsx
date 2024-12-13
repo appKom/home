@@ -7,7 +7,7 @@ import TextInput from "@/components/form/TextInput";
 import TextAreaInput from "@/components/form/TextAreaInput";
 import Table from "@/components/form/Table";
 import Image from "next/image";
-import { ProjectMember, projectType, memberType } from "@/lib/types";
+import { ProjectMember, projectType } from "@/lib/types";
 import { MemberSelect } from "@/components/form/SelectMember";
 type ProjectRole = "Prosjektleder" | "Bidragsyter";
 
@@ -359,6 +359,15 @@ const AdminProjectPage = () => {
           {imagePreview && (
             <Image
               src={imagePreview}
+              alt="Preview"
+              height={500}
+              width={500}
+              className="w-full max-h-96 object-cover"
+            />
+          )}
+          {imageUri && !imagePreview && (
+            <Image
+              src={imageUri}
               alt="Preview"
               height={500}
               width={500}

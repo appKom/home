@@ -29,11 +29,13 @@ export function MemberSelect({
         if (response.ok) {
           const data = await response.json();
 
+          //eslint-disable-next-line
           const normalizedMembers = data.members.map((member: any) => {
             return {
               ...member,
               rolesByPeriod: Array.isArray(member.rolesByPeriod)
-                ? member.rolesByPeriod.map((pr: any) => ({
+                ? //eslint-disable-next-line
+                  member.rolesByPeriod.map((pr: any) => ({
                     id: pr.id,
                     period: pr.period,
                     role: pr.role,
@@ -115,8 +117,10 @@ export function MemberSelect({
   );
 
   const handleSelectMember = (member: memberType) => {
+    //eslint-disable-next-line
     setSelectedMember(member);
     onSelect(member.id);
+    //eslint-disable-next-line
     onSelectName && onSelectName(member.name);
     setIsOpen(false);
   };
