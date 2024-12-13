@@ -48,7 +48,7 @@ export async function PUT(req: NextRequest) {
         description,
         imageUri,
         imageDescription,
-        authorId,
+        memberId: authorId,
         updatedAt: new Date(),
       },
     });

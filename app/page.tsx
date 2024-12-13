@@ -1,20 +1,67 @@
 import { Button } from "@/components/Button";
 import { MemberCard } from "@/components/home/MemberCard";
 import { ProjectCard } from "@/components/home/ProjectCard";
-import { projects } from "@/lib/projects";
 import { HeaderText } from "@/components/headerText";
-import {
-  getLastMemberPeriod,
-  getMembersForPeriod,
-} from "@/lib/utils/getRelevantMembers";
 import { HeroSection } from "@/components/HeroSection";
 import { prisma } from "@/lib/prisma";
 import { BlogCard } from "@/components/home/BlogCard";
 
 export const revalidate = 3600;
 
+const roleOrder: Record<string, number> = {
+  Leder: 1,
+  Nestleder: 2,
+  Okonomiansvarlig: 3,
+  Medlem: 4,
+};
+
 export default async function Home() {
   const blogs = await prisma.article.findMany();
+
+  const projects = await prisma.project.findMany({
+    include: {
+      projectMembers: {
+        include: {
+          Member: true,
+        },
+      },
+    },
+  });
+
+  const members = await prisma.member.findMany({
+    include: {
+      rolesByPeriod: true,
+    },
+  });
+
+  const allMemberPeriods = Array.from(
+    new Set(
+      members.flatMap(
+        (member) => member.rolesByPeriod?.map((r) => r.period) ?? []
+      )
+    )
+  ).reverse();
+
+  const getLastMemberPeriod = allMemberPeriods[0];
+
+  const getMembersForPeriod = (period: string) => {
+    return members
+      .filter((member) =>
+        member.rolesByPeriod?.some((role) => role.period === period)
+      )
+      .map((member) => {
+        const roleForPeriod = member.rolesByPeriod?.find(
+          (role) => role.period === period
+        )?.role;
+        return { ...member, roleForPeriod };
+      })
+      .sort(
+        (a, b) =>
+          (roleOrder[a.roleForPeriod!] ?? 99) -
+          (roleOrder[b.roleForPeriod!] ?? 99)
+      );
+  };
+
   return (
     <div>
       <main className="container mx-auto px-4 ">
@@ -60,16 +107,11 @@ export default async function Home() {
           <div className="flex justify-center">
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 w-full gap-4">
               {getMembersForPeriod(getLastMemberPeriod).map((member) => {
-                const rolesByPeriod = member.rolesByPeriod;
-                const lastPeriod = Object.keys(rolesByPeriod)
-                  .sort()
-                  .reverse()[0];
-
                 return (
                   <MemberCard
                     member={member}
                     key={member.name}
-                    period={lastPeriod}
+                    period={getLastMemberPeriod}
                   />
                 );
               })}

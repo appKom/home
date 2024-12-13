@@ -6,7 +6,11 @@ import { Button } from "@/components/Button";
 export const dynamic = "force-dynamic";
 
 export default async function AdminBlogsPage() {
-  const blogs = await prisma.article.findMany();
+  const blogs = await prisma.article.findMany({
+    include: {
+      author: true,
+    },
+  });
   const session = await getServerSession(authOptions);
 
   return (

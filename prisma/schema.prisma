@@ -15,5 +15,71 @@ model Article {
   imageDescription String
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
-  authorId         Int
+  memberId         Int
+  author           Member   @relation(fields: [memberId], references: [id])
+}
+
+model Member {
+  id            Int             @id @default(autoincrement())
+  name          String
+  href          String          @unique
+  imageUri      String?
+  isCurrent     Boolean         @default(true)
+  about         String?
+  quote         String?
+  email         String?         @unique
+  phone         String?
+  github        String?
+  linkedin      String?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  Article       Article[]
+  ProjectMember ProjectMember[]
+  rolesByPeriod RoleByPeriod[]
+}
+
+model RoleByPeriod {
+  id       Int      @id @default(autoincrement())
+  period   String
+  role     RoleEnum
+  memberId Int
+  member   Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  @@unique([memberId, period])
+}
+
+model ProjectMember {
+  id        Int          @id @default(autoincrement())
+  projectId Int
+  memberId  Int
+  Role      ProjectRoles
+  Member    Member       @relation(fields: [memberId], references: [id])
+  Project   Project      @relation(fields: [projectId], references: [id])
+}
+
+model Project {
+  id               Int             @id @default(autoincrement())
+  title            String
+  shortDescription String
+  description      String
+  github           String
+  imageUri         String
+  techStack        String
+  href             String          @unique
+  link             String?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  projectMembers   ProjectMember[]
+}
+
+enum ProjectRoles {
+  Prosjektleder
+  Bidragsyter
+}
+
+enum RoleEnum {
+  Leder
+  Nestleder
+  Okonomiansvarlig @map("Økonomiansvarlig")
+  Medlem
 }

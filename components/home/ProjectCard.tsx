@@ -9,7 +9,7 @@ interface Props {
 
 export const ProjectCard = ({ project }: Props) => (
   <Link
-    href={project.href}
+    href={"/prosjekt/" + project.href}
     className="bg-gray-800 rounded-lg group overflow-hidden hover:shadow-lg transition-shadow flex flex-col"
   >
     <div className="overflow-hidden w-full h-48">

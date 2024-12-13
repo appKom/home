@@ -1,9 +1,9 @@
+"use client";
 import dynamic from "next/dynamic";
 import { Button } from "../Button";
 import TextInput from "./TextInput";
 import ImageUploader from "./ImageUploader";
 import { MemberSelect } from "./SelectMember";
-import { members } from "@/lib/members";
 
 const QuillEditor = dynamic(() => import("react-quill-new"), { ssr: false });
 
@@ -78,9 +78,9 @@ const ContentEditor = ({
           initialImageUrl={initialImageUrl}
         />
         <MemberSelect
-          members={members}
           onSelect={setAuthorId}
           initialSelectedMemberId={authorId}
+          isBlog={true}
         />
         <div className="w-full max-w-3xl mt-10">
           <TextInput

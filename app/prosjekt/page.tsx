@@ -1,8 +1,12 @@
 import { HeaderText } from "@/components/headerText";
 import { ProjectCard } from "@/components/home/ProjectCard";
-import { projects } from "@/lib/projects";
+import { prisma } from "@/lib/prisma";
 
-export default function ProjectsPage() {
+export const revalidate = 3600;
+
+export default async function ProjectsPage() {
+  const projects = await prisma.project.findMany();
+
   return (
     <div className="w-full flex justify-center min-h-screen">
       <div className="py-6 px-6 w-full">
