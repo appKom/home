@@ -1,3 +1,5 @@
+import { Prisma } from "@prisma/client";
+
 export type articleType = {
   id: number;
   title: string;
@@ -35,11 +37,14 @@ export type memberType = {
   linkedin?: string | null;
 };
 
-export type ProjectRole = "Prosjektleder" | "Prosjektmedlem";
+type ProjectRole = "Prosjektleder" | "Bidragsyter";
 
-export type ProjectMemberType = {
-  role: ProjectRole;
-  member: memberType;
+export type ProjectMember = {
+  id: number;
+  projectId: number;
+  memberId: number;
+  Role: ProjectRole;
+  Member: memberType;
 };
 
 export type projectType = {
@@ -49,12 +54,12 @@ export type projectType = {
   description: string;
   imageUri: string;
   href: string;
-  techStack?: string[];
-  link?: string;
+  techStack?: string;
+  link?: string | null;
   github: string;
   createdAt: Date;
   updatedAt: Date;
-  projectMembers: ProjectMemberType[];
+  projectMembers?: ProjectMember[];
 };
 
 export type tParams = Promise<{ id: string }>;

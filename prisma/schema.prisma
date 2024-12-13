@@ -15,28 +15,27 @@ model Article {
   imageDescription String
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
-  author           Member   @relation(fields: [memberId], references: [id])
   memberId         Int
+  author           Member   @relation(fields: [memberId], references: [id])
 }
 
 model Member {
-  id        Int      @id @default(autoincrement())
-  name      String
-  href      String   @unique
-  imageUri  String?
-  isCurrent Boolean  @default(true)
-  about     String?
-  quote     String?
-  email     String?  @unique
-  phone     String?
-  github    String?
-  linkedin  String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  rolesByPeriod RoleByPeriod[]
+  id            Int             @id @default(autoincrement())
+  name          String
+  href          String          @unique
+  imageUri      String?
+  isCurrent     Boolean         @default(true)
+  about         String?
+  quote         String?
+  email         String?         @unique
+  phone         String?
+  github        String?
+  linkedin      String?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
   Article       Article[]
   ProjectMember ProjectMember[]
+  rolesByPeriod RoleByPeriod[]
 }
 
 model RoleByPeriod {
@@ -49,18 +48,13 @@ model RoleByPeriod {
   @@unique([memberId, period])
 }
 
-enum ProjectRoles {
-  Prosjektleder
-  Bidragsyter
-}
-
 model ProjectMember {
   id        Int          @id @default(autoincrement())
   projectId Int
   memberId  Int
-  Project   Project      @relation(fields: [projectId], references: [id])
-  Member    Member       @relation(fields: [memberId], references: [id])
   Role      ProjectRoles
+  Member    Member       @relation(fields: [memberId], references: [id])
+  Project   Project      @relation(fields: [projectId], references: [id])
 }
 
 model Project {
@@ -75,7 +69,12 @@ model Project {
   link             String?
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
-  ProjectMember    ProjectMember[]
+  projectMembers   ProjectMember[]
+}
+
+enum ProjectRoles {
+  Prosjektleder
+  Bidragsyter
 }
 
 enum RoleEnum {
