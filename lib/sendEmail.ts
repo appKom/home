@@ -35,8 +35,6 @@ export default async function sendEmail(emailParams: SendEmailProps) {
 
     const command = new SendEmailCommand(params);
     await sesClient.send(command);
-
-    console.log("Email sent to: ", emailParams.toEmails);
   } catch (error) {
     console.error("Error sending email: ", error);
     throw error;

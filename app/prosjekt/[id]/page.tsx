@@ -42,8 +42,6 @@ export default async function ProjectPage(props: { params: tParams }) {
     },
   });
 
-  console.log(project?.projectMembers);
-
   if (!project) {
     return <Custom404 />;
   }

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/authOptions";
@@ -12,11 +12,8 @@ export const POST = async (req: NextRequest) => {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    const prisma = new PrismaClient();
     const { title, description, imageUri, imageDescription, authorId } =
       await req.json();
-
-    console.log(!title, !description, !imageUri, !authorId);
 
     if (!title || !description || !imageUri || !authorId) {
       return NextResponse.json(

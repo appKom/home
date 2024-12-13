@@ -74,7 +74,6 @@ const AdminMemberPage = () => {
         if (response.ok) {
           setLoadingProgress(30);
           const data = await response.json();
-          console.log("Fetched Members:", data.members);
           setLoadingProgress(50);
 
           //eslint-disable-next-line
