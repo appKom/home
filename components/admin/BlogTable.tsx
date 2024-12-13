@@ -59,42 +59,43 @@ const BlogTable = ({ blogs }: BlogTableProps) => {
     <div className="w-full p-4">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {blogList.map((blog) => (
-          <Link
-            href={`/admin/blogg/edit/${blog.id}`}
+          <div
             key={blog.id}
             className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-105"
           >
-            <Image
-              src={blog.imageUri}
-              alt={blog.imageDescription}
-              width={300}
-              height={300}
-              className="w-full h-40 object-cover"
-            />
-            <div className="p-2">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 truncate">
-                {blog.title}
-              </h2>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                {blog.author?.name || "Unknown Author"}
-              </p>
+            <Link href={`/admin/blogg/edit/${blog.id}`} className="w-full">
+              <Image
+                src={blog.imageUri}
+                alt={blog.imageDescription}
+                width={300}
+                height={300}
+                className="w-full h-40 object-cover"
+              />
+              <div className="p-2">
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 truncate">
+                  {blog.title}
+                </h2>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                  {blog.author?.name || "Unknown Author"}
+                </p>
 
-              <div className="flex justify-around  ">
-                <button
-                  onClick={(event) => {
-                    event.preventDefault();
-                    deleteBlog(blog.id);
-                  }}
-                  className="px-4 py-2 text-sm text-white bg-red-500 rounded hover:bg-red-600 transition-colors duration-200"
-                >
-                  Slett
-                </button>
-                <div className="px-4 py-2 text-sm text-white bg-blue-500 rounded hover:bg-blue-600 transition-colors duration-200">
-                  Rediger
+                <div className="flex justify-around  ">
+                  <button
+                    onClick={(event) => {
+                      event.preventDefault();
+                      deleteBlog(blog.id);
+                    }}
+                    className="px-4 py-2 text-sm text-white bg-red-500 rounded hover:bg-red-600 transition-colors duration-200"
+                  >
+                    Slett
+                  </button>
+                  <div className="px-4 py-2 text-sm text-white bg-blue-500 rounded hover:bg-blue-600 transition-colors duration-200">
+                    Rediger
+                  </div>
                 </div>
               </div>
-            </div>
-          </Link>
+            </Link>
+          </div>
         ))}
       </div>
     </div>

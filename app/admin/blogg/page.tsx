@@ -21,7 +21,7 @@ export default async function AdminBlogsPage() {
             Hva ønsker {session?.user!.name} å gjøre?
           </h1>
         </div>
-        <div className="flex justify-center">
+        <div className="flex mb-8 justify-center">
           <Button
             title={"Opprett blogg"}
             href="/admin/blogg/create"
