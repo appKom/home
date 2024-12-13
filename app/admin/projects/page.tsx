@@ -43,6 +43,9 @@ const AdminProjectPage = () => {
   const loadingBarRef = useRef<HTMLDivElement>(null);
 
   const [selectedMemberId, setSelectedMemberId] = useState<number | null>(null);
+  const [selectedMemberName, setSelectedMemberName] = useState<string | null>(
+    null
+  );
   const [selectedRole, setSelectedRole] = useState<ProjectRole>("Bidragsyter");
 
   useEffect(() => {
@@ -281,17 +284,14 @@ const AdminProjectPage = () => {
       return;
     }
 
-    // Normally, you'd fetch the selected member details from the members array,
-    // but here we assume MemberSelect or a global store would provide it.
-    // For simplicity, we'll just store the IDs and role.
     const newProjectMember: ProjectMember = {
-      id: Date.now(), // Temporary ID, backend will assign real ID
+      id: Date.now(),
       projectId: editingProject ? editingProject.id : 0,
       memberId: selectedMemberId,
       Role: selectedRole,
       Member: {
         id: selectedMemberId,
-        name: "Ukjent navn (hentes ved visning)",
+        name: selectedMemberId ? selectedMemberName || "" : "",
         href: "#",
         isCurrent: true,
       },
@@ -299,8 +299,8 @@ const AdminProjectPage = () => {
 
     setProjectMembers((prev) => [...prev, newProjectMember]);
 
-    // Reset selection fields if desired
     setSelectedMemberId(null);
+    setSelectedMemberName(null);
     setSelectedRole("Bidragsyter");
     toast.success("Medlem lagt til med valgt rolle!");
   };
@@ -387,7 +387,10 @@ const AdminProjectPage = () => {
           <h3 className="text-lg font-semibold mb-2">
             Legg til medlemmer med rolle
           </h3>
-          <MemberSelect onSelect={setSelectedMemberId} />
+          <MemberSelect
+            onSelect={setSelectedMemberId}
+            onSelectName={setSelectedMemberName}
+          />
 
           <label className="block text-sm font-medium text-gray-200 mt-4 mb-2">
             Velg Rolle
@@ -410,18 +413,39 @@ const AdminProjectPage = () => {
           </button>
         </div>
 
-        {projectMembers.length > 0 && (
-          <div className="mt-4">
-            <h4 className="text-md font-semibold mb-2">Valgte medlemmer:</h4>
-            <ul className="list-disc list-inside">
-              {projectMembers.map((pm) => (
-                <li key={pm.id}>
-                  MedlemID: {pm.Member.name}, Rolle: {pm.Role}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        {projectMembers.map((pm, index) => (
+          <li key={pm.id} className="items-center flex">
+            Medlem: {pm.Member.name}, Rolle:
+            <select
+              value={pm.Role}
+              className="px-4 py-1 border border-gray-300 rounded-md w-40 bg-gray-800 text-white ml-2"
+              onChange={(e) => {
+                const newRole = e.target.value;
+                setProjectMembers((prev) => {
+                  const newArr = [...prev];
+                  newArr[index] = {
+                    ...newArr[index],
+                    Role: newRole as ProjectRole,
+                  };
+                  return newArr;
+                });
+              }}
+            >
+              <option value="Prosjektleder">Prosjektleder</option>
+              <option value="Bidragsyter">Bidragsyter</option>
+            </select>
+            <button
+              onClick={() =>
+                setProjectMembers((prev) =>
+                  prev.filter((member) => member.id !== pm.id)
+                )
+              }
+              className="text-red-500 hover:text-red-700 ml-2"
+            >
+              <XIcon />
+            </button>
+          </li>
+        ))}
 
         <TextInput
           id="link"

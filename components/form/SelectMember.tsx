@@ -6,11 +6,13 @@ import toast from "react-hot-toast";
 
 interface MemberSelectProps {
   onSelect: (member: number) => void;
+  onSelectName?: (member: string) => void;
   initialSelectedMemberId?: number | null;
 }
 
 export function MemberSelect({
   onSelect,
+  onSelectName,
   initialSelectedMemberId,
 }: MemberSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -115,6 +117,7 @@ export function MemberSelect({
   const handleSelectMember = (member: memberType) => {
     setSelectedMember(member);
     onSelect(member.id);
+    onSelectName && onSelectName(member.name);
     setIsOpen(false);
   };
 
