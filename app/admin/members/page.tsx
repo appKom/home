@@ -8,8 +8,9 @@ import OptionsBox from "@/components/form/OptionsBox";
 import Checkbox from "@/components/form/Checkbox";
 import Table from "@/components/form/Table";
 import Image from "next/image";
-import { memberType, RolesByPeriod } from "@/lib/types";
+import { memberType, RoleByPeriodType } from "@/lib/types";
 import TextAreaInput from "@/components/form/TextAreaInput";
+import { MemberSelect } from "@/components/form/SelectMember";
 
 const LoadingBar = ({ progress }: { progress: number }) => (
   <div className="w-full h-5 bg-gray-200">
@@ -79,29 +80,46 @@ const AdminMemberPage = () => {
           setLoadingProgress(50);
 
           const normalizedMembers = data.members.map((member: any) => {
-            if (Array.isArray(member.rolesByPeriod)) {
-              const rolesByPeriodObject: RolesByPeriod = {};
-              member.rolesByPeriod.forEach((pr: any) => {
-                if (pr.period && pr.role) {
-                  rolesByPeriodObject[pr.period] = pr.role;
-                }
-              });
-              return { ...member, rolesByPeriod: rolesByPeriodObject };
-            }
-            return member;
+            return {
+              ...member,
+              rolesByPeriod: Array.isArray(member.rolesByPeriod)
+                ? member.rolesByPeriod.map((pr: any) => ({
+                    period: pr.period,
+                    role: pr.role,
+                  }))
+                : [],
+            };
           });
 
           setLoadingProgress(80);
 
-          normalizedMembers.sort(
-            (a: memberType, b: memberType) =>
-              new Date(
-                Object.keys(b.rolesByPeriod)[0].split(" - ")[1]
-              ).getTime() -
-              new Date(
-                Object.keys(a.rolesByPeriod)[0].split(" - ")[1]
-              ).getTime()
-          );
+          normalizedMembers.sort((a: memberType, b: memberType) => {
+            const getLatestYear = (member: memberType) => {
+              if (member.rolesByPeriod && member.rolesByPeriod.length > 0) {
+                const latestPeriod = member.rolesByPeriod.reduce(
+                  (latest, current) => {
+                    const currentEndYear = parseInt(
+                      current.period.split(" - ")[1],
+                      10
+                    );
+                    const latestEndYear = latest
+                      ? parseInt(latest.split(" - ")[1], 10)
+                      : 0;
+                    return currentEndYear > latestEndYear
+                      ? current.period
+                      : latest;
+                  },
+                  ""
+                );
+                return latestPeriod
+                  ? parseInt(latestPeriod.split(" - ")[1], 10)
+                  : 0;
+              }
+              return 0;
+            };
+
+            return getLatestYear(b) - getLatestYear(a);
+          });
 
           setMembers(normalizedMembers);
         } else {
@@ -135,19 +153,31 @@ const AdminMemberPage = () => {
     setSelectedYear(
       member.isCurrent
         ? currentYear
-        : parseInt(
-            Object.keys(member.rolesByPeriod).slice(-1)[0].split(" - ")[1]
+        : member.rolesByPeriod && member.rolesByPeriod.length > 0
+        ? parseInt(
+            member.rolesByPeriod[member.rolesByPeriod.length - 1].period.split(
+              " - "
+            )[1],
+            10
           )
+        : currentYear
     );
     setImagePreview(member.imageUri || null);
     setImage(null);
 
-    const sortedPeriods = Object.keys(member.rolesByPeriod).sort();
-    const populatedPeriodRoles = sortedPeriods.map((period) => ({
-      period,
-      role: member.rolesByPeriod[period],
-    }));
-    setPeriodRoles(populatedPeriodRoles);
+    if (member.rolesByPeriod && member.rolesByPeriod.length > 0) {
+      const sortedRoles = [...member.rolesByPeriod].sort((a, b) => {
+        const endYearA = parseInt(a.period.split(" - ")[1], 10);
+        const endYearB = parseInt(b.period.split(" - ")[1], 10);
+        return endYearA - endYearB;
+      });
+
+      setPeriodRoles(sortedRoles);
+    } else {
+      setPeriodRoles([
+        { period: `${currentYear} - ${currentYear + 1}`, role: "Medlem" },
+      ]);
+    }
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -228,16 +258,11 @@ const AdminMemberPage = () => {
         const normalizedMember: memberType = {
           ...responseData.member,
           rolesByPeriod: Array.isArray(responseData.member.rolesByPeriod)
-            ? responseData.member.rolesByPeriod.reduce(
-                (acc: RolesByPeriod, pr: any) => {
-                  if (pr.period && pr.role) {
-                    acc[pr.period] = pr.role;
-                  }
-                  return acc;
-                },
-                {}
-              )
-            : responseData.member.rolesByPeriod,
+            ? responseData.member.rolesByPeriod.map((pr: any) => ({
+                period: pr.period,
+                role: pr.role,
+              }))
+            : [],
         };
 
         if (editingMember) {
@@ -248,15 +273,33 @@ const AdminMemberPage = () => {
           );
         } else {
           setMembers(
-            [...members, normalizedMember].sort(
-              (a, b) =>
-                new Date(
-                  Object.keys(b.rolesByPeriod)[0].split(" - ")[1]
-                ).getTime() -
-                new Date(
-                  Object.keys(a.rolesByPeriod)[0].split(" - ")[1]
-                ).getTime()
-            )
+            [...members, normalizedMember].sort((a, b) => {
+              const getLatestYear = (member: memberType) => {
+                if (member.rolesByPeriod && member.rolesByPeriod.length > 0) {
+                  const latestPeriod = member.rolesByPeriod.reduce(
+                    (latest, current) => {
+                      const currentEndYear = parseInt(
+                        current.period.split(" - ")[1],
+                        10
+                      );
+                      const latestEndYear = latest
+                        ? parseInt(latest.split(" - ")[1], 10)
+                        : 0;
+                      return currentEndYear > latestEndYear
+                        ? current.period
+                        : latest;
+                    },
+                    ""
+                  );
+                  return latestPeriod
+                    ? parseInt(latestPeriod.split(" - ")[1], 10)
+                    : 0;
+                }
+                return 0;
+              };
+
+              return getLatestYear(b) - getLatestYear(a);
+            })
           );
         }
 
@@ -412,18 +455,28 @@ const AdminMemberPage = () => {
       header: "Rolle(r)",
       accessor: "rolesByPeriod" as keyof memberType,
       renderCell: (member: memberType) => {
-        const sortedPeriods = Object.keys(member.rolesByPeriod).sort();
+        if (!member.rolesByPeriod || member.rolesByPeriod.length === 0) {
+          return <span>Ingen roller</span>;
+        }
+
+        const sortedRoles = [...member.rolesByPeriod].sort((a, b) => {
+          const endYearA = parseInt(a.period.split(" - ")[1], 10);
+          const endYearB = parseInt(b.period.split(" - ")[1], 10);
+          return endYearB - endYearA;
+        });
+
         return (
           <ul className="list-disc list-inside">
-            {sortedPeriods.map((period) => (
-              <li key={period}>
-                {period}: {member.rolesByPeriod[period]}
+            {sortedRoles.map((pr) => (
+              <li key={pr.period}>
+                {pr.period}: {pr.role}
               </li>
             ))}
           </ul>
         );
       },
     },
+
     {
       header: "Status",
       accessor: "isCurrent" as keyof memberType,
@@ -482,6 +535,8 @@ const AdminMemberPage = () => {
             setAbout(e.target.value)
           }
         />
+
+        <MemberSelect />
         <TextInput
           id="github"
           label="Github"
