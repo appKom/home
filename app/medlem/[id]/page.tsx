@@ -25,7 +25,6 @@ export async function generateMetadata(props: {
 
 export default async function MemberPage(props: { params: tParams }) {
   const { id } = await props.params;
-  console.log(id);
 
   const member = await prisma.member.findFirst({
     where: {
@@ -39,13 +38,12 @@ export default async function MemberPage(props: { params: tParams }) {
   if (!member || !member.rolesByPeriod) {
     return <Custom404 />;
   }
+  const periods = member.rolesByPeriod.map((r) => r.period).sort();
 
-  const periods = Object.keys(member.rolesByPeriod).sort();
   const latestPeriod = periods[periods.length - 1];
   const earliestPeriod = periods[0].split("-")[0];
-  const latestRole =
-    member.rolesByPeriod.find((r) => r.period === latestPeriod)?.role ??
-    "Unknown Role";
+
+  const latestRole = member.rolesByPeriod[member.rolesByPeriod.length - 1].role;
 
   const projectsWithMember = await prisma.project.findMany({
     where: {
