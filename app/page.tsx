@@ -5,15 +5,9 @@ import { HeaderText } from "@/components/headerText";
 import { HeroSection } from "@/components/HeroSection";
 import { prisma } from "@/lib/prisma";
 import { BlogCard } from "@/components/home/BlogCard";
+import { roleOrder } from "@/lib/utils/divUtils";
 
 export const revalidate = 3600;
-
-const roleOrder: Record<string, number> = {
-  Leder: 1,
-  Nestleder: 2,
-  Okonomiansvarlig: 3,
-  Medlem: 4,
-};
 
 export default async function Home() {
   const blogs = await prisma.article.findMany();
