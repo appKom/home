@@ -288,8 +288,8 @@ export const DELETE = async (request: Request) => {
     }
 
     return NextResponse.json({ project }, { status: 200 });
-  } catch (error: any) {
-    console.error("Error deleting project:", error.message || error);
+  } catch (error) {
+    console.error("Error deleting project:", (error as Error).message || error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
