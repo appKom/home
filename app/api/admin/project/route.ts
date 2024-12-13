@@ -246,6 +246,57 @@ export const PUT = async (request: Request) => {
   }
 };
 
+export const DELETE = async (request: Request) => {
+  try {
+    const session = await getServerSession(authOptions);
+
+    if (!session || !session.user || !session.user.isAdmin) {
+      return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    }
+
+    const data = await request.json();
+    const projectId = Number(data.id);
+
+    if (!projectId || isNaN(projectId)) {
+      return NextResponse.json(
+        { error: "Invalid project ID provided" },
+        { status: 400 }
+      );
+    }
+
+    await prisma.projectMember.deleteMany({
+      where: {
+        projectId: projectId,
+      },
+    });
+
+    const project = await prisma.project.delete({
+      where: {
+        id: projectId,
+      },
+    });
+
+    if (project.imageUri) {
+      const fileName = project.imageUri.split("/").pop()!;
+      const { error } = await supabase.storage
+        .from("projects")
+        .remove([fileName]);
+
+      if (error) {
+        console.error("Error deleting image from storage:", error.message);
+      }
+    }
+
+    return NextResponse.json({ project }, { status: 200 });
+  } catch (error: any) {
+    console.error("Error deleting project:", error.message || error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
+  }
+};
+
 const handleImageUpload = async (
   image: File | null,
   projectName: string
