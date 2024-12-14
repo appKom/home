@@ -4,7 +4,11 @@ import { prisma } from "@/lib/prisma";
 export const revalidate = 36000;
 
 export default async function AboutPageWrapper() {
-  const numberOfCurrentMembers = await prisma.member.count();
+  const numberOfCurrentMembers = await prisma.member.count({
+    where: {
+      isCurrent: true,
+    },
+  });
   const numberOfProjects = await prisma.project.count();
 
   return (
