@@ -3,7 +3,7 @@ import { ProjectCard } from "@/components/home/ProjectCard";
 import { getAllProjects } from "@/lib/projectCache";
 import { Suspense } from "react";
 
-export const revalidate = 3600;
+export const revalidate = 36000;
 
 export default async function ProjectsPage() {
   const projects = await getAllProjects();
