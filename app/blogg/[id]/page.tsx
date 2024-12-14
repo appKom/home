@@ -8,9 +8,9 @@ import { formatDate } from "@/lib/utils/dateUtils";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { Metadata } from "next";
-import { prisma } from "@/lib/prisma";
 import MarkdownComponents from "@/components/Markdown";
 import { HeaderText } from "@/components/headerText";
+import { getBlogByTitle } from "@/lib/blogCache";
 
 export const revalidate = 36000;
 
@@ -30,15 +30,7 @@ export default async function ArticlePage(props: { params: tParams }) {
   const { id } = await props.params;
   const decodedId = decodeURIComponent(id);
 
-  const blog: articleType | undefined =
-    (await prisma.article.findFirst({
-      where: {
-        title: decodedId,
-      },
-      include: {
-        author: true,
-      },
-    })) || undefined;
+  const blog = await getBlogByTitle(decodedId);
 
   const author: memberType | undefined = blog?.author;
 

@@ -1,18 +1,18 @@
 import { BlogCard } from "@/components/home/BlogCard";
 import { articleType } from "@/lib/types";
 import { getMonthNameInNorwegian } from "@/lib/utils/dateUtils";
-import { prisma } from "@/lib/prisma";
 import { HeaderText } from "@/components/headerText";
 import { Suspense } from "react";
+import { getAllBlogs } from "@/lib/blogCache";
 
 export const revalidate = 3600;
 
 export default async function BlogsPage() {
-  const blogs = await prisma.article.findMany({
-    orderBy: {
-      createdAt: "asc",
-    },
-  });
+  const blogs = await getAllBlogs();
+
+  if (!blogs) {
+    return <div>No blogs found.</div>;
+  }
 
   const blogsByMonth: Record<string, articleType[]> = blogs.reduce(
     (acc, blog) => {
