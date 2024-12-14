@@ -3,6 +3,7 @@
 import { ReactNode } from "react";
 import { SessionProvider, signIn, signOut, useSession } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
+import { Button } from "@/components/Button";
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -39,12 +40,11 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
       <div className="flex flex-col items-center justify-center min-h-screen">
         <div className="flex flex-col items-center justify-center px-6 gap-5">
           <h1 className="text-3xl">Vennligst logg inn</h1>
-          <button
-            className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600"
+          <Button
+            title="Logg inn med Github"
+            color="onlineOrange"
             onClick={handleLogin}
-          >
-            Logg inn med GitHub
-          </button>
+          />
         </div>
       </div>
     );
