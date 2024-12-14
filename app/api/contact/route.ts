@@ -9,6 +9,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
 
+    if (
+      name.length > 50 ||
+      email.length > 50 ||
+      phone.length > 20 ||
+      message.length > 1000
+    ) {
+      return NextResponse.json({ error: "Field too long" }, { status: 400 });
+    }
+
     const recaptchaResponse = await fetch(
       `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptchaToken}`,
       { method: "POST" }
