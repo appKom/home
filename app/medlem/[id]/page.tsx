@@ -15,7 +15,7 @@ export const revalidate = 36000;
 export async function generateMetadata(props: {
   params: tParams;
 }): Promise<Metadata> {
-  const { id } = props.params;
+  const { id } = await props.params;
 
   const member = await prisma.member.findFirst({
     where: { href: id },
@@ -29,7 +29,7 @@ export async function generateMetadata(props: {
 }
 
 export default async function MemberPage(props: { params: tParams }) {
-  const { id } = props.params;
+  const { id } = await props.params;
 
   const member = await prisma.member.findFirst({
     where: {

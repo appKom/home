@@ -16,7 +16,7 @@ export const revalidate = 36000;
 export async function generateMetadata(props: {
   params: tParams;
 }): Promise<Metadata> {
-  const { id } = props.params;
+  const { id } = await props.params;
 
   const articleTitle = decodeURIComponent(id);
 
@@ -26,7 +26,7 @@ export async function generateMetadata(props: {
 }
 
 export default async function ArticlePage(props: { params: tParams }) {
-  const { id } = props.params;
+  const { id } = await props.params;
   const decodedId = decodeURIComponent(id);
 
   const blog: articleType | undefined =
