@@ -60,4 +60,6 @@ export type projectType = {
   projectMembers?: ProjectMember[];
 };
 
-export type tParams = Promise<{ id: string }>;
+export type tParams = {
+  id: string;
+};
