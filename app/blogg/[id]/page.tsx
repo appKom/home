@@ -1,4 +1,4 @@
-import { articleType, memberType, tParams } from "@/lib/types";
+import { memberType, tParams } from "@/lib/types";
 import Custom404 from "@/app/not-found";
 import Image from "next/image";
 import { TbPencilCode } from "react-icons/tb";
