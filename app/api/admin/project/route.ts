@@ -5,6 +5,8 @@ import { authOptions } from "../../auth/[...nextauth]/authOptions";
 import { prisma } from "@/lib/prisma";
 import { sanitizeFileName } from "@/lib/utils/fileSanitizer";
 import { createClient } from "@supabase/supabase-js";
+import { clearProjectCache } from "@/lib/projectCache";
+import { revalidatePath } from "next/cache";
 
 const generateSlug = (name: string) => {
   return name
@@ -93,6 +95,12 @@ export const POST = async (request: Request) => {
         },
       },
     });
+
+    clearProjectCache();
+
+    revalidatePath("/");
+    revalidatePath("/prosjekt");
+    revalidatePath(`/prosjekt/${encodeURIComponent(project.href)}`);
 
     return NextResponse.json(project, { status: 200 });
   } catch (error) {
@@ -236,6 +244,12 @@ export const PUT = async (request: Request) => {
       },
     });
 
+    clearProjectCache();
+
+    revalidatePath("/");
+    revalidatePath("/prosjekt");
+    revalidatePath(`/prosjekt/${encodeURIComponent(updatedProject.href)}`);
+
     return NextResponse.json(updatedProject, { status: 200 });
   } catch (error) {
     console.error("Error updating project:", error);
@@ -286,6 +300,12 @@ export const DELETE = async (request: Request) => {
         console.error("Error deleting image from storage:", error.message);
       }
     }
+
+    clearProjectCache();
+
+    revalidatePath("/");
+    revalidatePath("/prosjekt");
+    revalidatePath(`/prosjekt/${encodeURIComponent(project.href)}`);
 
     return NextResponse.json({ project }, { status: 200 });
   } catch (error) {

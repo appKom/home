@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma";
 import { sanitizeFileName } from "@/lib/utils/fileSanitizer";
 import { authOptions } from "../../auth/[...nextauth]/authOptions";
 import { RoleEnum } from "@prisma/client";
+import { clearMemberCache } from "@/lib/memberCache";
+import { revalidatePath } from "next/cache";
 
 const generateSlug = (name: string) => {
   return name
@@ -116,6 +118,11 @@ export const POST = async (request: Request) => {
         rolesByPeriod: true,
       },
     });
+
+    clearMemberCache();
+    revalidatePath("/");
+    revalidatePath("/medlem");
+    revalidatePath(`/medlem/${encodeURIComponent(member.href)}`);
 
     return NextResponse.json({ member }, { status: 200 });
   } catch (error) {
@@ -247,6 +254,11 @@ export const PUT = async (request: Request) => {
       },
     });
 
+    clearMemberCache();
+    revalidatePath("/");
+    revalidatePath("/medlem");
+    revalidatePath(`/medlem/${encodeURIComponent(member.href)}`);
+
     return NextResponse.json({ member }, { status: 200 });
   } catch (error) {
     console.error("Error creating member:", error);
@@ -300,6 +312,11 @@ export const DELETE = async (request: Request) => {
         console.error("Error deleting image from storage:", error.message);
       }
     }
+
+    clearMemberCache();
+    revalidatePath("/");
+    revalidatePath("/medlem");
+    revalidatePath(`/medlem/${encodeURIComponent(member.href)}`);
 
     return NextResponse.json({ member }, { status: 200 });
   } catch (error) {
