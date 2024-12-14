@@ -4,6 +4,8 @@ import { getServerSession } from "next-auth";
 
 import { createClient } from "@supabase/supabase-js";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { clearBlogCache } from "@/lib/blogCache";
+import { revalidatePath } from "next/cache";
 
 const supabaseUrl = process.env.SUPABASE_URL!;
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
@@ -51,6 +53,12 @@ export async function PUT(req: NextRequest) {
         updatedAt: new Date(),
       },
     });
+
+    clearBlogCache();
+
+    revalidatePath("/");
+    revalidatePath("/blogg");
+    revalidatePath(`/blogg/${encodeURIComponent(updatedArticle.title)}`);
 
     return NextResponse.json({ article: updatedArticle }, { status: 200 });
   } catch (error) {
@@ -158,6 +166,12 @@ export const DELETE = async (req: NextRequest) => {
     await prisma.article.delete({
       where: { id },
     });
+
+    clearBlogCache();
+
+    revalidatePath("/");
+    revalidatePath("/blogg");
+    revalidatePath(`/blogg/${encodeURIComponent(article.title)}`);
 
     return NextResponse.json(
       { message: "Article and associated files deleted successfully" },
