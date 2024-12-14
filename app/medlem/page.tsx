@@ -1,17 +1,17 @@
 import { HeaderText } from "@/components/headerText";
 import { MemberCard } from "@/components/home/MemberCard";
-import { prisma } from "@/lib/prisma";
 import { roleOrder } from "@/lib/utils/divUtils";
 import { Suspense } from "react";
+import { getAllMembers } from "@/lib/memberCache";
 
 export const revalidate = 36000;
 
 export default async function MembersPage() {
-  const members = await prisma.member.findMany({
-    include: {
-      rolesByPeriod: true,
-    },
-  });
+  const members = await getAllMembers();
+
+  if (!members) {
+    return <div>No members found.</div>;
+  }
 
   const uniquePeriods = Array.from(
     new Set(

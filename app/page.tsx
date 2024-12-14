@@ -7,6 +7,7 @@ import { prisma } from "@/lib/prisma";
 import { BlogCard } from "@/components/home/BlogCard";
 import { roleOrder } from "@/lib/utils/divUtils";
 import { Suspense } from "react";
+import { getAllMembers } from "@/lib/memberCache";
 
 export const revalidate = 3600;
 
@@ -23,11 +24,10 @@ export default async function Home() {
     },
   });
 
-  const members = await prisma.member.findMany({
-    include: {
-      rolesByPeriod: true,
-    },
-  });
+  const members = await getAllMembers();
+  if (!members) {
+    return <div>No members found.</div>;
+  }
 
   const allMemberPeriods = Array.from(
     new Set(
