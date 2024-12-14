@@ -66,7 +66,7 @@ export default function BloggEditPage() {
           title: article.article.title || "",
           description: article.article.description || "",
           imageDescription: article.article.imageDescription || "",
-          authorId: article.article.authorId || null,
+          authorId: article.article.memberId || null,
           imageUri: article.article.imageUri || "",
         });
       } catch (error) {

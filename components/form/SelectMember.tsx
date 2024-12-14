@@ -84,6 +84,13 @@ export function MemberSelect({
         } else {
           toast.error("Klarte ikke å hente medlemmer");
         }
+      } finally {
+        if (initialSelectedMemberId) {
+          const member = members.find((m) => m.id === initialSelectedMemberId);
+          if (member) {
+            setSelectedMember(member);
+          }
+        }
       }
     };
 
