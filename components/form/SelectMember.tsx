@@ -22,7 +22,6 @@ export function MemberSelect({
   const [searchTerm, setSearchTerm] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [members, setMembers] = useState<memberType[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -85,8 +84,6 @@ export function MemberSelect({
         } else {
           toast.error("Klarte ikke å hente medlemmer");
         }
-      } finally {
-        setIsLoading(false);
       }
     };
 
