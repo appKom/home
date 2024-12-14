@@ -8,7 +8,11 @@ import { getAllBlogs } from "@/lib/blogCache";
 export const revalidate = 36000;
 
 export default async function BlogsPage() {
-  const blogs = await getAllBlogs();
+  const unsortedBlogs = await getAllBlogs();
+
+  const blogs = unsortedBlogs?.sort((a, b) => {
+    return a.createdAt.getTime() - b.createdAt.getTime();
+  });
 
   if (!blogs) {
     return <div>No blogs found.</div>;
