@@ -7,8 +7,9 @@ import { FaCrown, FaGithub, FaLinkedin, FaPhone } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { MdEmail } from "react-icons/md";
-import { prisma } from "@/lib/prisma";
 import { Member } from "@prisma/client";
+import { getMemberByHref } from "@/lib/memberCache";
+import { prisma } from "@/lib/prisma";
 
 export const revalidate = 36000;
 
@@ -17,10 +18,7 @@ export async function generateMetadata(props: {
 }): Promise<Metadata> {
   const { id } = await props.params;
 
-  const member = await prisma.member.findFirst({
-    where: { href: id },
-    select: { name: true },
-  });
+  const member = await getMemberByHref(id);
 
   const title = member ? member.name : "Member Not Found";
   return {
@@ -31,14 +29,7 @@ export async function generateMetadata(props: {
 export default async function MemberPage(props: { params: tParams }) {
   const { id } = await props.params;
 
-  const member = await prisma.member.findFirst({
-    where: {
-      href: id,
-    },
-    include: {
-      rolesByPeriod: true,
-    },
-  });
+  const member = await getMemberByHref(id);
 
   if (!member || !member.rolesByPeriod) {
     return <Custom404 />;
