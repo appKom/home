@@ -6,6 +6,7 @@ import { HeroSection } from "@/components/HeroSection";
 import { prisma } from "@/lib/prisma";
 import { BlogCard } from "@/components/home/BlogCard";
 import { roleOrder } from "@/lib/utils/divUtils";
+import { Suspense } from "react";
 
 export const revalidate = 3600;
 
@@ -62,14 +63,16 @@ export default async function Home() {
         <HeroSection />
         <div className="py-8">
           <HeaderText title="Blogg" />
-          <div className="py-8 flex flex-col md:flex-row justify-between gap-5">
-            {blogs
-              .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
-              .slice(0, 3)
-              .map((blog) => (
-                <BlogCard blog={blog} key={blog.createdAt.toISOString()} />
-              ))}
-          </div>
+          <Suspense>
+            <div className="py-8 flex flex-col md:flex-row justify-between gap-5">
+              {blogs
+                .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+                .slice(0, 3)
+                .map((blog) => (
+                  <BlogCard blog={blog} key={blog.createdAt.toISOString()} />
+                ))}
+            </div>
+          </Suspense>
 
           <div className="flex justify-center items-center mt-2">
             <Button title="Les mer" href="/blogg" color={"onlineOrange"} />
@@ -80,11 +83,13 @@ export default async function Home() {
             <HeaderText title="Våre Prosjekter" id="prosjekter" />
           </div>
           <div className="flex flex-col">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {projects.slice(0, 4).map((project) => (
-                <ProjectCard project={project} key={project.title} />
-              ))}
-            </div>
+            <Suspense>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {projects.slice(0, 4).map((project) => (
+                  <ProjectCard project={project} key={project.title} />
+                ))}
+              </div>
+            </Suspense>
             <div className="justify-between items-center text-center pt-8">
               <Button
                 title={"Se alle prosjekter"}
@@ -99,17 +104,19 @@ export default async function Home() {
             <HeaderText title="Medlemmer" />
           </div>
           <div className="flex justify-center">
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 w-full gap-4">
-              {getMembersForPeriod(getLastMemberPeriod).map((member) => {
-                return (
-                  <MemberCard
-                    member={member}
-                    key={member.name}
-                    period={getLastMemberPeriod}
-                  />
-                );
-              })}
-            </div>
+            <Suspense>
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 w-full gap-4">
+                {getMembersForPeriod(getLastMemberPeriod).map((member) => {
+                  return (
+                    <MemberCard
+                      member={member}
+                      key={member.name}
+                      period={getLastMemberPeriod}
+                    />
+                  );
+                })}
+              </div>
+            </Suspense>
           </div>
           <div className="flex justify-center">
             <Button

@@ -1,6 +1,7 @@
 import { HeaderText } from "@/components/headerText";
 import { ProjectCard } from "@/components/home/ProjectCard";
 import { prisma } from "@/lib/prisma";
+import { Suspense } from "react";
 
 export const revalidate = 3600;
 
@@ -13,11 +14,13 @@ export default async function ProjectsPage() {
         <main className="flex flex-col gap-5 pb-6">
           <HeaderText title="Appkoms prosjekter" />
           <div className="flex justify-center">
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 w-full gap-4">
-              {projects.map((projects) => (
-                <ProjectCard project={projects} key={projects.title} />
-              ))}
-            </div>
+            <Suspense>
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 w-full gap-4">
+                {projects.map((projects) => (
+                  <ProjectCard project={projects} key={projects.title} />
+                ))}
+              </div>
+            </Suspense>
           </div>
         </main>
       </div>

@@ -10,6 +10,7 @@ import rehypeRaw from "rehype-raw";
 import { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import MarkdownComponents from "@/components/Markdown";
+import { HeaderText } from "@/components/headerText";
 
 export const revalidate = 36000;
 
@@ -58,9 +59,7 @@ export default async function ArticlePage(props: { params: tParams }) {
       </div>
       <div className="flex flex-col px-6">
         <div className="flex flex-col sm:flex-row justify-between pt-8">
-          <h1 className="font-bold text-4xl lg:text-5xl underline">
-            {blog.title}
-          </h1>
+          <HeaderText title={blog.title} />
           {author && (
             <Link
               href={"/medlem/" + author.href}
