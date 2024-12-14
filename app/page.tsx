@@ -10,7 +10,7 @@ import { getAllMembers } from "@/lib/memberCache";
 import { getAllProjects } from "@/lib/projectCache";
 import { getAllBlogs } from "@/lib/blogCache";
 
-export const revalidate = 3600;
+export const revalidate = 36000;
 
 export default async function Home() {
   const blogs = await getAllBlogs();

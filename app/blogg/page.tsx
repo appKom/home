@@ -5,7 +5,7 @@ import { HeaderText } from "@/components/headerText";
 import { Suspense } from "react";
 import { getAllBlogs } from "@/lib/blogCache";
 
-export const revalidate = 3600;
+export const revalidate = 36000;
 
 export default async function BlogsPage() {
   const blogs = await getAllBlogs();
