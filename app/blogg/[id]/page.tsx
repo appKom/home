@@ -58,7 +58,7 @@ export default async function ArticlePage(props: { params: tParams }) {
       </div>
       <div className="flex flex-col px-6">
         <div className="flex flex-col sm:flex-row justify-between pt-8">
-          <h1 className="font-bold text-xl sm:text-xl md:text-xl lg:text-2xl xl:text-4xl">
+          <h1 className="font-bold text-4xl lg:text-5xl underline">
             {blog.title}
           </h1>
           {author && (
@@ -77,7 +77,7 @@ export default async function ArticlePage(props: { params: tParams }) {
                   alt={"image of " + author.name}
                   width={50}
                   height={50}
-                  className="rounded-full size-16 border-2 border-orange-600 group-hover:border-onlineOrange"
+                  className="rounded-full size-16 border-2 border-gray-600 group-hover:border-onlineOrange"
                 />
               )}
             </Link>
