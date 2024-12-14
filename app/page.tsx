@@ -3,24 +3,22 @@ import { MemberCard } from "@/components/home/MemberCard";
 import { ProjectCard } from "@/components/home/ProjectCard";
 import { HeaderText } from "@/components/headerText";
 import { HeroSection } from "@/components/HeroSection";
-import { prisma } from "@/lib/prisma";
 import { BlogCard } from "@/components/home/BlogCard";
 import { roleOrder } from "@/lib/utils/divUtils";
 import { Suspense } from "react";
 import { getAllMembers } from "@/lib/memberCache";
 import { getAllProjects } from "@/lib/projectCache";
+import { getAllBlogs } from "@/lib/blogCache";
 
 export const revalidate = 3600;
 
 export default async function Home() {
-  const blogs = await prisma.article.findMany();
+  const blogs = await getAllBlogs();
 
   const projects = await getAllProjects();
-  if (!projects) {
-    return <div>No projects found.</div>;
-  }
 
   const members = await getAllMembers();
+
   if (!members) {
     return <div>No members found.</div>;
   }
@@ -60,14 +58,16 @@ export default async function Home() {
         <div className="py-8">
           <HeaderText title="Blogg" />
           <Suspense>
-            <div className="py-8 flex flex-col md:flex-row justify-between gap-5">
-              {blogs
-                .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
-                .slice(0, 3)
-                .map((blog) => (
-                  <BlogCard blog={blog} key={blog.createdAt.toISOString()} />
-                ))}
-            </div>
+            {blogs && (
+              <div className="py-8 flex flex-col md:flex-row justify-between gap-5">
+                {blogs
+                  .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+                  .slice(0, 3)
+                  .map((blog) => (
+                    <BlogCard blog={blog} key={blog.createdAt.toISOString()} />
+                  ))}
+              </div>
+            )}
           </Suspense>
 
           <div className="flex justify-center items-center mt-2">
@@ -80,11 +80,13 @@ export default async function Home() {
           </div>
           <div className="flex flex-col">
             <Suspense>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {projects.slice(0, 4).map((project) => (
-                  <ProjectCard project={project} key={project.title} />
-                ))}
-              </div>
+              {projects && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {projects.slice(0, 4).map((project) => (
+                    <ProjectCard project={project} key={project.title} />
+                  ))}
+                </div>
+              )}
             </Suspense>
             <div className="justify-between items-center text-center pt-8">
               <Button
