@@ -9,7 +9,7 @@ import rehypeRaw from "rehype-raw";
 import { MdEmail } from "react-icons/md";
 import { Member } from "@prisma/client";
 import { getMemberByHref } from "@/lib/memberCache";
-import { prisma } from "@/lib/prisma";
+import { getProjectsByMember } from "@/lib/projectCache";
 
 export const revalidate = 36000;
 
@@ -41,15 +41,7 @@ export default async function MemberPage(props: { params: tParams }) {
 
   const latestRole = member.rolesByPeriod[member.rolesByPeriod.length - 1].role;
 
-  const projectsWithMember = await prisma.project.findMany({
-    where: {
-      projectMembers: {
-        some: {
-          memberId: member.id,
-        },
-      },
-    },
-  });
+  const projectsWithMember = await getProjectsByMember(member.id);
 
   return (
     <main className="container mx-auto px-4 py-12">
@@ -167,15 +159,16 @@ export default async function MemberPage(props: { params: tParams }) {
           {member.about}
         </ReactMarkdown>
       )}
-
-      {projectsWithMember.length > 0 && (
-        <h2 className="text-2xl font-bold mt-16 mb-8">Prosjekter</h2>
+      {projectsWithMember && projectsWithMember.length > 0 && (
+        <>
+          <h2 className="text-2xl font-bold mt-16 mb-8">Prosjekter</h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            {projectsWithMember.map((project) => (
+              <ProjectCard project={project} key={project.title} />
+            ))}
+          </div>
+        </>
       )}
-      <div className="grid md:grid-cols-2 gap-8">
-        {projectsWithMember.map((project) => (
-          <ProjectCard project={project} key={project.title} />
-        ))}
-      </div>
     </main>
   );
 }

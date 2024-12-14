@@ -1,10 +1,10 @@
-import { projectType } from "@/lib/types";
+import { Project } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import { FaChevronRight } from "react-icons/fa";
 
 interface Props {
-  project: projectType;
+  project: Project;
 }
 
 export const ProjectCard = ({ project }: Props) => (
