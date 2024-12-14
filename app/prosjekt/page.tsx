@@ -1,12 +1,16 @@
 import { HeaderText } from "@/components/headerText";
 import { ProjectCard } from "@/components/home/ProjectCard";
-import { prisma } from "@/lib/prisma";
+import { getAllProjects } from "@/lib/projectCache";
 import { Suspense } from "react";
 
 export const revalidate = 3600;
 
 export default async function ProjectsPage() {
-  const projects = await prisma.project.findMany();
+  const projects = await getAllProjects();
+
+  if (!projects) {
+    return <div>No projects found.</div>;
+  }
 
   return (
     <div className="w-full flex justify-center min-h-screen">

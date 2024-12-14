@@ -8,21 +8,17 @@ import { BlogCard } from "@/components/home/BlogCard";
 import { roleOrder } from "@/lib/utils/divUtils";
 import { Suspense } from "react";
 import { getAllMembers } from "@/lib/memberCache";
+import { getAllProjects } from "@/lib/projectCache";
 
 export const revalidate = 3600;
 
 export default async function Home() {
   const blogs = await prisma.article.findMany();
 
-  const projects = await prisma.project.findMany({
-    include: {
-      projectMembers: {
-        include: {
-          Member: true,
-        },
-      },
-    },
-  });
+  const projects = await getAllProjects();
+  if (!projects) {
+    return <div>No projects found.</div>;
+  }
 
   const members = await getAllMembers();
   if (!members) {

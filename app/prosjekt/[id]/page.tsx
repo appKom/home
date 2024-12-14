@@ -8,7 +8,7 @@ import rehypeRaw from "rehype-raw";
 import { MemberCard } from "@/components/home/MemberCard";
 import { FaGithub, FaGlobe } from "react-icons/fa";
 import { HeaderText } from "@/components/headerText";
-import { prisma } from "@/lib/prisma";
+import { getProjectByHref } from "@/lib/projectCache";
 
 export const revalidate = 36000;
 
@@ -29,18 +29,7 @@ export default async function ProjectPage(props: { params: tParams }) {
 
   const prosjektTitle = decodeURIComponent(id ?? "");
 
-  const project = await prisma.project.findFirst({
-    where: {
-      href: prosjektTitle,
-    },
-    include: {
-      projectMembers: {
-        include: {
-          Member: true,
-        },
-      },
-    },
-  });
+  const project = await getProjectByHref(prosjektTitle);
 
   if (!project) {
     return <Custom404 />;
