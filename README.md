@@ -1,34 +1,54 @@
-## Hvordan gjøre endringer
+## Teknologistakk
 
-For å oppdatere innhold, gå til: lib/[Hva enn du har lyst å endre]
-commit og push så endringen, og den blir endret
+Next.js for frotend og backend. Tailwind for styling, prisma for ORM, og supabase for lagring av PostgreSQL.
 
-## Getting Started
+## For å kjøre prosjektet
 
-First, run the development server:
+> **NOTE:** Du må opprette en `.env`-fil i roten av prosjektet ditt med følgende miljøvariabler:
+
+```plaintext
+AWS_SECRET_ACCESS_KEY=#aws secret access key
+AWS_ACCESS_KEY_ID=#aws access key id
+
+NEXT_PUBLIC_RECAPTCHA_SITE_KEY=your_site_key
+RECAPTCHA_SECRET_KEY=your_secret_key
+
+GITHUB_CLIENT_ID=your_github_client_id
+GITHUB_CLIENT_SECRET=your_github_client_secret
+NEXTAUTH_SECRET=your_nextauth_secret
+NEXTAUTH_URL=http://localhost:3000
+
+SUPABASE_URL=your-supabase-url
+SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
+SUPABASE_STORAGE_BUCKET=your-storage-bucket-name
+VERCEL_DOMAIN=your-vercel-domain
+```
+
+Så kan du kjøre:
 
 ```bash
 pnpm run dev
 
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Åpne så [http://localhost:3000](http://localhost:3000) i browseren din for å se resultatet.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Prisma
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Dette prosjektet bruker Prisma som ORM. For å oppdatere databasen, kjør:
 
-## Learn More
+```bash
+pnpm prisma migrate dev --name init
+```
 
-To learn more about Next.js, take a look at the following resources:
+For å oppdatere schema, kjør:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+pnpm prisma generate
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+For å se dataen i databasen, kjør:
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+pnpm prisma studio
+```
