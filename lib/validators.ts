@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import { ProjectMember, RoleByPeriodType } from "./types";
+import { ProjectMember } from "./types";
 
 interface articleProps {
   title: string;
