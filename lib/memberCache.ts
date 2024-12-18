@@ -28,7 +28,7 @@ export const getMemberByHref = async (
   }
 
   const member = await prisma.member.findFirst({
-    where: { href },
+    where: { href: href.toLowerCase() },
     include: { rolesByPeriod: true },
   });
 

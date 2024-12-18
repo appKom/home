@@ -34,7 +34,7 @@ export const getProjectByHref = async (
   }
 
   const project = await prisma.project.findFirst({
-    where: { href },
+    where: { href: href.toLowerCase() },
     include: { projectMembers: { include: { Member: true } } },
   });
 
