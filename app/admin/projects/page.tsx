@@ -9,6 +9,7 @@ import Table from "@/components/form/Table";
 import Image from "next/image";
 import { ProjectMember, projectType } from "@/lib/types";
 import { MemberSelect } from "@/components/form/SelectMember";
+import { validateProject } from "@/lib/validators";
 type ProjectRole = "Prosjektleder" | "Bidragsyter";
 
 const LoadingBar = ({ progress }: { progress: number }) => (
@@ -118,6 +119,19 @@ const AdminProjectPage = () => {
     }
 
     formData.append("projectMembers", JSON.stringify(projectMembers));
+
+    if (
+      !validateProject({
+        title,
+        description,
+        image,
+        techStack,
+        projectMembers,
+      })
+    ) {
+      setIsLoading(false);
+      return;
+    }
 
     try {
       let response;

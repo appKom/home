@@ -10,6 +10,7 @@ import {
   uploadImage,
 } from "@/lib/admin/upload/uploadImage";
 import { useParams } from "next/navigation";
+import { validateArticle } from "@/lib/validators";
 
 type createArticleType = {
   title: string;
@@ -99,6 +100,18 @@ export default function BloggEditPage() {
     if (!formData.title) {
       toast.error("Please enter a title");
       setIsLoading(false);
+      return;
+    }
+
+    if (
+      !validateArticle({
+        title: formData.title,
+        description: formData.description,
+        image: image,
+        imageDescription: formData.imageDescription,
+        authorId: formData.authorId,
+      })
+    ) {
       return;
     }
 

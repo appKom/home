@@ -10,6 +10,7 @@ import Table from "@/components/form/Table";
 import Image from "next/image";
 import { memberType } from "@/lib/types";
 import TextAreaInput from "@/components/form/TextAreaInput";
+import { validateMember } from "@/lib/validators";
 
 const LoadingBar = ({ progress }: { progress: number }) => (
   <div className="w-full h-5 bg-gray-200">
@@ -219,6 +220,11 @@ const AdminMemberPage = () => {
     }
     if (phone !== "") {
       formData.append("phone", phone);
+    }
+
+    if (!validateMember({ name, rolesByPeriod: rolesByPeriodArray })) {
+      setIsLoading(false);
+      return;
     }
 
     try {

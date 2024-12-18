@@ -9,6 +9,7 @@ import {
   extractAndUploadImages,
   uploadImage,
 } from "@/lib/admin/upload/uploadImage";
+import { validateArticle } from "@/lib/validators";
 
 const LoadingBar = ({ progress }: { progress: number }) => (
   <div className="w-full h-5 bg-gray-200">
@@ -70,6 +71,18 @@ export default function BloggPage() {
     if (!articleData.title) {
       toast.error("Please enter a title");
       setIsLoading(false);
+      return;
+    }
+
+    if (
+      !validateArticle({
+        title: articleData.title,
+        description: articleData.description,
+        image: image,
+        imageDescription: articleData.imageDescription,
+        authorId: articleData.authorId,
+      })
+    ) {
       return;
     }
 
