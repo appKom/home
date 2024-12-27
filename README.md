@@ -1,6 +1,6 @@
 ## Teknologistakk
 
-Next.js for frotend og backend. Tailwind for styling, prisma for ORM, og supabase for lagring av PostgreSQL.
+Next.js for frontend og backend. Tailwind for styling, prisma for ORM, og Supabase for lagring av PostgreSQL.
 
 ## For å kjøre prosjektet
 
@@ -31,7 +31,7 @@ pnpm run dev
 
 ```
 
-Åpne så [http://localhost:3000](http://localhost:3000) i browseren din for å se resultatet.
+Åpne så [http://localhost:3000](http://localhost:3000) i nettleseren din for å se siden.
 
 ## Prisma
 
