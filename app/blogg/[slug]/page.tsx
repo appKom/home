@@ -1,4 +1,4 @@
-import { memberType, tParams } from "@/lib/types";
+import { memberType, slugParams } from "@/lib/types";
 import Custom404 from "@/app/not-found";
 import Image from "next/image";
 import { TbPencilCode } from "react-icons/tb";
@@ -13,33 +13,33 @@ import { HeaderText } from "@/components/headerText";
 import { prisma } from "@/lib/prisma";
 
 export async function generateMetadata(props: {
-  params: tParams;
+  params: slugParams;
 }): Promise<Metadata> {
-  const { id } = await props.params;
+  const { slug } = await props.params;
 
-  const articleTitle = decodeURIComponent(id);
+  const decodedSlug = decodeURIComponent(slug);
 
   return {
-    title: `${decodeURIComponent(articleTitle)}`,
+    title: `${decodedSlug}`,
   };
 }
 
 export async function generateStaticParams() {
   const articles = await prisma.article.findMany({
-    select: { id: true },
+    select: { slug: true },
   });
 
   return articles.map((article) => {
-    return { params: { id: article.id } };
+    return { params: { slug: article.slug } };
   });
 }
 
-export default async function ArticlePage(props: { params: tParams }) {
-  const { id } = await props.params;
-  const decodedId = decodeURIComponent(id);
+export default async function ArticlePage(props: { params: slugParams }) {
+  const { slug } = await props.params;
+  const decodedSlug = decodeURIComponent(slug);
 
   const blog = await prisma.article.findUnique({
-    where: { id: Number(decodedId) },
+    where: { slug: slug },
     include: { author: true },
   });
 

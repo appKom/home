@@ -61,5 +61,5 @@ export type projectType = {
 };
 
 export type tParams = Promise<{ id: string }>;
-
+export type slugParams = Promise<{ slug: string }>;
 export type hrefParams = Promise<{ href: string }>;

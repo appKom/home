@@ -1,17 +1,17 @@
-import { articleType } from "@/lib/types";
 import { formatDate } from "@/lib/utils/dateUtils";
+import { Article } from "@prisma/client";
 
 import Image from "next/image";
 import Link from "next/link";
 import { FaClock } from "react-icons/fa";
 
 interface Props {
-  blog: articleType;
+  blog: Article;
 }
 
 export const BlogCard = ({ blog }: Props) => {
   return (
-    <Link href={`blogg/${blog.id}`} className="w-full">
+    <Link href={`blogg/${blog.slug}`} className="w-full">
       <div className="border-rounded flex flex-col bg-gray-800 border border-gray-300 rounded-lg group overflow-hidden">
         <div className="relative w-full h-56 overflow-hidden">
           <Image

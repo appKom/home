@@ -55,7 +55,7 @@ export async function PUT(req: NextRequest) {
 
     revalidatePath("/");
     revalidatePath("/blogg");
-    revalidatePath(`/blogg/${encodeURIComponent(updatedArticle.id)}`);
+    revalidatePath(`/blogg/${encodeURIComponent(updatedArticle.slug)}`);
 
     return NextResponse.json({ article: updatedArticle }, { status: 200 });
   } catch (error) {
@@ -166,7 +166,7 @@ export const DELETE = async (req: NextRequest) => {
 
     revalidatePath("/");
     revalidatePath("/blogg");
-    revalidatePath(`/blogg/${encodeURIComponent(article.id)}`);
+    revalidatePath(`/blogg/${encodeURIComponent(article.slug)}`);
 
     return NextResponse.json(
       { message: "Article and associated files deleted successfully" },

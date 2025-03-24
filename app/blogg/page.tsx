@@ -4,6 +4,7 @@ import { getMonthNameInNorwegian } from "@/lib/utils/dateUtils";
 import { HeaderText } from "@/components/headerText";
 import { Suspense } from "react";
 import { prisma } from "@/lib/prisma";
+import { Article } from "@prisma/client";
 
 export default async function BlogsPage() {
   const unsortedBlogs = await prisma.article.findMany({
@@ -18,19 +19,16 @@ export default async function BlogsPage() {
     return <div>No blogs found.</div>;
   }
 
-  const blogsByMonth: Record<string, articleType[]> = blogs.reduce(
-    (acc, blog) => {
-      const monthYear = `${getMonthNameInNorwegian(
-        blog.createdAt
-      )} ${blog.createdAt.getFullYear()}`;
-      if (!acc[monthYear]) {
-        acc[monthYear] = [];
-      }
-      acc[monthYear].push(blog);
-      return acc;
-    },
-    {} as Record<string, articleType[]>
-  );
+  const blogsByMonth: Record<string, Article[]> = blogs.reduce((acc, blog) => {
+    const monthYear = `${getMonthNameInNorwegian(
+      blog.createdAt
+    )} ${blog.createdAt.getFullYear()}`;
+    if (!acc[monthYear]) {
+      acc[monthYear] = [];
+    }
+    acc[monthYear].push(blog);
+    return acc;
+  }, {} as Record<string, Article[]>);
 
   return (
     <div className="w-full flex justify-center min-h-screen">

@@ -5,6 +5,14 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/authOptions";
 import { revalidatePath } from "next/cache";
 
+const generateSlug = (name: string) => {
+  return name
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+};
+
 export const POST = async (req: NextRequest) => {
   try {
     const session = await getServerSession(authOptions);
@@ -26,6 +34,7 @@ export const POST = async (req: NextRequest) => {
     const article = await prisma.article.create({
       data: {
         title,
+        slug: generateSlug(title),
         description,
         imageUri,
         imageDescription,
@@ -35,7 +44,7 @@ export const POST = async (req: NextRequest) => {
 
     revalidatePath("/");
     revalidatePath("/blogg");
-    revalidatePath(`/blogg/${encodeURIComponent(article.id)}`);
+    revalidatePath(`/blogg/${encodeURIComponent(article.slug)}`);
     return NextResponse.json({ article }, { status: 200 });
   } catch (error) {
     console.error(error);
