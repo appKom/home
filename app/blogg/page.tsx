@@ -3,12 +3,12 @@ import { articleType } from "@/lib/types";
 import { getMonthNameInNorwegian } from "@/lib/utils/dateUtils";
 import { HeaderText } from "@/components/headerText";
 import { Suspense } from "react";
-import { getAllBlogs } from "@/lib/blogCache";
-
-export const revalidate = 36000;
+import { prisma } from "@/lib/prisma";
 
 export default async function BlogsPage() {
-  const unsortedBlogs = await getAllBlogs();
+  const unsortedBlogs = await prisma.article.findMany({
+    orderBy: { createdAt: "desc" },
+  });
 
   const blogs = unsortedBlogs?.sort((a, b) => {
     return a.createdAt.getTime() - b.createdAt.getTime();

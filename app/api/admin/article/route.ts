@@ -3,7 +3,6 @@ import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/authOptions";
-import { clearBlogCache } from "@/lib/blogCache";
 import { revalidatePath } from "next/cache";
 
 export const POST = async (req: NextRequest) => {
@@ -34,11 +33,9 @@ export const POST = async (req: NextRequest) => {
       },
     });
 
-    clearBlogCache();
-
     revalidatePath("/");
     revalidatePath("/blogg");
-    revalidatePath(`/blogg/${encodeURIComponent(article.title)}`);
+    revalidatePath(`/blogg/${encodeURIComponent(article.id)}`);
     return NextResponse.json({ article }, { status: 200 });
   } catch (error) {
     console.error(error);

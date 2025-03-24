@@ -1,8 +1,6 @@
 import AboutPage from "@/components/AboutPage";
 import { prisma } from "@/lib/prisma";
 
-export const revalidate = 36000;
-
 export default async function AboutPageWrapper() {
   const numberOfCurrentMembers = await prisma.member.count({
     where: {

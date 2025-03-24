@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { tParams } from "@/lib/types";
+import { hrefParams } from "@/lib/types";
 import Custom404 from "@/app/not-found";
 import Image from "next/image";
 import { ProjectCard } from "@/components/home/ProjectCard";
@@ -8,28 +8,40 @@ import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { MdEmail } from "react-icons/md";
 import { Member } from "@prisma/client";
-import { getMemberByHref } from "@/lib/memberCache";
-import { getProjectsByMember } from "@/lib/projectCache";
-
-export const revalidate = 36000;
+import { prisma } from "@/lib/prisma";
 
 export async function generateMetadata(props: {
-  params: tParams;
+  params: hrefParams;
 }): Promise<Metadata> {
-  const { id } = await props.params;
+  const { href } = await props.params;
 
-  const member = await getMemberByHref(id);
+  const member = await prisma.member.findUnique({
+    where: { href: decodeURIComponent(href) },
+  });
 
-  const title = member ? member.name : "Member Not Found";
+  const title = member ? member.name : "404";
   return {
     title: title,
   };
 }
 
-export default async function MemberPage(props: { params: tParams }) {
-  const { id } = await props.params;
+export async function generateStaticParams() {
+  const members = await prisma.member.findMany({
+    select: { href: true },
+  });
 
-  const member = await getMemberByHref(id);
+  return members.map((member) => {
+    return { params: { href: member.href } };
+  });
+}
+
+export default async function MemberPage(props: { params: hrefParams }) {
+  const { href } = await props.params;
+
+  const member = await prisma.member.findUnique({
+    where: { href: decodeURIComponent(href) },
+    include: { rolesByPeriod: true },
+  });
 
   if (!member || !member.rolesByPeriod) {
     return <Custom404 />;
@@ -41,7 +53,15 @@ export default async function MemberPage(props: { params: tParams }) {
 
   const latestRole = member.rolesByPeriod[member.rolesByPeriod.length - 1].role;
 
-  const projectsWithMember = await getProjectsByMember(member.id);
+  const projectsWithMember = await prisma.project.findMany({
+    where: {
+      projectMembers: {
+        some: {
+          memberId: member.id,
+        },
+      },
+    },
+  });
 
   return (
     <main className="container mx-auto px-4 py-12">

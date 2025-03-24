@@ -9,6 +9,7 @@ datasource db {
 
 model Article {
   id               Int      @id @default(autoincrement())
+  slug             String   @unique
   title            String
   description      String
   imageUri         String

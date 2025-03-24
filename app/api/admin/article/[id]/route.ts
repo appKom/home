@@ -4,7 +4,6 @@ import { getServerSession } from "next-auth";
 
 import { createClient } from "@supabase/supabase-js";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { clearBlogCache } from "@/lib/blogCache";
 import { revalidatePath } from "next/cache";
 
 const supabaseUrl = process.env.SUPABASE_URL!;
@@ -54,11 +53,9 @@ export async function PUT(req: NextRequest) {
       },
     });
 
-    clearBlogCache();
-
     revalidatePath("/");
     revalidatePath("/blogg");
-    revalidatePath(`/blogg/${encodeURIComponent(updatedArticle.title)}`);
+    revalidatePath(`/blogg/${encodeURIComponent(updatedArticle.id)}`);
 
     return NextResponse.json({ article: updatedArticle }, { status: 200 });
   } catch (error) {
@@ -167,11 +164,9 @@ export const DELETE = async (req: NextRequest) => {
       where: { id },
     });
 
-    clearBlogCache();
-
     revalidatePath("/");
     revalidatePath("/blogg");
-    revalidatePath(`/blogg/${encodeURIComponent(article.title)}`);
+    revalidatePath(`/blogg/${encodeURIComponent(article.id)}`);
 
     return NextResponse.json(
       { message: "Article and associated files deleted successfully" },

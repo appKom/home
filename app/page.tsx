@@ -6,22 +6,23 @@ import { HeroSection } from "@/components/HeroSection";
 import { BlogCard } from "@/components/home/BlogCard";
 import { roleOrder } from "@/lib/utils/divUtils";
 import { Suspense } from "react";
-import { getAllMembers } from "@/lib/memberCache";
-import { getAllProjects } from "@/lib/projectCache";
-import { getAllBlogs } from "@/lib/blogCache";
-
-export const revalidate = 36000;
+import { prisma } from "@/lib/prisma";
 
 export default async function Home() {
-  const blogs = await getAllBlogs();
+  const blogs = await prisma.article.findMany({
+    orderBy: { createdAt: "desc" },
+    take: 3,
+  });
 
-  const projects = await getAllProjects();
+  const projects = await prisma.project.findMany({
+    orderBy: { createdAt: "desc" },
+    take: 4,
+  });
 
-  const members = await getAllMembers();
-
-  if (!members) {
-    return <div>No members found.</div>;
-  }
+  const members = await prisma.member.findMany({
+    include: { rolesByPeriod: true },
+    where: { isCurrent: true },
+  });
 
   const allMemberPeriods = Array.from(
     new Set(

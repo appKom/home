@@ -10,9 +10,7 @@ import rehypeRaw from "rehype-raw";
 import { Metadata } from "next";
 import MarkdownComponents from "@/components/Markdown";
 import { HeaderText } from "@/components/headerText";
-import { getBlogByTitle } from "@/lib/blogCache";
-
-export const revalidate = 36000;
+import { prisma } from "@/lib/prisma";
 
 export async function generateMetadata(props: {
   params: tParams;
@@ -26,11 +24,24 @@ export async function generateMetadata(props: {
   };
 }
 
+export async function generateStaticParams() {
+  const articles = await prisma.article.findMany({
+    select: { id: true },
+  });
+
+  return articles.map((article) => {
+    return { params: { id: article.id } };
+  });
+}
+
 export default async function ArticlePage(props: { params: tParams }) {
   const { id } = await props.params;
   const decodedId = decodeURIComponent(id);
 
-  const blog = await getBlogByTitle(decodedId);
+  const blog = await prisma.article.findUnique({
+    where: { id: Number(decodedId) },
+    include: { author: true },
+  });
 
   const author: memberType | undefined = blog?.author;
 

@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { tParams } from "@/lib/types";
+import { hrefParams, tParams } from "@/lib/types";
 import Custom404 from "@/app/not-found";
 import Image from "next/image";
 
@@ -8,9 +8,7 @@ import rehypeRaw from "rehype-raw";
 import { MemberCard } from "@/components/home/MemberCard";
 import { FaGithub, FaGlobe } from "react-icons/fa";
 import { HeaderText } from "@/components/headerText";
-import { getProjectByHref } from "@/lib/projectCache";
-
-export const revalidate = 36000;
+import { prisma } from "@/lib/prisma";
 
 export async function generateMetadata(props: {
   params: tParams;
@@ -24,12 +22,25 @@ export async function generateMetadata(props: {
   };
 }
 
-export default async function ProjectPage(props: { params: tParams }) {
-  const { id } = await props.params;
+export async function generateStaticParams() {
+  const projects = await prisma.project.findMany({
+    select: { href: true },
+  });
 
-  const prosjektTitle = decodeURIComponent(id ?? "");
+  return projects.map((project) => {
+    return { params: { href: project.href } };
+  });
+}
 
-  const project = await getProjectByHref(prosjektTitle);
+export default async function ProjectPage(props: { params: hrefParams }) {
+  const { href } = await props.params;
+
+  const decodedHref = decodeURIComponent(href);
+
+  const project = await prisma.project.findUnique({
+    where: { href: decodedHref },
+    include: { projectMembers: { include: { Member: true } } },
+  });
 
   if (!project) {
     return <Custom404 />;

@@ -5,7 +5,6 @@ import { prisma } from "@/lib/prisma";
 import { sanitizeFileName } from "@/lib/utils/fileSanitizer";
 import { authOptions } from "../../auth/[...nextauth]/authOptions";
 import { RoleEnum } from "@prisma/client";
-import { clearMemberCache } from "@/lib/memberCache";
 import { revalidatePath } from "next/cache";
 
 const generateSlug = (name: string) => {
@@ -119,8 +118,8 @@ export const POST = async (request: Request) => {
       },
     });
 
-    clearMemberCache();
     revalidatePath("/");
+    revalidatePath("/om");
     revalidatePath("/medlem");
     revalidatePath(`/medlem/${encodeURIComponent(member.href)}`);
 
@@ -254,8 +253,8 @@ export const PUT = async (request: Request) => {
       },
     });
 
-    clearMemberCache();
     revalidatePath("/");
+    revalidatePath("/om");
     revalidatePath("/medlem");
     revalidatePath(`/medlem/${encodeURIComponent(member.href)}`);
 
@@ -313,8 +312,8 @@ export const DELETE = async (request: Request) => {
       }
     }
 
-    clearMemberCache();
     revalidatePath("/");
+    revalidatePath("/om");
     revalidatePath("/medlem");
     revalidatePath(`/medlem/${encodeURIComponent(member.href)}`);
 
