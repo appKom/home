@@ -1,5 +1,4 @@
 import { BlogCard } from "@/components/home/BlogCard";
-import { articleType } from "@/lib/types";
 import { getMonthNameInNorwegian } from "@/lib/utils/dateUtils";
 import { HeaderText } from "@/components/headerText";
 import { Suspense } from "react";

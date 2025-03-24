@@ -27,11 +27,10 @@ export async function generateStaticParams() {
     select: { href: true },
   });
 
-  return projects.map((project) => {
-    return { params: { href: project.href } };
-  });
+  return projects.map((project) => ({
+    href: project.href,
+  }));
 }
-
 export default async function ProjectPage(props: { params: hrefParams }) {
   const { href } = await props.params;
 

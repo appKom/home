@@ -29,9 +29,9 @@ export async function generateStaticParams() {
     select: { slug: true },
   });
 
-  return articles.map((article) => {
-    return { params: { slug: article.slug } };
-  });
+  return articles.map((article) => ({
+    slug: article.slug,
+  }));
 }
 
 export default async function ArticlePage(props: { params: slugParams }) {
@@ -39,7 +39,7 @@ export default async function ArticlePage(props: { params: slugParams }) {
   const decodedSlug = decodeURIComponent(slug);
 
   const blog = await prisma.article.findUnique({
-    where: { slug: slug },
+    where: { slug: decodedSlug },
     include: { author: true },
   });
 

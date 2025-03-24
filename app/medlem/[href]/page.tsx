@@ -30,9 +30,9 @@ export async function generateStaticParams() {
     select: { href: true },
   });
 
-  return members.map((member) => {
-    return { params: { href: member.href } };
-  });
+  return members.map((member) => ({
+    href: member.href,
+  }));
 }
 
 export default async function MemberPage(props: { params: hrefParams }) {
