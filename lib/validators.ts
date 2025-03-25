@@ -20,10 +20,10 @@ export const validateArticle = (props: articleProps): boolean => {
     return false;
   }
 
-  if (!props.image) {
-    toast.error("Vennligst last opp et bilde");
-    return false;
-  }
+  // if (!props.image) {
+  //   toast.error("Vennligst last opp et bilde");
+  //   return false;
+  // }
 
   if (!props.imageDescription) {
     toast.error("Vennligst fyll ut bildebeskrivelse");

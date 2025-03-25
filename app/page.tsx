@@ -11,6 +11,7 @@ import { prisma } from "@/lib/prisma";
 export default async function Home() {
   const blogs = await prisma.article.findMany({
     orderBy: { createdAt: "desc" },
+    include: { author: true },
     take: 3,
   });
 
@@ -56,39 +57,33 @@ export default async function Home() {
     <div>
       <main className="container mx-auto px-4 ">
         <HeroSection />
-        <div className="py-8">
+        <section className="pb-16 md:pb-32">
           <HeaderText title="Blogg" />
-          <Suspense>
-            {blogs && (
-              <div className="py-8 flex flex-col md:flex-row justify-between gap-5">
-                {blogs
-                  .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
-                  .slice(0, 3)
-                  .map((blog) => (
-                    <BlogCard blog={blog} key={blog.createdAt.toISOString()} />
-                  ))}
-              </div>
-            )}
-          </Suspense>
-
-          <div className="flex justify-center items-center mt-2">
+          {blogs && (
+            <div className="grid grid-cols-1 mt-8 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {blogs
+                .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+                .map((blog) => (
+                  <BlogCard blog={blog} key={blog.id} />
+                ))}
+            </div>
+          )}
+          <div className="flex justify-center items-center mt-4">
             <Button title="Les mer" href="/blogg" color={"onlineOrange"} />
           </div>
-        </div>
-        <div className="pb-8">
+        </section>
+        <section className="pb-8">
           <div className="pb-8">
             <HeaderText title="Våre Prosjekter" id="prosjekter" />
           </div>
           <div className="flex flex-col">
-            <Suspense>
-              {projects && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {projects.slice(0, 4).map((project) => (
-                    <ProjectCard project={project} key={project.title} />
-                  ))}
-                </div>
-              )}
-            </Suspense>
+            {projects && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {projects.slice(0, 4).map((project) => (
+                  <ProjectCard project={project} key={project.title} />
+                ))}
+              </div>
+            )}
             <div className="justify-between items-center text-center pt-8">
               <Button
                 title={"Se alle prosjekter"}
@@ -97,25 +92,23 @@ export default async function Home() {
               />
             </div>
           </div>
-        </div>
-        <div className="py-8">
+        </section>
+        <section className="py-8">
           <div className="pb-8">
             <HeaderText title="Medlemmer" />
           </div>
           <div className="flex justify-center">
-            <Suspense>
-              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 w-full gap-4">
-                {getMembersForPeriod(getLastMemberPeriod).map((member) => {
-                  return (
-                    <MemberCard
-                      member={member}
-                      key={member.name}
-                      period={getLastMemberPeriod}
-                    />
-                  );
-                })}
-              </div>
-            </Suspense>
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 w-full gap-4">
+              {getMembersForPeriod(getLastMemberPeriod).map((member) => {
+                return (
+                  <MemberCard
+                    member={member}
+                    key={member.name}
+                    period={getLastMemberPeriod}
+                  />
+                );
+              })}
+            </div>
           </div>
           <div className="flex justify-center">
             <Button
@@ -124,7 +117,7 @@ export default async function Home() {
               color={"onlineOrange"}
             />
           </div>
-        </div>
+        </section>
       </main>
     </div>
   );
