@@ -1,9 +1,8 @@
-"use client";
-
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { Users, FileText, BookIcon } from "lucide-react";
 import AuthButton from "@/components/admin/AuthButton";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]/authOptions";
 
 interface IRoute {
   title: string;
@@ -12,8 +11,8 @@ interface IRoute {
   description: string;
 }
 
-const AdminPage = () => {
-  const { data: session } = useSession();
+const AdminPage = async () => {
+  const session = await getServerSession(authOptions);
 
   const routes: IRoute[] = [
     {
