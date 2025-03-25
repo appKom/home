@@ -54,7 +54,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.6,
     })),
     ...blogs.map((blog): MetadataRoute.Sitemap[number] => ({
-      url: `${baseUrl}/blogg/${encodeURIComponent(blog.title)}`,
+      url: `${baseUrl}/blogg/${encodeURIComponent(blog.slug)}`,
       lastModified: blog.updatedAt || new Date(),
       changeFrequency: "monthly",
       priority: 0.6,
