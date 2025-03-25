@@ -16,9 +16,6 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import Markdown from "react-markdown";
-import rehypeRaw from "rehype-raw";
-import MarkdownComponents from "../Markdown";
 import { stripHtmlAndMarkdown } from "@/lib/utils/textHelper";
 
 interface ExtendedArticle extends Article {
@@ -27,9 +24,10 @@ interface ExtendedArticle extends Article {
 
 interface Props {
   blog: ExtendedArticle;
+  noImage?: boolean;
 }
 
-export const BlogCard = ({ blog }: Props) => {
+export const BlogCard = ({ blog, noImage }: Props) => {
   const [isHovered, setIsHovered] = useState(false);
 
   // Get author initials for avatar fallback
@@ -56,36 +54,38 @@ export const BlogCard = ({ blog }: Props) => {
         className="h-full"
       >
         <Card className="overflow-hidden h-full border-gray-700 bg-gray-800 hover:bg-gray-750 transition-colors duration-300 flex flex-col">
-          <div className="relative w-full pt-[56.25%] overflow-hidden">
-            <motion.div
-              animate={{
-                scale: isHovered ? 1.05 : 1,
-              }}
-              transition={{ duration: 0.4 }}
-              className="absolute inset-0"
-            >
-              <Image
-                src={blog.imageUri || "/placeholder.svg"}
-                alt={blog.title + " illustration"}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent opacity-70" />
-            </motion.div>
+          {!noImage && (
+            <div className="relative w-full pt-[56.25%] overflow-hidden">
+              <motion.div
+                animate={{
+                  scale: isHovered ? 1.05 : 1,
+                }}
+                transition={{ duration: 0.4 }}
+                className="absolute inset-0"
+              >
+                <Image
+                  src={blog.imageUri || "/placeholder.svg"}
+                  alt={blog.title + " illustration"}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent opacity-70" />
+              </motion.div>
 
-            {blog.createdAt >
-              new Date(Date.now() - 1000 * 60 * 60 * 24 * 7) && (
-              <div className="absolute top-4 left-4">
-                <Badge
-                  variant="secondary"
-                  className="bg-primary/80 hover:bg-primary text-white"
-                >
-                  Ny
-                </Badge>
-              </div>
-            )}
-          </div>
+              {blog.createdAt >
+                new Date(Date.now() - 1000 * 60 * 60 * 24 * 7) && (
+                <div className="absolute top-4 left-4">
+                  <Badge
+                    variant="secondary"
+                    className="bg-primary/80 hover:bg-primary text-white"
+                  >
+                    Ny
+                  </Badge>
+                </div>
+              )}
+            </div>
+          )}
 
           <CardHeader className="pb-2">
             <motion.h2

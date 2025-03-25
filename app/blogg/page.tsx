@@ -3,11 +3,16 @@ import { getMonthNameInNorwegian } from "@/lib/utils/dateUtils";
 import { HeaderText } from "@/components/headerText";
 import { Suspense } from "react";
 import { prisma } from "@/lib/prisma";
-import { Article } from "@prisma/client";
+import { Article, Member } from "@prisma/client";
+
+interface ExtendedArticle extends Article {
+  author: Member;
+}
 
 export default async function BlogsPage() {
   const unsortedBlogs = await prisma.article.findMany({
     orderBy: { createdAt: "desc" },
+    include: { author: true },
   });
 
   const blogs = unsortedBlogs?.sort((a, b) => {
@@ -18,16 +23,19 @@ export default async function BlogsPage() {
     return <div>No blogs found.</div>;
   }
 
-  const blogsByMonth: Record<string, Article[]> = blogs.reduce((acc, blog) => {
-    const monthYear = `${getMonthNameInNorwegian(
-      blog.createdAt
-    )} ${blog.createdAt.getFullYear()}`;
-    if (!acc[monthYear]) {
-      acc[monthYear] = [];
-    }
-    acc[monthYear].push(blog);
-    return acc;
-  }, {} as Record<string, Article[]>);
+  const blogsByMonth: Record<string, ExtendedArticle[]> = blogs.reduce(
+    (acc, blog) => {
+      const monthYear = `${getMonthNameInNorwegian(
+        blog.createdAt
+      )} ${blog.createdAt.getFullYear()}`;
+      if (!acc[monthYear]) {
+        acc[monthYear] = [];
+      }
+      acc[monthYear].push(blog);
+      return acc;
+    },
+    {} as Record<string, ExtendedArticle[]>
+  );
 
   return (
     <div className="w-full flex justify-center min-h-screen">
@@ -40,15 +48,12 @@ export default async function BlogsPage() {
                 .reverse()
                 .map((monthYear) => (
                   <div key={monthYear}>
-                    <h2 className="text-lg sm:text-lg md:text-xl lg:text-2xl font-semibold">
+                    <h2 className="text-lg sm:text-lg mb-4 md:text-xl lg:text-2xl font-semibold">
                       {monthYear}
                     </h2>
                     <div className="flex flex-col gap-5">
                       {blogsByMonth[monthYear].map((blog) => (
-                        <BlogCard
-                          key={blog.createdAt.toISOString()}
-                          blog={blog}
-                        />
+                        <BlogCard key={blog.id} noImage blog={blog} />
                       ))}
                     </div>
                   </div>
