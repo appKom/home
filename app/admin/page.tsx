@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { Users, FileText, BookIcon } from "lucide-react";
+import AuthButton from "@/components/admin/AuthButton";
 
 interface IRoute {
   title: string;
@@ -50,6 +51,10 @@ const AdminPage = () => {
           {routes.map((item) => (
             <RouteCard key={item.title} {...item} />
           ))}
+        </div>
+
+        <div className="flex justify-center mt-10">
+          <AuthButton type="logout" />
         </div>
       </main>
     </div>
