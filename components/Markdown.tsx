@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 interface MarkdownComponentProps {
@@ -14,7 +15,7 @@ const MarkdownComponents: Record<string, React.FC<MarkdownComponentProps>> = {
   ),
   h3: ({ ...props }) => <h3 className="my-2 text-2xl font-medium" {...props} />,
   p: ({ ...props }) => (
-    <p className="my-2 text-base leading-relaxed" {...props} />
+    <div className="my-2 text-base leading-relaxed" {...props} />
   ),
   a: ({ ...props }) => (
     <a
@@ -31,15 +32,17 @@ const MarkdownComponents: Record<string, React.FC<MarkdownComponentProps>> = {
     <ol className="my-2 list-inside list-disc" {...props} />
   ),
   li: ({ ...props }) => <li className="my-1" {...props} />,
-  img: ({ ...props }) => (
-    <img
-      className="my-4 h-auto max-w-full object-contain"
-      {...props}
-      style={{
-        width: "100%",
-        margin: "0 auto",
-      }}
-    />
+  img: ({ src, alt, ...props }) => (
+    <div className="my-4">
+      <Image
+        src={src || "/default-image.svg"}
+        alt={alt || "Image"}
+        width={1200}
+        height={1200}
+        className="w-full object-cover"
+        {...props}
+      />
+    </div>
   ),
 };
 
