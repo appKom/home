@@ -18,7 +18,7 @@ const MarkdownComponents: Record<string, React.FC<MarkdownComponentProps>> = {
   ),
   a: ({ ...props }) => (
     <a
-      className="hover:text-onlineOrangeHover text-onlineOrange underline"
+      className="text-onlineOrange underline hover:text-orange-500"
       {...props}
     />
   ),
