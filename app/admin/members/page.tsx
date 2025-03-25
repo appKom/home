@@ -100,7 +100,7 @@ const AdminMemberPage = () => {
                   (latest, current) => {
                     const currentEndYear = parseInt(
                       current.period.split(" - ")[1],
-                      10
+                      10,
                     );
                     const latestEndYear = latest
                       ? parseInt(latest.split(" - ")[1], 10)
@@ -109,7 +109,7 @@ const AdminMemberPage = () => {
                       ? current.period
                       : latest;
                   },
-                  ""
+                  "",
                 );
                 return latestPeriod
                   ? parseInt(latestPeriod.split(" - ")[1], 10)
@@ -263,8 +263,8 @@ const AdminMemberPage = () => {
         if (editingMember) {
           setMembers(
             members.map((member) =>
-              member.id === editingMember.id ? normalizedMember : member
-            )
+              member.id === editingMember.id ? normalizedMember : member,
+            ),
           );
         } else {
           setMembers(
@@ -275,7 +275,7 @@ const AdminMemberPage = () => {
                     (latest, current) => {
                       const currentEndYear = parseInt(
                         current.period.split(" - ")[1],
-                        10
+                        10,
                       );
                       const latestEndYear = latest
                         ? parseInt(latest.split(" - ")[1], 10)
@@ -284,7 +284,7 @@ const AdminMemberPage = () => {
                         ? current.period
                         : latest;
                     },
-                    ""
+                    "",
                   );
                   return latestPeriod
                     ? parseInt(latestPeriod.split(" - ")[1], 10)
@@ -294,7 +294,7 @@ const AdminMemberPage = () => {
               };
 
               return getLatestYear(b) - getLatestYear(a);
-            })
+            }),
           );
         }
 
@@ -307,13 +307,13 @@ const AdminMemberPage = () => {
         toast.error(
           `Failed to ${editingMember ? "update" : "add"} member: ${
             error.message
-          }`
+          }`,
         );
       } else {
         toast.error(
           editingMember
             ? "Klarte ikke å oppdatere medlem"
-            : "Klarte ikke å legge til medlem"
+            : "Klarte ikke å legge til medlem",
         );
       }
     } finally {
@@ -323,7 +323,7 @@ const AdminMemberPage = () => {
 
   const handleRemove = async (id: number) => {
     const confirmed = window.confirm(
-      "Er du sikker på at du vil slette dette medlemmet?"
+      "Er du sikker på at du vil slette dette medlemmet?",
     );
     if (!confirmed) {
       return;
@@ -376,7 +376,7 @@ const AdminMemberPage = () => {
   const addPeriodRole = () => {
     const existingPeriods = periodRoles.map((pr) => pr.period);
     const availablePeriods = periodOptions.filter(
-      (period) => !existingPeriods.includes(period.value)
+      (period) => !existingPeriods.includes(period.value),
     );
 
     if (availablePeriods.length === 0) {
@@ -403,7 +403,7 @@ const AdminMemberPage = () => {
   const updatePeriodRole = (
     index: number,
     field: "period" | "role",
-    value: string
+    value: string,
   ) => {
     const updated = [...periodRoles];
     if (field === "role") {
@@ -597,7 +597,7 @@ const AdminMemberPage = () => {
                 period: string;
                 role: "Leder" | "Nestleder" | "Okonomiansvarlig" | "Medlem";
               },
-              index
+              index,
             ) => (
               <div key={index} className="flex justify-between my-4 gap-8">
                 <OptionsBox
@@ -629,7 +629,7 @@ const AdminMemberPage = () => {
                   </button>
                 )}
               </div>
-            )
+            ),
           )}
           <button
             type="button"

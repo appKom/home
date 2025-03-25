@@ -16,9 +16,9 @@ export default async function MembersPage() {
   const uniquePeriods = Array.from(
     new Set(
       members.flatMap(
-        (member) => member.rolesByPeriod?.map((r) => r.period) ?? []
-      )
-    )
+        (member) => member.rolesByPeriod?.map((r) => r.period) ?? [],
+      ),
+    ),
   );
 
   const sortedPeriods = uniquePeriods.sort((a, b) => {
@@ -29,7 +29,7 @@ export default async function MembersPage() {
 
   const sortedPeriodsWithMembers = sortedPeriods.map((period) => {
     const membersInPeriod = members.filter((member) =>
-      member.rolesByPeriod?.some((r) => r.period === period)
+      member.rolesByPeriod?.some((r) => r.period === period),
     );
 
     const sortedMembers = membersInPeriod.sort((a, b) => {
@@ -39,8 +39,8 @@ export default async function MembersPage() {
       const aRole = aRoleObj ? aRoleObj.role : undefined;
       const bRole = bRoleObj ? bRoleObj.role : undefined;
 
-      const aRoleOrder = aRole ? roleOrder[aRole] ?? 99 : 99;
-      const bRoleOrder = bRole ? roleOrder[bRole] ?? 99 : 99;
+      const aRoleOrder = aRole ? (roleOrder[aRole] ?? 99) : 99;
+      const bRoleOrder = bRole ? (roleOrder[bRole] ?? 99) : 99;
 
       if (aRoleOrder !== bRoleOrder) {
         return aRoleOrder - bRoleOrder;

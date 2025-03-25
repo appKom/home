@@ -30,7 +30,7 @@ export const authOptions: NextAuthOptions = {
 
         const orgs: Array<{ login: string }> = await orgsResponse.json();
         const isMember = orgs.some(
-          (org) => org.login.toLowerCase() === "appkom"
+          (org) => org.login.toLowerCase() === "appkom",
         );
 
         return isMember;
@@ -51,7 +51,7 @@ export const authOptions: NextAuthOptions = {
           if (orgsResponse.ok) {
             const orgs: Array<{ login: string }> = await orgsResponse.json();
             token.isAdmin = orgs.some(
-              (org) => org.login.toLowerCase() === "appkom"
+              (org) => org.login.toLowerCase() === "appkom",
             );
           } else {
             token.isAdmin = false;

@@ -87,13 +87,13 @@ export default async function MemberPage(props: { params: hrefParams }) {
             {periods
               .filter((period) => {
                 const roleObj = member.rolesByPeriod?.find(
-                  (r) => r.period === period
+                  (r) => r.period === period,
                 );
                 return roleObj?.role !== "Medlem";
               })
               .map((period) => {
                 const roleObj = member.rolesByPeriod?.find(
-                  (r) => r.period === period
+                  (r) => r.period === period,
                 );
                 const role = roleObj?.role ?? "Unknown Role";
 
@@ -101,10 +101,10 @@ export default async function MemberPage(props: { params: hrefParams }) {
                   role === "Leder"
                     ? "text-yellow-500"
                     : role === "Nestleder"
-                    ? "text-purple-500"
-                    : role === "Okonomiansvarlig"
-                    ? "text-green-500"
-                    : "text-gray-200";
+                      ? "text-purple-500"
+                      : role === "Okonomiansvarlig"
+                        ? "text-green-500"
+                        : "text-gray-200";
                 return (
                   <span
                     key={period}

@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
 
     const recaptchaResponse = await fetch(
       `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptchaToken}`,
-      { method: "POST" }
+      { method: "POST" },
     );
 
     const recaptchaData = await recaptchaResponse.json();
@@ -100,7 +100,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       { error: "Internal server error", message: (error as Error).message },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

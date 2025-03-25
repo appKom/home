@@ -12,7 +12,7 @@ export const uploadAttachments = async (files: File[]) => {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
       return response.data.url;
     } catch (error) {

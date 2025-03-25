@@ -44,7 +44,7 @@ export const POST = async (request: Request) => {
     if (!title || !shortDescription || !description || !github || !techStack) {
       return NextResponse.json(
         { error: "Missing required fields" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -55,7 +55,7 @@ export const POST = async (request: Request) => {
       } catch (err) {
         return NextResponse.json(
           { error: "Invalid projectMembers JSON" + err },
-          { status: 400 }
+          { status: 400 },
         );
       }
     }
@@ -105,7 +105,7 @@ export const POST = async (request: Request) => {
     console.error("Error creating project:", error);
     return NextResponse.json(
       { error: "Internal server error", code: "ERR_INVALID_ARG_TYPE" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 };
@@ -127,7 +127,7 @@ export const GET = async () => {
     console.error("Error fetching projects:", error);
     return NextResponse.json(
       { error: "Internal server error", code: "ERR_INVALID_ARG_TYPE" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 };
@@ -146,7 +146,7 @@ export const PUT = async (request: Request) => {
     if (!projectId) {
       return NextResponse.json(
         { error: "Missing project ID" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -154,7 +154,7 @@ export const PUT = async (request: Request) => {
     if (isNaN(id)) {
       return NextResponse.json(
         { error: "Invalid project ID" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -182,7 +182,7 @@ export const PUT = async (request: Request) => {
     if (!title || !shortDescription || !description || !github || !techStack) {
       return NextResponse.json(
         { error: "Missing required fields" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -193,7 +193,7 @@ export const PUT = async (request: Request) => {
       } catch (err) {
         return NextResponse.json(
           { error: "Invalid projectMembers JSON" + err },
-          { status: 400 }
+          { status: 400 },
         );
       }
     }
@@ -252,7 +252,7 @@ export const PUT = async (request: Request) => {
     console.error("Error updating project:", error);
     return NextResponse.json(
       { error: "Internal server error", code: "ERR_INVALID_ARG_TYPE" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 };
@@ -271,7 +271,7 @@ export const DELETE = async (request: Request) => {
     if (!projectId || isNaN(projectId)) {
       return NextResponse.json(
         { error: "Invalid project ID provided" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -308,14 +308,14 @@ export const DELETE = async (request: Request) => {
     console.error("Error deleting project:", (error as Error).message || error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 };
 
 const handleImageUpload = async (
   image: File | null,
-  projectName: string
+  projectName: string,
 ): Promise<string | NextResponse> => {
   if (image && image.size > 0) {
     try {
@@ -324,7 +324,7 @@ const handleImageUpload = async (
 
       const fileExtension = image.type.split("/")[1] || "png";
       const fileName = `${Date.now()}_${sanitizeFileName(
-        projectName
+        projectName,
       )}.${fileExtension}`;
 
       const { data, error } = await supabase.storage
@@ -337,7 +337,7 @@ const handleImageUpload = async (
         console.error("Error uploading image:", error.message);
         return NextResponse.json(
           { error: "Error uploading image" },
-          { status: 500 }
+          { status: 500 },
         );
       }
 
@@ -348,7 +348,7 @@ const handleImageUpload = async (
       if (!publicData?.publicUrl) {
         return NextResponse.json(
           { error: "Failed to get image URL" },
-          { status: 500 }
+          { status: 500 },
         );
       }
 
@@ -357,7 +357,7 @@ const handleImageUpload = async (
       console.error("Error processing image:", uploadError);
       return NextResponse.json(
         { error: "Error processing image" },
-        { status: 500 }
+        { status: 500 },
       );
     }
   } else {

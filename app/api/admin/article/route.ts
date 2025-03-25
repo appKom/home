@@ -27,7 +27,7 @@ export const POST = async (req: NextRequest) => {
     if (!title || !description || !imageUri || !authorId) {
       return NextResponse.json(
         { error: "No article provided or file is not valid" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -55,7 +55,7 @@ export const POST = async (req: NextRequest) => {
       },
       {
         status: 500,
-      }
+      },
     );
   }
 };

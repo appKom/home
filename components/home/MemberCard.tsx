@@ -18,7 +18,7 @@ export const MemberCard = ({
   isProjectLead,
 }: Props) => {
   const roleForPeriod = member.rolesByPeriod?.find(
-    (r) => r.period === period
+    (r) => r.period === period,
   )?.role;
 
   return (
@@ -63,8 +63,8 @@ export const MemberCard = ({
               ? "Økonomiansvarlig"
               : roleForPeriod
             : isProjectLead
-            ? "Prosjektleder"
-            : "Bidragsyter"}
+              ? "Prosjektleder"
+              : "Bidragsyter"}
         </p>
       </div>
     </Link>

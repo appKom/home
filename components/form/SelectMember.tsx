@@ -53,7 +53,7 @@ export function MemberSelect({
                   (latest, current) => {
                     const currentEndYear = parseInt(
                       current.period.split(" - ")[1],
-                      10
+                      10,
                     );
                     const latestEndYear = latest
                       ? parseInt(latest.split(" - ")[1], 10)
@@ -62,7 +62,7 @@ export function MemberSelect({
                       ? current.period
                       : latest;
                   },
-                  ""
+                  "",
                 );
                 return latestPeriod
                   ? parseInt(latestPeriod.split(" - ")[1], 10)
@@ -108,18 +108,21 @@ export function MemberSelect({
 
   const getMostRecentRole = (rolesByPeriod: memberType["rolesByPeriod"]) => {
     if (!rolesByPeriod || rolesByPeriod.length === 0) return undefined;
-    const latestRole = rolesByPeriod.reduce((latest, current) => {
-      const currentEndYear = parseInt(current.period.split(" - ")[1], 10);
-      const latestEndYear = latest
-        ? parseInt(latest.period.split(" - ")[1], 10)
-        : 0;
-      return currentEndYear > latestEndYear ? current : latest;
-    }, null as RoleByPeriodType | null);
+    const latestRole = rolesByPeriod.reduce(
+      (latest, current) => {
+        const currentEndYear = parseInt(current.period.split(" - ")[1], 10);
+        const latestEndYear = latest
+          ? parseInt(latest.period.split(" - ")[1], 10)
+          : 0;
+        return currentEndYear > latestEndYear ? current : latest;
+      },
+      null as RoleByPeriodType | null,
+    );
     return latestRole ? latestRole.role : undefined;
   };
 
   const filteredMembers = members.filter((member) =>
-    member.name.toLowerCase().includes(searchTerm.toLowerCase())
+    member.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const handleSelectMember = (member: memberType) => {

@@ -24,7 +24,7 @@ const LoadingBar = ({ progress }: { progress: number }) => (
 const AdminProjectPage = () => {
   const [projects, setProjects] = useState<projectType[]>([]);
   const [editingProject, setEditingProject] = useState<projectType | null>(
-    null
+    null,
   );
 
   const [title, setTitle] = useState("");
@@ -45,7 +45,7 @@ const AdminProjectPage = () => {
 
   const [selectedMemberId, setSelectedMemberId] = useState<number | null>(null);
   const [selectedMemberName, setSelectedMemberName] = useState<string | null>(
-    null
+    null,
   );
   const [selectedRole, setSelectedRole] = useState<ProjectRole>("Bidragsyter");
 
@@ -151,15 +151,15 @@ const AdminProjectPage = () => {
 
       if (response.ok) {
         toast.success(
-          editingProject ? "Prosjekt oppdatert" : "Prosjekt lagt til!"
+          editingProject ? "Prosjekt oppdatert" : "Prosjekt lagt til!",
         );
         const responseData = await response.json();
 
         if (editingProject) {
           setProjects(
             projects.map((project) =>
-              project.id === editingProject.id ? responseData : project
-            )
+              project.id === editingProject.id ? responseData : project,
+            ),
           );
         } else {
           setProjects([...projects, responseData]);
@@ -175,13 +175,13 @@ const AdminProjectPage = () => {
         toast.error(
           `Failed to ${editingProject ? "update" : "add"} project: ${
             error.message
-          }`
+          }`,
         );
       } else {
         toast.error(
           editingProject
             ? "Klarte ikke å oppdatere Prosjekt"
-            : "Klarte ikke å legge til Prosjekt"
+            : "Klarte ikke å legge til Prosjekt",
         );
       }
     } finally {
@@ -191,7 +191,7 @@ const AdminProjectPage = () => {
 
   const handleRemove = async (id: number) => {
     const confirmed = window.confirm(
-      "Er du sikker på at du vil slette dette Prosjektet?"
+      "Er du sikker på at du vil slette dette Prosjektet?",
     );
     if (!confirmed) {
       return;
@@ -267,7 +267,7 @@ const AdminProjectPage = () => {
       renderCell: (project: projectType) => {
         const sortedMembers =
           project.projectMembers?.sort((a, b) =>
-            a.Member.name.localeCompare(b.Member.name)
+            a.Member.name.localeCompare(b.Member.name),
           ) || [];
         return (
           <ul className="list-disc list-inside">
@@ -460,7 +460,7 @@ const AdminProjectPage = () => {
             <button
               onClick={() =>
                 setProjectMembers((prev) =>
-                  prev.filter((member) => member.id !== pm.id)
+                  prev.filter((member) => member.id !== pm.id),
                 )
               }
               className="text-red-500 hover:text-red-700 ml-2"

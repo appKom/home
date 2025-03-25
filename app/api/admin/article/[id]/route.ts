@@ -62,7 +62,7 @@ export async function PUT(req: NextRequest) {
     console.error("Error updating article:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -81,7 +81,7 @@ export const GET = async (req: NextRequest) => {
     if (!id) {
       return NextResponse.json(
         { error: "No article provided" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -98,7 +98,7 @@ export const GET = async (req: NextRequest) => {
     console.error("Error occurred during retrieval:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   } finally {
     await prisma.$disconnect();
@@ -119,7 +119,7 @@ export const DELETE = async (req: NextRequest) => {
     if (!id) {
       return NextResponse.json(
         { error: "No article provided" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -170,13 +170,13 @@ export const DELETE = async (req: NextRequest) => {
 
     return NextResponse.json(
       { message: "Article and associated files deleted successfully" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error("Error occurred during deletion:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   } finally {
     await prisma.$disconnect();

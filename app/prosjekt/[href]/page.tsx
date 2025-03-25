@@ -118,7 +118,7 @@ export default async function ProjectPage(props: { params: hrefParams }) {
                 if (member) {
                   const isProjectLead = project.projectMembers.some(
                     (pm) =>
-                      pm.Role === "Prosjektleder" && pm.Member.id === member.id
+                      pm.Role === "Prosjektleder" && pm.Member.id === member.id,
                   );
 
                   return (

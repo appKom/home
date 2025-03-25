@@ -67,13 +67,13 @@ export const POST = async (request: Request) => {
         } else {
           return NextResponse.json(
             { error: "Invalid rolesByPeriod format" },
-            { status: 400 }
+            { status: 400 },
           );
         }
       } catch (error) {
         return NextResponse.json(
           { error: "Invalid JSON for rolesByPeriod" + error },
-          { status: 400 }
+          { status: 400 },
         );
       }
     }
@@ -82,7 +82,7 @@ export const POST = async (request: Request) => {
       if (!Object.values(RoleEnum).includes(pr.role)) {
         return NextResponse.json(
           { error: `Invalid role provided: ${pr.role}` },
-          { status: 400 }
+          { status: 400 },
         );
       }
     }
@@ -131,7 +131,7 @@ export const POST = async (request: Request) => {
     }
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 };
@@ -162,7 +162,7 @@ export const PUT = async (request: Request) => {
     if (!id) {
       return NextResponse.json(
         { error: "Member ID is required for updating" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -179,13 +179,13 @@ export const PUT = async (request: Request) => {
         } else {
           return NextResponse.json(
             { error: "Invalid rolesByPeriod format" },
-            { status: 400 }
+            { status: 400 },
           );
         }
       } catch (error) {
         return NextResponse.json(
           { error: "Invalid JSON for rolesByPeriod" + error },
-          { status: 400 }
+          { status: 400 },
         );
       }
     }
@@ -194,7 +194,7 @@ export const PUT = async (request: Request) => {
       if (!Object.values(RoleEnum).includes(pr.role)) {
         return NextResponse.json(
           { error: `Invalid role provided: ${pr.role}` },
-          { status: 400 }
+          { status: 400 },
         );
       }
     }
@@ -266,7 +266,7 @@ export const PUT = async (request: Request) => {
     }
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 };
@@ -285,7 +285,7 @@ export const DELETE = async (request: Request) => {
     if (!id) {
       return NextResponse.json(
         { error: "Invalid member ID provided" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -322,7 +322,7 @@ export const DELETE = async (request: Request) => {
     console.error("Error deleting member:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 };
@@ -348,14 +348,14 @@ export const GET = async () => {
     console.error("Error fetching members:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 };
 
 const handleImageUpload = async (
   image: File | null,
-  name: string
+  name: string,
 ): Promise<string | NextResponse> => {
   if (image && image.size > 0) {
     try {
@@ -376,7 +376,7 @@ const handleImageUpload = async (
         console.error("Error uploading image:", error.message);
         return NextResponse.json(
           { error: "Error uploading image" },
-          { status: 500 }
+          { status: 500 },
         );
       }
 
@@ -387,7 +387,7 @@ const handleImageUpload = async (
       if (!publicData?.publicUrl) {
         return NextResponse.json(
           { error: "Failed to get image URL" },
-          { status: 500 }
+          { status: 500 },
         );
       }
 
@@ -396,7 +396,7 @@ const handleImageUpload = async (
       console.error("Error processing image:", uploadError);
       return NextResponse.json(
         { error: "Error processing image" },
-        { status: 500 }
+        { status: 500 },
       );
     }
   } else {

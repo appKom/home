@@ -26,7 +26,7 @@ export default async function BlogsPage() {
   const blogsByMonth: Record<string, ExtendedArticle[]> = blogs.reduce(
     (acc, blog) => {
       const monthYear = `${getMonthNameInNorwegian(
-        blog.createdAt
+        blog.createdAt,
       )} ${blog.createdAt.getFullYear()}`;
       if (!acc[monthYear]) {
         acc[monthYear] = [];
@@ -34,7 +34,7 @@ export default async function BlogsPage() {
       acc[monthYear].push(blog);
       return acc;
     },
-    {} as Record<string, ExtendedArticle[]>
+    {} as Record<string, ExtendedArticle[]>,
   );
 
   return (

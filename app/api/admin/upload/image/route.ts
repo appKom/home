@@ -38,7 +38,7 @@ export const POST = async (request: Request) => {
         console.error("Error uploading image:", error.message);
         return NextResponse.json(
           { error: "Error uploading image" },
-          { status: 500 }
+          { status: 500 },
         );
       }
 
@@ -49,7 +49,7 @@ export const POST = async (request: Request) => {
       if (!publicData?.publicUrl) {
         return NextResponse.json(
           { error: "Failed to get image URL" },
-          { status: 500 }
+          { status: 500 },
         );
       }
 
@@ -60,13 +60,13 @@ export const POST = async (request: Request) => {
 
     return NextResponse.json(
       { message: "Image uploaded successfully", imageUrl: imageHref },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error("Unexpected Error:", error);
     return NextResponse.json(
       { error: "An unexpected error occurred" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 };

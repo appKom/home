@@ -29,7 +29,7 @@ export const HeroSection = () => {
 
   useEffect(() => {
     setShuffledWords((prevWords) =>
-      [...prevWords].sort(() => Math.random() - 0.5)
+      [...prevWords].sort(() => Math.random() - 0.5),
     );
   }, []);
 

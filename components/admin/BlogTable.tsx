@@ -16,7 +16,7 @@ const BlogTable = ({ blogs }: BlogTableProps) => {
 
   const deleteBlog = async (id: number) => {
     const confirmed = confirm(
-      "Er du sikker på at du vil slette denne bloggen?"
+      "Er du sikker på at du vil slette denne bloggen?",
     );
     if (!confirmed) return;
     setIsLoading(true);

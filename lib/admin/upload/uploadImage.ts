@@ -1,6 +1,6 @@
 export const uploadImage = async (
   image: File,
-  title: string
+  title: string,
 ): Promise<string | null> => {
   try {
     const formData = new FormData();
@@ -37,7 +37,7 @@ export const extractAndUploadImages = async (content: string) => {
     try {
       const byteCharacters = atob(base64String);
       const byteNumbers = Array.from(byteCharacters).map((char) =>
-        char.charCodeAt(0)
+        char.charCodeAt(0),
       );
       const byteArray = new Uint8Array(byteNumbers);
       const file = new File([byteArray], fileName, {
@@ -59,11 +59,11 @@ export const extractAndUploadImages = async (content: string) => {
     if (base64String && imageUrl) {
       const escapedBase64String = base64String.replace(
         /[-/\\^$*+?.()|[\]{}]/g,
-        "\\$&"
+        "\\$&",
       );
       const regex = new RegExp(
         `data:image/${mimeType};base64,${escapedBase64String}`,
-        "g"
+        "g",
       );
       updatedContent = updatedContent.replace(regex, imageUrl);
     }

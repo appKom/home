@@ -16,7 +16,7 @@ const ProjectTable = ({ projects }: ProjectTableProps) => {
 
   const deleteproject = async (id: number) => {
     const confirmed = confirm(
-      "Er du sikker på at du vil slette denne projectgen?"
+      "Er du sikker på at du vil slette denne projectgen?",
     );
     if (!confirmed) return;
     setIsLoading(true);

@@ -34,7 +34,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         onImageUpload(file);
       }
     },
-    [onImageUpload]
+    [onImageUpload],
   );
 
   const { getRootProps, getInputProps } = useDropzone({

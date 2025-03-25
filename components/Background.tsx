@@ -39,7 +39,7 @@ export const Background = () => {
             }}
           />
         );
-      }
+      },
     );
 
     const vLines = Array.from({ length: NUMBER_OF_VERTICAL_LINES }, (_, i) => {
@@ -121,7 +121,7 @@ const DotsGrid = () => {
             "h-1",
             "aspect-square",
             "rounded-full",
-            "absolute"
+            "absolute",
           );
           dot.style.top = `${(row * 100) / numRows + 1}%`;
           dot.style.left = `${(col * 100) / numCols + 1}%`;

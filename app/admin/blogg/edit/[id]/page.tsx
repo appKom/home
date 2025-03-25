@@ -72,7 +72,7 @@ export default function BloggEditPage() {
         });
       } catch (error) {
         toast.error(
-          "Failed to fetch article data: " + (error as Error).message
+          "Failed to fetch article data: " + (error as Error).message,
         );
       } finally {
         setLoadingProgress(100);
@@ -85,7 +85,7 @@ export default function BloggEditPage() {
 
   const handleChange = <K extends keyof DeepPartial<createArticleType>>(
     field: K,
-    value: DeepPartial<createArticleType>[K]
+    value: DeepPartial<createArticleType>[K],
   ) => {
     setFormData((prev) => ({
       ...prev,

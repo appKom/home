@@ -1,7 +1,7 @@
 import { Readable } from "stream";
 
 export function readableStreamToNodeReadable(
-  stream: ReadableStream<Uint8Array>
+  stream: ReadableStream<Uint8Array>,
 ) {
   const reader = stream.getReader();
   const readable = new Readable({
