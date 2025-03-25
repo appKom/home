@@ -9,6 +9,7 @@ import { MemberCard } from "@/components/home/MemberCard";
 import { FaGithub, FaGlobe } from "react-icons/fa";
 import { HeaderText } from "@/components/headerText";
 import { prisma } from "@/lib/prisma";
+import MarkdownComponents from "@/components/Markdown";
 
 export async function generateMetadata(props: {
   params: tParams;
@@ -46,16 +47,16 @@ export default async function ProjectPage(props: { params: hrefParams }) {
   }
 
   return (
-    <div className="w-full flex justify-center min-h-screen">
+    <div className="flex min-h-screen w-full justify-center">
       <div className="w-full">
         <main className="flex flex-col">
-          <div className="w-full flex justify-center">
+          <div className="flex w-full justify-center">
             <Image
               src={project.imageUri}
               alt={`${project.title} illustrasjon`}
               width={1200}
               height={1200}
-              className="w-full object-cover max-h-96"
+              className="max-h-96 w-full object-cover"
             />
           </div>
           <div className="px-6">
@@ -63,7 +64,7 @@ export default async function ProjectPage(props: { params: hrefParams }) {
               <HeaderText title={project.title} />
             </div>
 
-            <div className="w-full flex justify-center py-6">
+            <div className="flex w-full justify-center py-6">
               <div className="w-full">
                 {project.techStack && (
                   <div>
@@ -72,7 +73,7 @@ export default async function ProjectPage(props: { params: hrefParams }) {
                       {project.techStack.split(",").map((tech) => (
                         <li
                           key={tech}
-                          className="px-2 py-1 bg-gray-800 border border-gray-600 rounded-md"
+                          className="rounded-md border border-gray-600 bg-gray-800 px-2 py-1"
                         >
                           {tech}
                         </li>
@@ -80,7 +81,7 @@ export default async function ProjectPage(props: { params: hrefParams }) {
                     </ul>
                   </div>
                 )}
-                <div className="flex flex-col sm:flex-row gap-2 pt-6 ">
+                <div className="flex flex-col gap-2 pt-6 sm:flex-row">
                   {project.link && (
                     <a
                       className="flex flex-row gap-2 hover:text-onlineOrange"
@@ -104,14 +105,18 @@ export default async function ProjectPage(props: { params: hrefParams }) {
               </div>
             </div>
 
-            <article className="w-full  break-words whitespace-pre-wrap overflow-wrap break-word overflow-x-auto pb-8">
-              <ReactMarkdown className="w-full" rehypePlugins={[rehypeRaw]}>
+            <article className="overflow-wrap break-word w-full overflow-x-auto whitespace-pre-wrap break-words pb-8">
+              <ReactMarkdown
+                className="w-full"
+                rehypePlugins={[rehypeRaw]}
+                components={MarkdownComponents}
+              >
                 {project.description}
               </ReactMarkdown>
             </article>
 
             <h2 className="text-2xl font-bold">Utviklerne</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 w-full gap-4 pt-6">
+            <div className="grid w-full grid-cols-2 gap-4 pt-6 sm:grid-cols-2 md:grid-cols-4">
               {project.projectMembers.map((person) => {
                 const member = person.Member;
 

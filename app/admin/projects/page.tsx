@@ -4,16 +4,47 @@ import { useState, useRef, useEffect } from "react";
 import { Upload, XIcon, Edit, FileText } from "lucide-react";
 import toast from "react-hot-toast";
 import TextInput from "@/components/form/TextInput";
-import TextAreaInput from "@/components/form/TextAreaInput";
 import Table from "@/components/form/Table";
 import Image from "next/image";
 import { ProjectMember, projectType } from "@/lib/types";
 import { MemberSelect } from "@/components/form/SelectMember";
 import { validateProject } from "@/lib/validators";
+import dynamic from "next/dynamic";
+import "react-quill-new/dist/quill.snow.css";
 type ProjectRole = "Prosjektleder" | "Bidragsyter";
 
+const QuillEditor = dynamic(() => import("react-quill-new"), { ssr: false });
+
+const quillModules = {
+  toolbar: [
+    [{ header: [1, 2, 3, false] }],
+    ["bold", "italic", "underline", "strike", "blockquote"],
+    [{ list: "ordered" }, { list: "bullet" }],
+    ["link", "image"],
+    [{ align: [] }],
+    [{ color: [] }],
+    ["code-block"],
+    ["clean"],
+  ],
+};
+
+const quillFormats = [
+  "header",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "blockquote",
+  "list",
+  "link",
+  "image",
+  "align",
+  "color",
+  "code-block",
+];
+
 const LoadingBar = ({ progress }: { progress: number }) => (
-  <div className="w-full h-5 bg-gray-200">
+  <div className="h-5 w-full bg-gray-200">
     <div
       className="h-5 bg-blue-500"
       style={{ width: `${progress}%`, transition: "width 0.2s" }}
@@ -253,11 +284,11 @@ const AdminProjectPage = () => {
             width={50}
             src={project.imageUri}
             alt={project.title}
-            className="w-10 h-10 rounded-full object-cover"
+            className="h-10 w-10 rounded-full object-cover"
           />
         ) : (
           <div>
-            <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
+            <div className="h-10 w-10 rounded-full bg-gray-300"></div>
           </div>
         ),
     },
@@ -270,7 +301,7 @@ const AdminProjectPage = () => {
             a.Member.name.localeCompare(b.Member.name),
           ) || [];
         return (
-          <ul className="list-disc list-inside">
+          <ul className="list-inside list-disc">
             {sortedMembers.map((member) => (
               <li key={member.id}>
                 {member.Member.name} - {member.Role}
@@ -322,7 +353,7 @@ const AdminProjectPage = () => {
   if (isLoading) {
     return (
       <div
-        className="h-screen flex flex-col justify-center items-center px-8"
+        className="flex h-screen flex-col items-center justify-center px-8"
         ref={loadingBarRef}
       >
         <h1 className="text-3xl">Laster...</h1>
@@ -332,9 +363,9 @@ const AdminProjectPage = () => {
   }
 
   return (
-    <div className="py-4 px-5 w-full items-start max-w-4xl">
-      <h1 className="text-2xl font-bold mb-4">Administrer Prosjekter</h1>
-      <form onSubmit={handleSubmit} className="space-y-4 mb-8">
+    <div className="w-full max-w-4xl items-start px-5 py-4">
+      <h1 className="mb-4 text-2xl font-bold">Administrer Prosjekter</h1>
+      <form onSubmit={handleSubmit} className="mb-8 space-y-4">
         <TextInput
           id="title"
           label="Tittel"
@@ -352,7 +383,7 @@ const AdminProjectPage = () => {
         />
 
         <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-4 mt-4">
+          <div className="mt-4 flex items-center gap-4">
             <input
               id="image"
               type="file"
@@ -364,9 +395,9 @@ const AdminProjectPage = () => {
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
-              <Upload className="inline-block mr-2 h-4 w-4" />
+              <Upload className="mr-2 inline-block h-4 w-4" />
               Last opp bilde
             </button>
           </div>
@@ -376,7 +407,7 @@ const AdminProjectPage = () => {
               alt="Preview"
               height={500}
               width={500}
-              className="w-full max-h-96 object-cover"
+              className="max-h-96 w-full object-cover"
             />
           )}
           {imageUri && !imagePreview && (
@@ -385,19 +416,24 @@ const AdminProjectPage = () => {
               alt="Preview"
               height={500}
               width={500}
-              className="w-full max-h-96 object-cover"
+              className="max-h-96 w-full object-cover"
             />
           )}
         </div>
 
-        <TextAreaInput
-          id={"description"}
-          label={"Beskrivelse"}
-          value={description}
-          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-            setDescription(e.target.value)
-          }
-        />
+        <div className="w-full">
+          <label className="block text-sm font-medium text-gray-200">
+            Beskrivelse
+          </label>
+          <QuillEditor
+            value={description}
+            onChange={setDescription}
+            modules={quillModules}
+            formats={quillFormats}
+            placeholder="Skriv innholdet her..."
+            className="mb-24 mt-10 h-[300px] w-full text-white"
+          />
+        </div>
         <TextInput
           id="github"
           label="Github"
@@ -407,7 +443,7 @@ const AdminProjectPage = () => {
         />
 
         <div className="mt-8">
-          <h3 className="text-lg font-semibold mb-2">
+          <h3 className="mb-2 text-lg font-semibold">
             Legg til medlemmer med rolle
           </h3>
           <MemberSelect
@@ -415,11 +451,11 @@ const AdminProjectPage = () => {
             onSelectName={setSelectedMemberName}
           />
 
-          <label className="block text-sm font-medium text-gray-200 mt-4 mb-2">
+          <label className="mb-2 mt-4 block text-sm font-medium text-gray-200">
             Velg Rolle
           </label>
           <select
-            className="px-4 py-2 border border-gray-300 rounded-md w-full bg-gray-800 text-white"
+            className="w-full rounded-md border border-gray-300 bg-gray-800 px-4 py-2 text-white"
             value={selectedRole}
             onChange={(e) => setSelectedRole(e.target.value as ProjectRole)}
           >
@@ -430,18 +466,18 @@ const AdminProjectPage = () => {
           <button
             type="button"
             onClick={addMemberWithRole}
-            className="mt-4 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700"
+            className="mt-4 rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700"
           >
             Legg til medlem
           </button>
         </div>
 
         {projectMembers.map((pm, index) => (
-          <li key={pm.id} className="items-center flex">
+          <li key={pm.id} className="flex items-center">
             Medlem: {pm.Member.name}, Rolle:
             <select
               value={pm.Role}
-              className="px-4 py-1 border border-gray-300 rounded-md w-40 bg-gray-800 text-white ml-2"
+              className="ml-2 w-40 rounded-md border border-gray-300 bg-gray-800 px-4 py-1 text-white"
               onChange={(e) => {
                 const newRole = e.target.value;
                 setProjectMembers((prev) => {
@@ -463,7 +499,7 @@ const AdminProjectPage = () => {
                   prev.filter((member) => member.id !== pm.id),
                 )
               }
-              className="text-red-500 hover:text-red-700 ml-2"
+              className="ml-2 text-red-500 hover:text-red-700"
             >
               <XIcon />
             </button>
@@ -487,7 +523,7 @@ const AdminProjectPage = () => {
 
         <button
           type="submit"
-          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
         >
           {editingProject ? (
             <>
@@ -503,11 +539,11 @@ const AdminProjectPage = () => {
         </button>
       </form>
 
-      <h2 className="text-xl font-semibold mb-2">Prosjektsliste</h2>
+      <h2 className="mb-2 text-xl font-semibold">Prosjektsliste</h2>
       {isLoading ? (
-        <div className="text-white flex items-center justify-center">
+        <div className="flex items-center justify-center text-white">
           <div className="text-center">
-            <div className="inline-block animate-spin rounded-full h-16 w-16 border-y-2 border-onlineyellow mb-4"></div>
+            <div className="border-onlineyellow mb-4 inline-block h-16 w-16 animate-spin rounded-full border-y-2"></div>
             <h2 className="text-2xl font-semibold">Laster inn Prosjekter...</h2>
           </div>
         </div>
@@ -519,7 +555,7 @@ const AdminProjectPage = () => {
             <>
               <button
                 onClick={() => handleEdit(project)}
-                className="text-blue-500 hover:text-blue-700 mr-2"
+                className="mr-2 text-blue-500 hover:text-blue-700"
               >
                 <Edit className="h-5 w-5" />
               </button>

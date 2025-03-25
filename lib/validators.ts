@@ -78,10 +78,10 @@ export const validateProject = (props: projectProps): boolean => {
     return false;
   }
 
-  if (!props.image) {
-    toast.error("Vennligst last opp et bilde");
-    return false;
-  }
+  // if (!props.image) {
+  //   toast.error("Vennligst last opp et bilde");
+  //   return false;
+  // }
 
   if (!props.techStack) {
     toast.error("Vennligst fyll ut teknologier");
