@@ -16,11 +16,67 @@ export async function generateMetadata(props: {
   params: slugParams;
 }): Promise<Metadata> {
   const { slug } = await props.params;
-
   const decodedSlug = decodeURIComponent(slug);
 
+  const article = await prisma.article.findUnique({
+    where: { slug: decodedSlug },
+    include: { author: true },
+  });
+
+  if (!article) {
+    return {
+      title: "Artikkelen ble ikke funnet",
+    };
+  }
+
+  const description = article.description
+    .replace(/[#*`]/g, "")
+    .slice(0, 160)
+    .trim();
+
   return {
-    title: `${decodedSlug}`,
+    title: article.title,
+    description: description,
+    openGraph: {
+      title: article.title,
+      description: description,
+      type: "article",
+      publishedTime: article.createdAt.toISOString(),
+      modifiedTime: article.updatedAt.toISOString(),
+      url: `${process.env.NEXT_PUBLIC_SITE_URL}/${article.slug}`,
+      images: [
+        {
+          url: article.imageUri,
+          width: 1200,
+          height: 630,
+          alt: article.imageDescription,
+        },
+      ],
+      siteName: "Appkom",
+      locale: "no_NO",
+      authors: article.author ? [article.author.name] : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: description,
+      images: [article.imageUri],
+      creator: article.author
+        ? `@${article.author.name.replace(/\s+/g, "")}`
+        : undefined,
+    },
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/${article.slug}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+    authors: article.author ? [{ name: article.author.name }] : [],
+    keywords: article.title.split(" ").filter((word) => word.length > 3),
+    metadataBase: new URL(
+      process.env.NEXT_PUBLIC_SITE_URL || "https://appkom.no",
+    ),
   };
 }
 
@@ -50,23 +106,23 @@ export default async function ArticlePage(props: { params: slugParams }) {
   }
 
   return (
-    <main className="flex flex-col w-full">
-      <div className="w-full flex justify-center">
+    <main className="flex w-full flex-col">
+      <div className="flex w-full justify-center">
         <Image
           src={blog.imageUri}
           alt={`${blog.title} illustrasjon`}
           width={1200}
           height={1200}
-          className="w-full object-cover max-h-96"
+          className="max-h-96 w-full object-cover"
         />
       </div>
       <div className="flex flex-col px-6">
-        <div className="flex flex-col sm:flex-row justify-between pt-8">
+        <div className="flex flex-col justify-between pt-8 sm:flex-row">
           <HeaderText title={blog.title} />
           {author && (
             <Link
               href={"/medlem/" + author.href}
-              className="flex flex-row items-center gap-2 text-orange-600 hover:text-onlineOrange mt-4 sm:mt-0 group"
+              className="group mt-4 flex flex-row items-center gap-2 text-orange-600 hover:text-onlineOrange sm:mt-0"
             >
               <TbPencilCode
                 size={32}
@@ -79,7 +135,7 @@ export default async function ArticlePage(props: { params: slugParams }) {
                   alt={"image of " + author.name}
                   width={50}
                   height={50}
-                  className="rounded-full size-16 border-2 border-gray-600 group-hover:border-onlineOrange"
+                  className="size-16 rounded-full border-2 border-gray-600 group-hover:border-onlineOrange"
                 />
               )}
             </Link>
@@ -91,7 +147,7 @@ export default async function ArticlePage(props: { params: slugParams }) {
           <p>{`Sist oppdatert: ${formatDate(blog.createdAt)}`}</p>
         </div>
       </div>
-      <article className="w-full break-words whitespace-pre-wrap px-6 py-12">
+      <article className="w-full whitespace-pre-wrap break-words px-6 py-12">
         <ReactMarkdown
           className="w-full"
           rehypePlugins={[rehypeRaw]}

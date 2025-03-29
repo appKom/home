@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { hrefParams, tParams } from "@/lib/types";
+import { hrefParams } from "@/lib/types";
 import Custom404 from "@/app/not-found";
 import Image from "next/image";
 
@@ -12,14 +12,94 @@ import { prisma } from "@/lib/prisma";
 import MarkdownComponents from "@/components/Markdown";
 
 export async function generateMetadata(props: {
-  params: tParams;
+  params: hrefParams;
 }): Promise<Metadata> {
-  const { id } = await props.params;
+  const { href } = await props.params;
+  const decodedHref = decodeURIComponent(href);
 
-  const project = id;
+  const project = await prisma.project.findUnique({
+    where: { href: decodedHref },
+    include: { projectMembers: { include: { Member: true } } },
+  });
+
+  if (!project) {
+    return {
+      title: "Prosjektet ble ikke funnet",
+    };
+  }
+
+  const description =
+    project.shortDescription ||
+    (project.description
+      ? project.description.replace(/[#*`]/g, "").slice(0, 160).trim()
+      : `${project.title} - Et prosjekt av Appkom`);
+
+  const projectLead = project.projectMembers.find(
+    (pm) => pm.Role === "Prosjektleder",
+  )?.Member;
+
+  const teamMembers = project.projectMembers
+    .filter((pm) => pm.Member)
+    .map((pm) => pm.Member.name);
+
+  const techKeywords = project.techStack
+    ? project.techStack.split(",").map((tech) => tech.trim())
+    : [];
 
   return {
-    title: `${project}`,
+    title: `${project.title} | Prosjekt | Appkom`,
+    description: description,
+    openGraph: {
+      title: project.title,
+      description: description,
+      type: "website",
+      url: `${process.env.NEXT_PUBLIC_SITE_URL}/prosjekt/${project.href}`,
+      images: [
+        {
+          url: project.imageUri,
+          width: 1200,
+          height: 630,
+          alt: `${project.title} prosjektbilde`,
+        },
+      ],
+      siteName: "Appkom",
+      locale: "no_NO",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: project.title,
+      description: description,
+      images: [project.imageUri],
+      creator: projectLead
+        ? `@${projectLead.name.replace(/\s+/g, "")}`
+        : undefined,
+    },
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/prosjekt/${project.href}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+    authors: teamMembers.map((name) => ({ name })),
+    keywords: [
+      "Appkom",
+      "Prosjekt",
+      project.title,
+      "NTNU",
+      "Studentprosjekt",
+      "Informatikk",
+      "Linjeforening",
+      ...techKeywords,
+    ],
+    metadataBase: new URL(
+      process.env.NEXT_PUBLIC_SITE_URL || "https://appkom.no",
+    ),
+    other: {
+      "og:project:technologies": project.techStack || "",
+      "og:project:github": project.github,
+      ...(project.link && { "og:project:website": project.link }),
+    },
   };
 }
 

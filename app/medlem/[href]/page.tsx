@@ -14,14 +14,92 @@ export async function generateMetadata(props: {
   params: hrefParams;
 }): Promise<Metadata> {
   const { href } = await props.params;
+  const decodedHref = decodeURIComponent(href);
 
   const member = await prisma.member.findUnique({
-    where: { href: decodeURIComponent(href) },
+    where: { href: decodedHref },
+    include: { rolesByPeriod: true },
   });
 
-  const title = member ? member.name : "404";
+  if (!member) {
+    return {
+      title: "Medlem ikke funnet",
+    };
+  }
+
+  const latestRole =
+    member.rolesByPeriod && member.rolesByPeriod.length > 0
+      ? member.rolesByPeriod[member.rolesByPeriod.length - 1].role
+      : "Medlem";
+
+  const description = member.about
+    ? member.about.replace(/[#*`]/g, "").slice(0, 160).trim()
+    : member.quote
+      ? `"${member.quote}" - ${member.name}, ${latestRole} i Appkom`
+      : `${member.name} - ${latestRole} i Appkom`;
+
+  const periods = member.rolesByPeriod
+    ? member.rolesByPeriod.map((r) => r.period).sort()
+    : [];
+  const earliestPeriod = periods.length > 0 ? periods[0].split("-")[0] : "";
+  const latestPeriod = periods.length > 0 ? periods[periods.length - 1] : "";
+  const membershipPeriod = member.isCurrent
+    ? `Medlem fra ${earliestPeriod}`
+    : `Medlem ${earliestPeriod}-${latestPeriod.split("-")[1]}`;
+
   return {
-    title: title,
+    title: `${member.name} | ${latestRole} | Appkom`,
+    description: description,
+    openGraph: {
+      title: `${member.name} | ${latestRole} | Appkom`,
+      description: description,
+      type: "profile",
+      url: `${process.env.NEXT_PUBLIC_SITE_URL}/medlem/${member.href}`,
+      images: [
+        {
+          url: member.imageUri ?? "/medlemmer/default_profile_picture.png",
+          width: 500,
+          height: 500,
+          alt: `Profilbilde av ${member.name}`,
+        },
+      ],
+      siteName: "Appkom",
+      locale: "no_NO",
+      firstName: member.name.split(" ")[0],
+      lastName: member.name.split(" ").slice(1).join(" "),
+      username: member.href,
+    },
+    twitter: {
+      card: "summary",
+      title: `${member.name} | ${latestRole} | Appkom`,
+      description: description,
+      images: [member.imageUri ?? "/medlemmer/default_profile_picture.png"],
+    },
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/medlem/${member.href}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+    authors: [{ name: member.name }],
+    keywords: [
+      "Appkom",
+      member.name,
+      latestRole,
+      "NTNU",
+      "Medlem",
+      "Studentorganisasjon",
+      "Linjeforening",
+      "Informatikk",
+    ],
+    metadataBase: new URL(
+      process.env.NEXT_PUBLIC_SITE_URL || "https://appkom.no",
+    ),
+    other: {
+      "og:profile:role": latestRole,
+      "og:profile:membership": membershipPeriod,
+    },
   };
 }
 
@@ -65,11 +143,11 @@ export default async function MemberPage(props: { params: hrefParams }) {
 
   return (
     <main className="container mx-auto px-4 py-12">
-      <div className="flex flex-col md:flex-row items-center md:items-start space-y-8 md:space-y-0 md:space-x-12">
+      <div className="flex flex-col items-center space-y-8 md:flex-row md:items-start md:space-x-12 md:space-y-0">
         <div className="relative flex-shrink-0">
           {latestRole === "Leder" && (
             <FaCrown
-              className="text-yellow-500 absolute right-3 -top-6 rotate-[30deg]"
+              className="absolute -top-6 right-3 rotate-[30deg] text-yellow-500"
               size={48}
             />
           )}
@@ -78,12 +156,12 @@ export default async function MemberPage(props: { params: hrefParams }) {
             alt={member.name}
             width={500}
             height={500}
-            className="w-48 h-48 rounded-full object-cover border-4 border-gray-700 shadow-lg"
+            className="h-48 w-48 rounded-full border-4 border-gray-700 object-cover shadow-lg"
           />
         </div>
-        <div className="text-center md:text-left flex-1">
-          <h1 className="text-3xl font-bold mb-2">{member.name}</h1>
-          <div className="flex gap-2 flex-wrap justify-center md:justify-start">
+        <div className="flex-1 text-center md:text-left">
+          <h1 className="mb-2 text-3xl font-bold">{member.name}</h1>
+          <div className="flex flex-wrap justify-center gap-2 md:justify-start">
             {periods
               .filter((period) => {
                 const roleObj = member.rolesByPeriod?.find(
@@ -115,18 +193,18 @@ export default async function MemberPage(props: { params: hrefParams }) {
                 );
               })}
           </div>
-          <p className="text-gray-400 my-2">
+          <p className="my-2 text-gray-400">
             Medlem fra {earliestPeriod}{" "}
             {!member.isCurrent && "-" + latestPeriod.split("-")[1]}
           </p>
 
           {/* Contact Info */}
-          <div className="flex justify-center md:justify-start gap-4 mt-4 text-gray-500 ">
+          <div className="mt-4 flex justify-center gap-4 text-gray-500 md:justify-start">
             {member.github && (
               <Tooltip title={member.github}>
                 <a
                   href={member.github}
-                  className="hover:text-white transition-colors"
+                  className="transition-colors hover:text-white"
                 >
                   <FaGithub size={24} />
                 </a>
@@ -137,7 +215,7 @@ export default async function MemberPage(props: { params: hrefParams }) {
               <Tooltip title={member.linkedin}>
                 <a
                   href={member.linkedin}
-                  className="hover:text-blue-600 transition-colors"
+                  className="transition-colors hover:text-blue-600"
                 >
                   <FaLinkedin size={24} />
                 </a>
@@ -148,7 +226,7 @@ export default async function MemberPage(props: { params: hrefParams }) {
               <Tooltip title={member.email}>
                 <a
                   href={`mailto:${member.email}`}
-                  className="hover:text-red-500 transition-colors"
+                  className="transition-colors hover:text-red-500"
                 >
                   <MdEmail size={24} />
                 </a>
@@ -159,7 +237,7 @@ export default async function MemberPage(props: { params: hrefParams }) {
               <Tooltip title={member.phone}>
                 <a
                   href={`tel:+47${member.phone}`}
-                  className="hover:text-green-500 transition-colors"
+                  className="transition-colors hover:text-green-500"
                 >
                   <FaPhone size={20} />
                 </a>
@@ -173,7 +251,7 @@ export default async function MemberPage(props: { params: hrefParams }) {
 
       {member.about && (
         <ReactMarkdown
-          className="w-full break-words whitespace-pre-wrap px-6 mt-8 py-4 bg-gray-800 rounded-lg"
+          className="mt-8 w-full whitespace-pre-wrap break-words rounded-lg bg-gray-800 px-6 py-4"
           rehypePlugins={[rehypeRaw]}
         >
           {member.about}
@@ -181,8 +259,8 @@ export default async function MemberPage(props: { params: hrefParams }) {
       )}
       {projectsWithMember && projectsWithMember.length > 0 && (
         <>
-          <h2 className="text-2xl font-bold mt-16 mb-8">Prosjekter</h2>
-          <div className="grid md:grid-cols-2 gap-8">
+          <h2 className="mb-8 mt-16 text-2xl font-bold">Prosjekter</h2>
+          <div className="grid gap-8 md:grid-cols-2">
             {projectsWithMember.map((project) => (
               <ProjectCard project={project} key={project.title} />
             ))}
@@ -201,9 +279,9 @@ const Tooltip = ({
   children: React.ReactNode;
 }) => {
   return (
-    <div className="relative flex items-center group">
+    <div className="group relative flex items-center">
       {children}
-      <div className="z-10 hidden absolute left-1/2 transform top-4 -translate-x-1/2 mt-2 w-max p-2 bg-gray-800 text-white text-sm rounded shadow-lg group-hover:block transition-opacity duration-200">
+      <div className="absolute left-1/2 top-4 z-10 mt-2 hidden w-max -translate-x-1/2 transform rounded bg-gray-800 p-2 text-sm text-white shadow-lg transition-opacity duration-200 group-hover:block">
         {title}
       </div>
     </div>
@@ -217,9 +295,9 @@ const Quote = ({
   member: Member;
   latestRole: string;
 }) => (
-  <figure className="max-w-screen-md mx-auto text-center mt-8 md:mt-0">
+  <figure className="mx-auto mt-8 max-w-screen-md text-center md:mt-0">
     <svg
-      className="w-10 h-10 mx-auto mb-3 text-gray-600"
+      className="mx-auto mb-3 h-10 w-10 text-gray-600"
       aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       fill="currentColor"
@@ -229,13 +307,13 @@ const Quote = ({
     </svg>
     <blockquote>
       <ReactMarkdown
-        className="text-2xl break-words whitespace-pre-wrap italic font-medium text-white"
+        className="whitespace-pre-wrap break-words text-2xl font-medium italic text-white"
         rehypePlugins={[rehypeRaw]}
       >
         {'"' + member.quote + '"'}
       </ReactMarkdown>
     </blockquote>
-    <figcaption className="flex items-center justify-center divide-x-2 mt-6 rtl:divide-x-reverse divide-gray-700">
+    <figcaption className="mt-6 flex items-center justify-center divide-x-2 divide-gray-700 rtl:divide-x-reverse">
       <cite className="pe-3 font-medium text-white">{member.name}</cite>
       <cite className="ps-3 text-sm text-gray-400">{latestRole} i Appkom</cite>
     </figcaption>
