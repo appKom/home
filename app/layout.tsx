@@ -16,7 +16,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "Appkom | Applikasjonskomiteen ved Online, NTNU",
+    default: "Appkom",
     template: "%s | Appkom",
   },
   description:

@@ -19,6 +19,10 @@ const navLinks = [
     title: "Medlemmer",
     href: "/medlem",
   },
+  {
+    title: "Om oss",
+    href: "/om",
+  },
 ];
 
 export default function Navbar() {
@@ -68,7 +72,7 @@ export default function Navbar() {
           </motion.div>
 
           <motion.nav
-            className="hidden items-center gap-8 md:flex"
+            className="hidden items-center gap-8 lg:flex"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -92,11 +96,11 @@ export default function Navbar() {
             </Link>
           </motion.nav>
 
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <button
               onClick={toggleMenu}
               className="p-2 text-gray-100 transition-colors hover:text-onlineOrange"
-              aria-label="Toggle menu"
+              aria-label={`${isOpen ? "Lukk meny" : "Åpne meny"}`}
             >
               {isOpen ? (
                 <X className="h-6 w-6" />
@@ -114,7 +118,7 @@ export default function Navbar() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
-              className="mt-4 md:hidden"
+              className="mt-4 lg:hidden"
             >
               <nav className="flex flex-col gap-4">
                 {navLinks.map((link) => (
