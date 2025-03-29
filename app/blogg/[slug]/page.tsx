@@ -106,7 +106,7 @@ export default async function ArticlePage(props: { params: slugParams }) {
   }
 
   return (
-    <main className="flex w-full flex-col">
+    <main className="mx-auto flex w-full max-w-5xl flex-col">
       <div className="flex w-full justify-center">
         <Image
           src={blog.imageUri}

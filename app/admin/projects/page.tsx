@@ -11,6 +11,7 @@ import { MemberSelect } from "@/components/form/SelectMember";
 import { validateProject } from "@/lib/validators";
 import dynamic from "next/dynamic";
 import "react-quill-new/dist/quill.snow.css";
+import { extractAndUploadImages } from "@/lib/admin/upload/uploadImage";
 type ProjectRole = "Prosjektleder" | "Bidragsyter";
 
 const QuillEditor = dynamic(() => import("react-quill-new"), { ssr: false });
@@ -137,11 +138,12 @@ const AdminProjectPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    const updatedDescription = await extractAndUploadImages(description);
 
     const formData = new FormData();
     formData.append("title", title);
     formData.append("shortDescription", shortDescription);
-    formData.append("description", description);
+    formData.append("description", updatedDescription);
     formData.append("techStack", techStack);
     formData.append("link", link);
     formData.append("github", github);
@@ -154,7 +156,7 @@ const AdminProjectPage = () => {
     if (
       !validateProject({
         title,
-        description,
+        description: updatedDescription,
         image,
         techStack,
         projectMembers,

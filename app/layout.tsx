@@ -116,7 +116,7 @@ export default function RootLayout({
         <div className="flex min-h-screen flex-col">
           <Background />
           <Navbar />
-          <div className="mx-auto mt-24 w-full max-w-screen-xl text-white">
+          <div className="container mx-auto mt-24 w-full text-white">
             {children}
           </div>
           <Footer />
