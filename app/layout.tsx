@@ -1,10 +1,18 @@
-import type { Metadata } from "next";
+import type React from "react";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Toaster } from "react-hot-toast";
 import { Analytics } from "@vercel/analytics/react";
 import { Background } from "@/components/Background";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#030712",
+};
 
 export const metadata: Metadata = {
   title: {
@@ -82,12 +90,6 @@ export const metadata: Metadata = {
   },
   manifest: "/site.webmanifest",
   applicationName: "Appkom",
-  themeColor: "#030712",
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 5,
-  },
   category: "technology",
   verification: {
     google: "ru0v97yOiF-Jj2kWjz0-rnTURm7yrVWVbQmTZKkQGl8",
