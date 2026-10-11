@@ -397,7 +397,7 @@ const AdminProjectPage = () => {
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-hidden focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               <Upload className="mr-2 inline-block h-4 w-4" />
               Last opp bilde
@@ -468,7 +468,7 @@ const AdminProjectPage = () => {
           <button
             type="button"
             onClick={addMemberWithRole}
-            className="mt-4 rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700"
+            className="mt-4 rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-xs hover:bg-green-700"
           >
             Legg til medlem
           </button>
@@ -525,7 +525,7 @@ const AdminProjectPage = () => {
 
         <button
           type="submit"
-          className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-xs hover:bg-indigo-700 focus:outline-hidden focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
         >
           {editingProject ? (
             <>

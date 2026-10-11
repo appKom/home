@@ -157,7 +157,7 @@ export function MemberSelect({
       </label>
       <button
         type="button"
-        className="w-full px-4 py-2 text-left bg-gray-800 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full px-4 py-2 text-left bg-gray-800 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-2 focus:ring-blue-500"
         onClick={() => setIsOpen(!isOpen)}
       >
         {selectedMember
@@ -168,7 +168,7 @@ export function MemberSelect({
         <div className="absolute z-10 w-full  mt-1 bg-gray-700 border border-gray-300 rounded-md shadow-lg">
           <input
             type="text"
-            className="w-full px-4 py-2 bg-gray-800 border-b border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 bg-gray-800 border-b border-gray-300 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
             placeholder="Søk etter medlemmer..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}

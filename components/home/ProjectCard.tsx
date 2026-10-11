@@ -1,4 +1,4 @@
-import { Project } from "@prisma/client";
+import type { Project } from "@/lib/generated/prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import { FaChevronRight } from "react-icons/fa";

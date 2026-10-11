@@ -37,7 +37,7 @@ const AboutPage = ({ numberOfCurrentMembers, numberOfProjects }: Props) => {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="space-y-8"
         >
-          <div className="rounded-xl bg-gray-900/50 p-6 backdrop-blur">
+          <div className="rounded-xl bg-gray-900/50 p-6 backdrop-blur-sm">
             <h2 className="mb-4 text-2xl font-semibold text-onlineOrange">
               Om Appkom
             </h2>
@@ -48,7 +48,7 @@ const AboutPage = ({ numberOfCurrentMembers, numberOfProjects }: Props) => {
             </p>
           </div>
 
-          <div className="rounded-xl bg-gray-900/50 p-6 backdrop-blur">
+          <div className="rounded-xl bg-gray-900/50 p-6 backdrop-blur-sm">
             <h2 className="mb-4 text-2xl font-semibold text-onlineOrange">
               Våre Prosjekter
             </h2>
@@ -63,7 +63,7 @@ const AboutPage = ({ numberOfCurrentMembers, numberOfProjects }: Props) => {
             </p>
           </div>
 
-          <div className="rounded-xl bg-gray-900/50 p-6 backdrop-blur">
+          <div className="rounded-xl bg-gray-900/50 p-6 backdrop-blur-sm">
             <h2 className="mb-4 text-2xl font-semibold text-onlineOrange">
               Bli Med i Appkom
             </h2>
@@ -96,14 +96,14 @@ const AboutPage = ({ numberOfCurrentMembers, numberOfProjects }: Props) => {
 
           {/* Grid */}
           <div className="grid grid-cols-2 gap-4">
-            <div className="rounded-xl bg-gray-900/50 p-6 text-center backdrop-blur">
+            <div className="rounded-xl bg-gray-900/50 p-6 text-center backdrop-blur-sm">
               <MdGroups2 className="mx-auto mb-2 h-8 w-8 text-onlineOrange" />
               <div className="text-3xl font-bold text-onlineOrange">
                 {numberOfCurrentMembers}
               </div>
               <div className="mt-2 text-sm text-gray-400">Medlemmer</div>
             </div>
-            <div className="rounded-xl bg-gray-900/50 p-6 text-center backdrop-blur">
+            <div className="rounded-xl bg-gray-900/50 p-6 text-center backdrop-blur-sm">
               <FaBoxOpen className="mx-auto mb-2 h-8 w-8 text-onlineOrange" />
               <div className="text-3xl font-bold text-onlineOrange">
                 {numberOfProjects}
@@ -112,7 +112,7 @@ const AboutPage = ({ numberOfCurrentMembers, numberOfProjects }: Props) => {
                 Aktive Prosjekter
               </div>
             </div>
-            <div className="rounded-xl bg-gray-900/50 p-6 text-center backdrop-blur">
+            <div className="rounded-xl bg-gray-900/50 p-6 text-center backdrop-blur-sm">
               <PiPlant className="mx-auto mb-2 h-8 w-8 text-onlineOrange" />
               <div className="text-3xl font-bold text-onlineOrange">
                 {new Date().getFullYear() - 2020}

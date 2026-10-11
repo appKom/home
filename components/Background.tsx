@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { type JSX, useEffect, useState } from "react";
 
 const DURATION = 5;
 const MAX_DELAY = 15;
@@ -21,7 +21,7 @@ export const Background = () => {
         return (
           <motion.div
             key={`horizontal-${i}`}
-            className="absolute h-px bg-gradient-to-r from-transparent via-onlineOrange to-transparent opacity-10"
+            className="absolute h-px bg-linear-to-r from-transparent via-onlineOrange to-transparent opacity-10"
             style={{
               width: "100%",
               top: `${topPosition}%`,
@@ -48,7 +48,7 @@ export const Background = () => {
       return (
         <motion.div
           key={`vertical-${i}`}
-          className="absolute w-px bg-gradient-to-b from-transparent via-onlineOrange to-transparent opacity-10"
+          className="absolute w-px bg-linear-to-b from-transparent via-onlineOrange to-transparent opacity-10"
           style={{
             height: "100%",
             left: `${leftPosition}%`,
@@ -113,7 +113,7 @@ const DotsGrid = () => {
         for (let col = 0; col < numCols; col++) {
           const dot = document.createElement("div");
           dot.classList.add(
-            "bg-gradient-to-b",
+            "bg-linear-to-b",
             "from-slate-700",
             "to-slate-600",
             "opacity-30",

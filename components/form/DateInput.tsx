@@ -19,7 +19,7 @@ const DateInput: React.FC<DateInputProps> = ({ label, value, onChange }) => {
         type="date"
         value={value ? value.toISOString().split("T")[0] : ""}
         onChange={onChange}
-        className="p-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="p-2 bg-gray-700 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-blue-500"
       />
     </div>
   );

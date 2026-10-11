@@ -23,7 +23,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
       type="checkbox"
       checked={checked}
       onChange={onChange}
-      className="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50"
+      className="rounded border-gray-300 text-indigo-600 shadow-xs focus:border-indigo-300 focus:ring-3 focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50"
     />
     <label htmlFor={id} className="text-sm font-medium text-gray-200">
       {label}

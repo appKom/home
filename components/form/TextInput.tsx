@@ -43,7 +43,7 @@ const TextInput: React.FC<Props> = ({
           placeholder={placeholder}
           value={defaultValue}
           onChange={handleInputChange}
-          className="w-full px-3 py-2 transition border rounded-md shadow-sm disabled:bg-white disabled:cursor-not-allowed disabled:text-gray-500 placeholder:text-sm bg-gray-900 border-gray-700"
+          className="w-full px-3 py-2 transition border rounded-md shadow-xs disabled:bg-white disabled:cursor-not-allowed disabled:text-gray-500 placeholder:text-sm bg-gray-900 border-gray-700"
         />
       </div>
     </div>

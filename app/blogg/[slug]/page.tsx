@@ -147,14 +147,15 @@ export default async function ArticlePage(props: { params: slugParams }) {
           <p>{`Sist oppdatert: ${formatDate(blog.createdAt)}`}</p>
         </div>
       </div>
-      <article className="w-full whitespace-pre-wrap break-words px-6 py-12">
-        <ReactMarkdown
-          className="w-full"
-          rehypePlugins={[rehypeRaw]}
-          components={MarkdownComponents}
-        >
-          {blog.description}
-        </ReactMarkdown>
+      <article className="w-full whitespace-pre-wrap wrap-break-word px-6 py-12">
+        <div className="w-full">
+          <ReactMarkdown
+            rehypePlugins={[rehypeRaw]}
+            components={MarkdownComponents}
+          >
+            {blog.description}
+          </ReactMarkdown>
+        </div>
       </article>
     </main>
   );

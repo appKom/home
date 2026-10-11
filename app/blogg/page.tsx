@@ -3,7 +3,7 @@ import { getMonthNameInNorwegian } from "@/lib/utils/dateUtils";
 import { HeaderText } from "@/components/headerText";
 import { Suspense } from "react";
 import { prisma } from "@/lib/prisma";
-import { Article, Member } from "@prisma/client";
+import type { Article, Member } from "@/lib/generated/prisma/client";
 
 interface ExtendedArticle extends Article {
   author: Member;

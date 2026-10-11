@@ -1,7 +1,7 @@
 "use client";
 
 import { formatDate } from "@/lib/utils/dateUtils";
-import { Article, Member } from "@prisma/client";
+import type { Article, Member } from "@/lib/generated/prisma/client";
 import { motion } from "framer-motion";
 import { ArrowRight, Clock } from "lucide-react";
 import Image from "next/image";
@@ -70,7 +70,7 @@ export const BlogCard = ({ blog, noImage }: Props) => {
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent opacity-70" />
+                <div className="absolute inset-0 bg-linear-to-t from-gray-900/80 to-transparent opacity-70" />
               </motion.div>
 
               {blog.createdAt >
@@ -102,7 +102,7 @@ export const BlogCard = ({ blog, noImage }: Props) => {
             </article>
           </CardHeader>
 
-          <CardContent className="pb-2 flex-grow">
+          <CardContent className="pb-2 grow">
             <div className="flex items-center gap-2 text-gray-400 text-sm">
               <Clock size={14} />
               <span>{formatDate(blog.createdAt)}</span>

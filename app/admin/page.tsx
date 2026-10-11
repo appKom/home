@@ -68,7 +68,7 @@ const RouteCard = (item: IRoute) => (
     href={item.href}
     className="group relative rounded-xl border border-slate-800 p-6 hover:bg-slate-800/50"
   >
-    <div className="absolute -inset-px rounded-xl border-2 border-transparent opacity-0 [background:linear-gradient(var(--quick-links-hover-bg,theme(colors.slate.800)),var(--quick-links-hover-bg,theme(colors.slate.800)))_padding-box,linear-gradient(to_top,theme(colors.indigo.400),theme(colors.cyan.400),theme(colors.sky.500))_border-box] group-hover:opacity-100 transition" />
+    <div className="absolute -inset-px rounded-xl border-2 border-transparent opacity-0 [background:linear-gradient(var(--quick-links-hover-bg,var(--color-slate-800)),var(--quick-links-hover-bg,var(--color-slate-800)))_padding-box,linear-gradient(to_top,var(--color-indigo-400),var(--color-cyan-400),var(--color-sky-500))_border-box] group-hover:opacity-100 transition" />
     <div className="relative flex items-center">
       <item.icon className="w-8 h-8 text-sky-500 mr-4" />
       <div>

@@ -185,14 +185,15 @@ export default async function ProjectPage(props: { params: hrefParams }) {
               </div>
             </div>
 
-            <article className="overflow-wrap break-word mx-auto w-full max-w-5xl overflow-x-auto whitespace-pre-wrap break-words pb-8">
-              <ReactMarkdown
-                className="w-full"
-                rehypePlugins={[rehypeRaw]}
-                components={MarkdownComponents}
-              >
-                {project.description}
-              </ReactMarkdown>
+            <article className="overflow-wrap break-word mx-auto w-full max-w-5xl overflow-x-auto whitespace-pre-wrap wrap-break-word pb-8">
+              <div className="w-full">
+                <ReactMarkdown
+                  rehypePlugins={[rehypeRaw]}
+                  components={MarkdownComponents}
+                >
+                  {project.description}
+                </ReactMarkdown>
+              </div>
             </article>
 
             <h2 className="text-2xl font-bold">Utviklerne</h2>
