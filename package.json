@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "format": "prettier --write \"./**/*.{js,jsx,ts,tsx}\""
   },
+  "packageManager": "pnpm@12.11.2",
   "dependencies": {
     "@aws-sdk/client-ses": "^3.1149.0",
     "@prisma/adapter-pg": "7.10.0",
